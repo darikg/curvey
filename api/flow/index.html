@@ -244,7 +244,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../tutorial/introduction/" class="md-tabs__link">
+        <a href="../../tutorial/" class="md-tabs__link">
           
   
     
@@ -266,7 +266,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../curve/" class="md-tabs__link">
+        <a href="../" class="md-tabs__link">
           
   
     
@@ -377,6 +377,10 @@
     
       
         
+          
+        
+      
+        
       
         
       
@@ -399,16 +403,24 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../tutorial/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Tutorial
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
@@ -416,6 +428,8 @@
             Tutorial
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -520,6 +534,10 @@
     
       
         
+          
+        
+      
+        
       
         
       
@@ -549,16 +567,24 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     API
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
@@ -566,6 +592,8 @@
             API
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -2508,7 +2536,7 @@ numerically stable than the traditional approach, and doesn't require resampling
 <a id="__codelineno-0-856" name="__codelineno-0-856"></a>        <span class="n">stiffness</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;stiffness&quot;</span><span class="p">]</span>  <span class="c1"># The stiffness $L_0$</span>
 <a id="__codelineno-0-857" name="__codelineno-0-857"></a>        <span class="c1"># noinspection PyTypeChecker</span>
 <a id="__codelineno-0-858" name="__codelineno-0-858"></a>        <span class="n">pts</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">spsolve</span><span class="p">(</span><span class="n">inv_mass</span> <span class="o">-</span> <span class="n">timestep</span> <span class="o">*</span> <span class="n">stiffness</span><span class="p">,</span> <span class="n">inv_mass</span> <span class="o">@</span> <span class="n">curve</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
-<a id="__codelineno-0-859" name="__codelineno-0-859"></a>        <span class="n">curve</span> <span class="o">=</span> <span class="n">Curve</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span>
+<a id="__codelineno-0-859" name="__codelineno-0-859"></a>        <span class="n">curve</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">with_points</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span>
 <a id="__codelineno-0-860" name="__codelineno-0-860"></a>        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_postprocess</span><span class="p">(</span><span class="n">curve</span><span class="o">=</span><span class="n">curve</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="n">solver</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>

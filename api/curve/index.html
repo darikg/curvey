@@ -9,7 +9,7 @@
       
       
       
-        <link rel="prev" href="../../tutorial/blend/">
+        <link rel="prev" href="../">
       
       
         <link rel="next" href="../curves/">
@@ -244,7 +244,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../tutorial/introduction/" class="md-tabs__link">
+        <a href="../../tutorial/" class="md-tabs__link">
           
   
     
@@ -266,7 +266,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+        <a href="../" class="md-tabs__link">
           
   
     
@@ -377,6 +377,10 @@
     
       
         
+          
+        
+      
+        
       
         
       
@@ -399,16 +403,24 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../tutorial/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Tutorial
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
@@ -416,6 +428,8 @@
             Tutorial
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -520,6 +534,10 @@
     
       
         
+          
+        
+      
+        
       
         
       
@@ -549,16 +567,24 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     API
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
@@ -566,6 +592,8 @@
             API
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -5739,7 +5767,7 @@
 <a id="__codelineno-0-1705" name="__codelineno-0-1705"></a>
 <a id="__codelineno-0-1706" name="__codelineno-0-1706"></a>        <span class="k">def</span> <span class="nf">_resample</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Curve</span><span class="p">:</span>
 <a id="__codelineno-0-1707" name="__codelineno-0-1707"></a>            <span class="n">arclength</span> <span class="o">=</span> <span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">ds</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-<a id="__codelineno-0-1708" name="__codelineno-0-1708"></a>            <span class="k">return</span> <span class="n">Curve</span><span class="p">(</span><span class="n">interpolator</span><span class="p">(</span><span class="n">arclength</span><span class="p">))</span>
+<a id="__codelineno-0-1708" name="__codelineno-0-1708"></a>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_points</span><span class="p">(</span><span class="n">interpolator</span><span class="p">(</span><span class="n">arclength</span><span class="p">))</span>
 <a id="__codelineno-0-1709" name="__codelineno-0-1709"></a>
 <a id="__codelineno-0-1710" name="__codelineno-0-1710"></a>        <span class="k">def</span> <span class="nf">_objective</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <a id="__codelineno-0-1711" name="__codelineno-0-1711"></a>            <span class="n">resampled</span> <span class="o">=</span> <span class="n">_resample</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
@@ -9156,7 +9184,7 @@ edges of the other curve are assumed to be in one-to-one correspondance to the e
 <a id="__codelineno-0-1705" name="__codelineno-0-1705"></a>
 <a id="__codelineno-0-1706" name="__codelineno-0-1706"></a>    <span class="k">def</span> <span class="nf">_resample</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Curve</span><span class="p">:</span>
 <a id="__codelineno-0-1707" name="__codelineno-0-1707"></a>        <span class="n">arclength</span> <span class="o">=</span> <span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">ds</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-<a id="__codelineno-0-1708" name="__codelineno-0-1708"></a>        <span class="k">return</span> <span class="n">Curve</span><span class="p">(</span><span class="n">interpolator</span><span class="p">(</span><span class="n">arclength</span><span class="p">))</span>
+<a id="__codelineno-0-1708" name="__codelineno-0-1708"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_points</span><span class="p">(</span><span class="n">interpolator</span><span class="p">(</span><span class="n">arclength</span><span class="p">))</span>
 <a id="__codelineno-0-1709" name="__codelineno-0-1709"></a>
 <a id="__codelineno-0-1710" name="__codelineno-0-1710"></a>    <span class="k">def</span> <span class="nf">_objective</span><span class="p">(</span><span class="n">ds</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <a id="__codelineno-0-1711" name="__codelineno-0-1711"></a>        <span class="n">resampled</span> <span class="o">=</span> <span class="n">_resample</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
@@ -11215,7 +11243,7 @@ this is probably equal to <code>self.points</code></p>
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../../tutorial/blend/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Blend">
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Curvey API">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -11225,7 +11253,7 @@ this is probably equal to <code>self.points</code></p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Blend
+                Curvey API
               </div>
             </div>
           </a>

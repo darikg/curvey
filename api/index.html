@@ -9,6 +9,10 @@
       
       
       
+        <link rel="prev" href="../tutorial/blend/">
+      
+      
+        <link rel="next" href="curve/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -240,7 +244,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../tutorial/introduction/" class="md-tabs__link">
+        <a href="../tutorial/" class="md-tabs__link">
           
   
     
@@ -256,11 +260,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="curve/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
           
   
     
@@ -371,6 +377,10 @@
     
       
         
+          
+        
+      
+        
       
         
       
@@ -393,16 +403,24 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../tutorial/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Tutorial
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
@@ -410,6 +428,8 @@
             Tutorial
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -506,55 +526,74 @@
       
   
   
+    
   
   
+  
     
     
       
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="./" class="md-nav__link md-nav__link--active">
+              
   
   <span class="md-ellipsis">
     API
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link md-nav__link--active" for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             API
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -747,32 +786,36 @@
 
 <h1 id="curvey-api">Curvey API<a class="headerlink" href="#curvey-api" title="Permanent link">¤</a></h1>
 <ul>
-<li><a href="curve/"><code>curvey.curve</code></a></li>
 <li>
-<p>The main curve class</p>
+<p><a href="curve/"><code>curvey.curve</code></a></p>
+<ul>
+<li>The main curve class</li>
+</ul>
 </li>
 <li>
 <p><a href="curves/"><code>curvey.curves</code></a></p>
-</li>
-<li>
-<p>A container of curves</p>
+<ul>
+<li>A container of curves</li>
+</ul>
 </li>
 <li>
 <p><a href="shape_structure_dataset/"><code>curvey.shape_structure_data</code></a></p>
-</li>
-<li>
-<p>Interface to the 2D Shape Structure Dataset</p>
+<ul>
+<li>Interface to the 2D Shape Structure Dataset</li>
+</ul>
 </li>
 <li>
 <p><a href="flow/"><code>curvey.flow</code></a></p>
-</li>
-<li>
-<p>Curve shortening flow, Willmore flow, etc.</p>
+<ul>
+<li>Curve shortening flow, Willmore flow, etc.</li>
+</ul>
 </li>
 <li>
 <p><a href="blend/"><code>curvey.blend</code></a></p>
-</li>
+<ul>
 <li>Linear and curvature blending for shape interpolation</li>
+</ul>
+</li>
 </ul>
 
 
@@ -804,6 +847,44 @@
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../tutorial/blend/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Blend">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Blend
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="curve/" class="md-footer__link md-footer__link--next" aria-label="Next: Curve">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Curve
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
     
   
   <div class="md-footer-meta md-typeset">
