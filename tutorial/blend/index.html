@@ -20,7 +20,7 @@
     
     
       
-        <title>Blend - Curvey</title>
+        <title>Blends - Curvey</title>
       
     
     
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Blend
+              Blends
             
           </span>
         </div>
@@ -251,7 +251,7 @@
   
     
   
-  Tutorial
+  Tutorials
 
         </a>
       </li>
@@ -414,7 +414,7 @@
               
   
   <span class="md-ellipsis">
-    Tutorial
+    Tutorials
   </span>
   
 
@@ -430,7 +430,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
-            Tutorial
+            Tutorials
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -517,7 +517,7 @@
           
   
   <span class="md-ellipsis">
-    Blend
+    Blends
   </span>
   
 
@@ -528,7 +528,7 @@
         
   
   <span class="md-ellipsis">
-    Blend
+    Blends
   </span>
   
 
@@ -862,7 +862,7 @@
   
 
 
-  <h1>Blend</h1>
+  <h1>Blends</h1>
 
 <script>
 (function (global, factory) {
@@ -1504,12 +1504,12 @@ _ = lb_curves.subplots(
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">lin_blend_curves</span><span class="p">:</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">lb_curves</span><span class="p">:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">is_simple</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">edge_intersections</span><span class="p">())</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">for c in lin_blend_curves:
+<div class="clipboard-copy-txt" id="cell-4">for c in lb_curves:
     if not c.is_simple:
         print(c)
         print(c.edge_intersections())</div>
@@ -1523,16 +1523,10 @@ _ = lb_curves.subplots(
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-intense-fg ansi-bold">In[4], line 1</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> c <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> <span class="ansi-yellow-bg">lin_blend_curves</span>:
-<span class="ansi-green-fg">      2</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> c<span style="color: rgb(98,98,98)">.</span>is_simple:
-<span class="ansi-green-fg">      3</span>         <span style="color: rgb(0,135,0)">print</span>(c)
-
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name 'lin_blend_curves' is not defined</pre>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Curve(n=200, ssd_name=dino, time=0.5, idx=2)
+[[0.25351013 0.32599915]]
+</pre>
 </div>
 </div>
 </div>
