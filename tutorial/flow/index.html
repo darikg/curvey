@@ -1402,15 +1402,23 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
 <span class="kn">from</span> <span class="nn">curvey</span> <span class="kn">import</span> <span class="n">Curve</span><span class="p">,</span> <span class="n">Curves</span>
-<span class="kn">from</span> <span class="nn">curvey.flow</span> <span class="kn">import</span> <span class="n">CurveShorteningFlow</span><span class="p">,</span> <span class="n">SingularityFreeMeanCurvatureFlow</span><span class="p">,</span> <span class="n">WillmoreFlow</span>
 <span class="kn">from</span> <span class="nn">curvey.shape_structure_dataset</span> <span class="kn">import</span> <span class="n">ShapeStructureDataset</span>
+<span class="kn">from</span> <span class="nn">curvey.flow</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CurveShorteningFlow</span><span class="p">,</span>
+    <span class="n">SingularityFreeMeanCurvatureFlow</span><span class="p">,</span>
+    <span class="n">WillmoreFlow</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-1">import numpy as np
 from matplotlib import pyplot as plt
 
 from curvey import Curve, Curves
-from curvey.flow import CurveShorteningFlow, SingularityFreeMeanCurvatureFlow, WillmoreFlow
-from curvey.shape_structure_dataset import ShapeStructureDataset</div>
+from curvey.shape_structure_dataset import ShapeStructureDataset
+from curvey.flow import (
+    CurveShorteningFlow,
+    SingularityFreeMeanCurvatureFlow,
+    WillmoreFlow,
+)</div>
 </div>
 </div>
 </div>
@@ -1601,18 +1609,18 @@ solver.run()  # returns the same solver object for convenience</div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s2">"constrained"</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 <span class="n">subfigs</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subfigures</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.07</span><span class="p">,</span> <span class="n">width_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="n">ax0</span> <span class="o">=</span> <span class="n">subfigs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">solver</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s1">'roundness'</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">'step'</span><span class="p">,</span> <span class="n">label_axes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax0</span><span class="p">)</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">"roundness"</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"step"</span><span class="p">,</span> <span class="n">label_axes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax0</span><span class="p">)</span>
 
 <span class="n">axs1</span> <span class="o">=</span> <span class="n">subfigs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">solver</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">subtitle</span><span class="o">=</span><span class="s1">'step'</span><span class="p">,</span> <span class="n">axs</span><span class="o">=</span><span class="n">axs1</span><span class="p">);</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"step"</span><span class="p">,</span> <span class="n">axs</span><span class="o">=</span><span class="n">axs1</span><span class="p">);</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-5">fig = plt.figure(layout="constrained", figsize=(7, 3))
 subfigs = fig.subfigures(1, 2, wspace=0.07, width_ratios=[1, 1])
 ax0 = subfigs[0].subplots()
-solver.history.plot(y='roundness', x='step', label_axes=True, ax=ax0)
+solver.history.plot(y="roundness", x="step", label_axes=True, ax=ax0)
 
 axs1 = subfigs[1].subplots(2, 3, sharex=True, sharey=True)
-solver.history.subplots(subtitle='step', axs=axs1);</div>
+solver.history.subplots(subtitle="step", axs=axs1);</div>
 </div>
 </div>
 </div>
@@ -1660,17 +1668,27 @@ solver.history.subplots(subtitle='step', axs=axs1);</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">CurveShorteningFlow</span><span class="p">(</span><span class="n">resample_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">solver</span><span class="p">(</span>
-    <span class="n">initial</span><span class="o">=</span><span class="n">dumbbell</span><span class="p">,</span>
-    <span class="n">timestep</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
-    <span class="n">max_step</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
-<span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">subtitle</span><span class="o">=</span><span class="s1">'step'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">CurveShorteningFlow</span><span class="p">(</span><span class="n">resample_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">solver</span><span class="p">(</span>
+        <span class="n">initial</span><span class="o">=</span><span class="n">dumbbell</span><span class="p">,</span>
+        <span class="n">timestep</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
+        <span class="n">max_step</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">run</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">subtitle</span><span class="o">=</span><span class="s2">"step"</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">_ = CurveShorteningFlow(resample_mode=None).solver(
-    initial=dumbbell,
-    timestep=1e-3,
-    max_step=500,
-).run().history.subplots(1, 5, subtitle='step', figsize=(6, 3))</div>
+<div class="clipboard-copy-txt" id="cell-6">_ = (
+    CurveShorteningFlow(resample_mode=None)
+    .solver(
+        initial=dumbbell,
+        timestep=1e-3,
+        max_step=500,
+    )
+    .run()
+    .history.subplots(1, 5, subtitle="step", figsize=(6, 3))
+)</div>
 </div>
 </div>
 </div>
@@ -1719,20 +1737,34 @@ solver.history.subplots(subtitle='step', axs=axs1);</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="n">SingularityFreeMeanCurvatureFlow</span><span class="p">()</span><span class="o">.</span><span class="n">solver</span><span class="p">(</span>
-    <span class="n">initial</span><span class="o">=</span><span class="n">dumbbell</span><span class="p">,</span>
-    <span class="n">timestep</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
-    <span class="n">max_step</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
-<span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
-    <span class="n">n_cols</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">subtitle</span><span class="o">=</span><span class="s1">'step'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">_</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">SingularityFreeMeanCurvatureFlow</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">solver</span><span class="p">(</span>
+        <span class="n">initial</span><span class="o">=</span><span class="n">dumbbell</span><span class="p">,</span>
+        <span class="n">timestep</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">max_step</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">run</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+        <span class="n">n_cols</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">subtitle</span><span class="o">=</span><span class="s2">"step"</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-7">_ = SingularityFreeMeanCurvatureFlow().solver(
-    initial=dumbbell,
-    timestep=0.1,
-    max_step=500,
-).run().history.subplots(
-    n_cols=5, subtitle='step', figsize=(6, 3),
+<div class="clipboard-copy-txt" id="cell-7">_ = (
+    SingularityFreeMeanCurvatureFlow()
+    .solver(
+        initial=dumbbell,
+        timestep=0.1,
+        max_step=500,
+    )
+    .run()
+    .history.subplots(
+        n_cols=5,
+        subtitle="step",
+        figsize=(6, 3),
+    )
 )</div>
 </div>
 </div>
@@ -1788,12 +1820,10 @@ the solver to automatically determine an adaptive step-size and stopping conditi
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s2">"constrained"</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 <span class="n">subfigs</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subfigures</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.07</span><span class="p">,</span> <span class="n">width_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="n">ax0</span> <span class="o">=</span> <span class="n">subfigs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">circle_solver</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">y</span><span class="o">=</span><span class="s1">'willmore_energy'</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">'time'</span><span class="p">,</span> 
-    <span class="n">label_axes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax0</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">)</span>
+<span class="n">circle_solver</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">"willmore_energy"</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">label_axes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax0</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">)</span>
 
 <span class="n">axs1</span> <span class="o">=</span> <span class="n">subfigs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">circle_solver</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">subtitle</span><span class="o">=</span><span class="s1">'step'</span><span class="p">,</span> <span class="n">axs</span><span class="o">=</span><span class="n">axs1</span><span class="p">);</span>
+<span class="n">circle_solver</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"step"</span><span class="p">,</span> <span class="n">axs</span><span class="o">=</span><span class="n">axs1</span><span class="p">);</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-8">wf = WillmoreFlow()
 circle_solver = wf.solver(initial=dumbbell, stop_tol=1e-3).run()
@@ -1801,12 +1831,10 @@ circle_solver = wf.solver(initial=dumbbell, stop_tol=1e-3).run()
 fig = plt.figure(layout="constrained", figsize=(7, 3))
 subfigs = fig.subfigures(1, 2, wspace=0.07, width_ratios=[1, 1])
 ax0 = subfigs[0].subplots()
-circle_solver.history.plot(
-    y='willmore_energy', x='time', 
-    label_axes=True, ax=ax0, marker='o')
+circle_solver.history.plot(y="willmore_energy", x="time", label_axes=True, ax=ax0, marker="o")
 
 axs1 = subfigs[1].subplots(2, 3, sharex=True, sharey=True)
-circle_solver.history.subplots(subtitle='step', axs=axs1);</div>
+circle_solver.history.subplots(subtitle="step", axs=axs1);</div>
 </div>
 </div>
 </div>
@@ -1855,60 +1883,54 @@ circle_solver.history.subplots(subtitle='step', axs=axs1);</div>
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">dataset</span> <span class="o">=</span> <span class="n">ShapeStructureDataset</span><span class="p">(</span><span class="s2">"~/Downloads/ShapesJSON.zip"</span><span class="p">)</span>
-<span class="n">dino</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">load_curve</span><span class="p">(</span><span class="s1">'dino'</span><span class="p">)</span>
+<span class="n">dino</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">load_curve</span><span class="p">(</span><span class="s2">"dino"</span><span class="p">)</span>
 
 <span class="n">filter_shapes</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">n_shapes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">filter_shapes</span><span class="p">)</span>
 <span class="n">n_steps</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">sz</span> <span class="o">=</span> <span class="mf">1.5</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
-    <span class="n">nrows</span><span class="o">=</span><span class="n">n_shapes</span><span class="p">,</span> 
-    <span class="n">ncols</span><span class="o">=</span><span class="n">n_steps</span><span class="p">,</span> 
+    <span class="n">nrows</span><span class="o">=</span><span class="n">n_shapes</span><span class="p">,</span>
+    <span class="n">ncols</span><span class="o">=</span><span class="n">n_steps</span><span class="p">,</span>
     <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">sz</span> <span class="o">*</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">sz</span> <span class="o">*</span> <span class="n">n_shapes</span><span class="p">),</span>
 <span class="p">)</span>
 
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">filter_shape</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">filter_shapes</span><span class="p">):</span>
-    <span class="n">wf</span> <span class="o">=</span> <span class="n">WillmoreFlow</span><span class="p">(</span>
-        <span class="n">filter_width</span><span class="o">=</span><span class="mf">.1</span><span class="p">,</span> <span class="n">filter_shape</span><span class="o">=</span><span class="n">filter_shape</span><span class="p">)</span>
-    <span class="n">solver</span> <span class="o">=</span> <span class="n">wf</span><span class="o">.</span><span class="n">solver</span><span class="p">(</span>
-        <span class="n">initial</span><span class="o">=</span><span class="n">dino</span><span class="p">,</span> <span class="n">max_step</span><span class="o">=</span><span class="n">n_steps</span><span class="p">,</span> <span class="n">timestep</span><span class="o">=</span><span class="mf">0.075</span><span class="p">)</span>
+    <span class="n">wf</span> <span class="o">=</span> <span class="n">WillmoreFlow</span><span class="p">(</span><span class="n">filter_width</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">filter_shape</span><span class="o">=</span><span class="n">filter_shape</span><span class="p">)</span>
+    <span class="n">solver</span> <span class="o">=</span> <span class="n">wf</span><span class="o">.</span><span class="n">solver</span><span class="p">(</span><span class="n">initial</span><span class="o">=</span><span class="n">dino</span><span class="p">,</span> <span class="n">max_step</span><span class="o">=</span><span class="n">n_steps</span><span class="p">,</span> <span class="n">timestep</span><span class="o">=</span><span class="mf">0.075</span><span class="p">)</span>
     <span class="n">solver</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-    <span class="n">solver</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
-        <span class="n">axs</span><span class="o">=</span><span class="n">axs</span><span class="p">[[</span><span class="n">i</span><span class="p">],</span> <span class="p">:],</span> <span class="n">plot_fn</span><span class="o">=</span><span class="n">Curve</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">show_axes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> 
+    <span class="n">solver</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">axs</span><span class="o">=</span><span class="n">axs</span><span class="p">[[</span><span class="n">i</span><span class="p">],</span> <span class="p">:],</span> <span class="n">plot_fn</span><span class="o">=</span><span class="n">Curve</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">show_axes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
-    <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'step = </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"step = </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">filter_shapes</span><span class="p">):</span>
-    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">'k = </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">"k = </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-9">dataset = ShapeStructureDataset("~/Downloads/ShapesJSON.zip")
-dino = dataset.load_curve('dino')
+dino = dataset.load_curve("dino")
 
 filter_shapes = (0, 1, 3)
 n_shapes = len(filter_shapes)
 n_steps = 5
 sz = 1.5
 fig, axs = plt.subplots(
-    nrows=n_shapes, 
-    ncols=n_steps, 
+    nrows=n_shapes,
+    ncols=n_steps,
     figsize=(sz * n_steps, sz * n_shapes),
 )
 
 for i, filter_shape in enumerate(filter_shapes):
-    wf = WillmoreFlow(
-        filter_width=.1, filter_shape=filter_shape)
-    solver = wf.solver(
-        initial=dino, max_step=n_steps, timestep=0.075)
+    wf = WillmoreFlow(filter_width=0.1, filter_shape=filter_shape)
+    solver = wf.solver(initial=dino, max_step=n_steps, timestep=0.075)
     solver.run()
-    solver.history.subplots(
-        axs=axs[[i], :], plot_fn=Curve.plot, show_axes=False) 
+    solver.history.subplots(axs=axs[[i], :], plot_fn=Curve.plot, show_axes=False)
 
 for i in range(n_steps):
-    axs[0, i].set_title(f'step = {i}')
+    axs[0, i].set_title(f"step = {i}")
 
 for i, k in enumerate(filter_shapes):
-    axs[i, 0].set_ylabel(f'k = {k}')</div>
+    axs[i, 0].set_ylabel(f"k = {k}")</div>
 </div>
 </div>
 </div>
@@ -1964,11 +1986,7 @@ $(\kappa - \kappa_{\text {target}})^2$</p>
 <span class="n">circle</span> <span class="o">=</span> <span class="n">circle</span><span class="o">.</span><span class="n">interpolate_n</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">circle</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
 
 <span class="c1"># Construct a target with the same total length and number of vertices</span>
-<span class="n">star</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">Curve</span><span class="o">.</span><span class="n">star</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">r0</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">r1</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">interpolate_n</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">circle</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">to_length</span><span class="p">(</span><span class="n">circle</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
-<span class="p">)</span>
+<span class="n">star</span> <span class="o">=</span> <span class="n">Curve</span><span class="o">.</span><span class="n">star</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">r0</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">r1</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span><span class="o">.</span><span class="n">interpolate_n</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">circle</span><span class="o">.</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">to_length</span><span class="p">(</span><span class="n">circle</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
 
 <span class="c1"># Flow from the circle to the star</span>
 <span class="n">wf</span> <span class="o">=</span> <span class="n">WillmoreFlow</span><span class="p">(</span><span class="n">tgt_curvature</span><span class="o">=</span><span class="n">star</span><span class="o">.</span><span class="n">curvature</span><span class="p">)</span>
@@ -1981,11 +1999,7 @@ circle = circle_solver.current
 circle = circle.interpolate_n(n=circle.n)
 
 # Construct a target with the same total length and number of vertices
-star = (
-    Curve.star(n=5, r0=0.75, r1=1.5)
-    .interpolate_n(n=circle.n)
-    .to_length(circle.length)
-)
+star = Curve.star(n=5, r0=0.75, r1=1.5).interpolate_n(n=circle.n).to_length(circle.length)
 
 # Flow from the circle to the star
 wf = WillmoreFlow(tgt_curvature=star.curvature)
@@ -2018,43 +2032,41 @@ tgt_solver = wf.solver(initial=circle, max_step=10).run()</div>
 <span class="n">subfigs</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subfigures</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.07</span><span class="p">,</span> <span class="n">width_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="n">ax0</span> <span class="o">=</span> <span class="n">subfigs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">tgt_solver</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">y</span><span class="o">=</span><span class="s1">'willmore_energy'</span><span class="p">,</span> 
-    <span class="n">x</span><span class="o">=</span><span class="s1">'step'</span><span class="p">,</span> 
-    <span class="n">label_axes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
-    <span class="n">ax</span><span class="o">=</span><span class="n">ax0</span><span class="p">,</span> 
-    <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">"willmore_energy"</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">"step"</span><span class="p">,</span>
+    <span class="n">label_axes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax0</span><span class="p">,</span>
+    <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">axs1</span> <span class="o">=</span> <span class="n">subfigs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">tgt_solver</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">subtitle</span><span class="o">=</span><span class="s1">'step'</span><span class="p">,</span> <span class="n">axs</span><span class="o">=</span><span class="n">axs1</span><span class="p">);</span>
-
+<span class="n">tgt_solver</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">subtitle</span><span class="o">=</span><span class="s2">"step"</span><span class="p">,</span> <span class="n">axs</span><span class="o">=</span><span class="n">axs1</span><span class="p">)</span>
 <span class="c1"># Plot the target in the last axes for comparison</span>
 <span class="c1"># Account for rotation/translation</span>
-<span class="n">aligned</span> <span class="o">=</span> <span class="n">star</span><span class="o">.</span><span class="n">align_to</span><span class="p">(</span><span class="n">tgt_solver</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  
+<span class="n">aligned</span> <span class="o">=</span> <span class="n">star</span><span class="o">.</span><span class="n">align_to</span><span class="p">(</span><span class="n">tgt_solver</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">last_ax</span> <span class="o">=</span> <span class="n">axs1</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">aligned</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">last_ax</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">last_ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Target'</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">last_ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Target"</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-11">fig = plt.figure(layout="constrained", figsize=(7, 3))
 subfigs = fig.subfigures(1, 2, wspace=0.07, width_ratios=[1, 1])
 ax0 = subfigs[0].subplots()
 tgt_solver.history.plot(
-    y='willmore_energy', 
-    x='step', 
-    label_axes=True, 
-    ax=ax0, 
-    marker='o',
+    y="willmore_energy",
+    x="step",
+    label_axes=True,
+    ax=ax0,
+    marker="o",
 )
 
 axs1 = subfigs[1].subplots(3, 4, sharex=True, sharey=True)
-tgt_solver.history.subplots(subtitle='step', axs=axs1);
-
+tgt_solver.history.subplots(subtitle="step", axs=axs1)
 # Plot the target in the last axes for comparison
 # Account for rotation/translation
-aligned = star.align_to(tgt_solver.history[-1])  
+aligned = star.align_to(tgt_solver.history[-1])
 last_ax = axs1.flatten()[-1]
 _ = aligned.plot_edges(directed=False, ax=last_ax)
-_ = last_ax.set_title('Target')</div>
+_ = last_ax.set_title("Target")</div>
 </div>
 </div>
 </div>
