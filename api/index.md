@@ -14,4 +14,3 @@
 
 - [`curvey.blend`](blend.md)
     - Linear and curvature blending for shape interpolation
-

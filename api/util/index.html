@@ -1130,7 +1130,7 @@
 
 
 <h2 id="curvey.util.periodic_interpolator" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">periodic_interpolator</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">typ</span><span class="p">:</span> <span class="n">InterpType</span> <span class="o">=</span> <span class="s1">&#39;cubic&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">ndarray</span><span class="p">]</span></code>
+          <code class="highlight language-python"><span class="n">periodic_interpolator</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span> <span class="n">typ</span><span class="p">:</span> <span class="n">InterpType</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;cubic&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">ndarray</span><span class="p">]</span></code>
 
 <a href="#curvey.util.periodic_interpolator" class="headerlink" title="Permanent link">¤</a></h2>
 
@@ -1184,7 +1184,7 @@
         <tr>
           <td><code>typ</code></td>
           <td>
-                <code><span title="curvey.util.InterpType">InterpType</span></code>
+                <code><span title="curvey.util.InterpType">InterpType</span> | str</code>
           </td>
           <td>
             <div class="doc-md-description">
@@ -1277,7 +1277,7 @@
 <span class="normal"><a href="#__codelineno-0-212">212</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-171" name="__codelineno-0-171"></a><span class="k">def</span> <span class="nf">periodic_interpolator</span><span class="p">(</span>
 <a id="__codelineno-0-172" name="__codelineno-0-172"></a>    <span class="n">x</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span>
 <a id="__codelineno-0-173" name="__codelineno-0-173"></a>    <span class="n">f</span><span class="p">:</span> <span class="n">ndarray</span><span class="p">,</span>
-<a id="__codelineno-0-174" name="__codelineno-0-174"></a>    <span class="n">typ</span><span class="p">:</span> <span class="n">InterpType</span> <span class="o">=</span> <span class="s2">&quot;cubic&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-174" name="__codelineno-0-174"></a>    <span class="n">typ</span><span class="p">:</span> <span class="n">InterpType</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cubic&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-175" name="__codelineno-0-175"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">ndarray</span><span class="p">]:</span>
 <a id="__codelineno-0-176" name="__codelineno-0-176"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct a periodic interpolator of the function f(x)</span>
 <a id="__codelineno-0-177" name="__codelineno-0-177"></a>

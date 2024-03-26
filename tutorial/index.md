@@ -1,8 +1,8 @@
 # Tutorials
 
-The tutorials here 
+These are Jupyter lab notebooks --
 
-- [Introduction](introduction.ipynb) 
+- [Introduction](introduction.ipynb)
     - Constructing a curve, plotting curves, sequences of curves
 
 - [Shape structure dataset](shape_structure_dataset.ipynb)

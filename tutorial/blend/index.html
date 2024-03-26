@@ -1299,8 +1299,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </style>
 <!-- End of mermaid configuration --><div class="jupyter-wrapper">
 <div class="jp-Notebook" data-jp-theme-light="false" data-jp-theme-name="JupyterLab Dark">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=fd4551af-3343-498d-b893-cd22df890dcd">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1318,55 +1318,46 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="o">%</span><span class="n">load_ext</span> <span class="n">autoreload</span>
-<span class="o">%</span><span class="n">autoreload</span> <span class="mi">2</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-1">%load_ext autoreload
-%autoreload 2</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=f3bb37b3-501d-4444-a78a-6abe35ad1bb2">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy for="cell-2">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">curvey</span> <span class="kn">import</span> <span class="n">Curve</span><span class="p">,</span> <span class="n">Curves</span><span class="p">,</span> <span class="n">ShapeStructureDataset</span>
-<span class="kn">from</span> <span class="nn">curvey.flow</span> <span class="kn">import</span> <span class="n">WillmoreFlow</span>
-<span class="kn">from</span> <span class="nn">curvey.blend</span> <span class="kn">import</span> <span class="n">Pair</span><span class="p">,</span> <span class="n">CurvatureShapeBlending</span><span class="p">,</span> <span class="n">LinearBlending</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="c1"># from numpy import *</span>
+<span class="kn">from</span> <span class="nn">curvey</span> <span class="kn">import</span> <span class="n">Curve</span><span class="p">,</span> <span class="n">Curves</span><span class="p">,</span> <span class="n">ShapeStructureDataset</span>
+<span class="kn">from</span> <span class="nn">curvey.flow</span> <span class="kn">import</span> <span class="n">WillmoreFlow</span>
+<span class="kn">from</span> <span class="nn">curvey.blend</span> <span class="kn">import</span> <span class="n">Processed</span><span class="p">,</span> <span class="n">CurvatureShapeBlending</span><span class="p">,</span> <span class="n">LinearBlending</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-2">from curvey import Curve, Curves, ShapeStructureDataset
-from curvey.flow import WillmoreFlow
-from curvey.blend import Pair, CurvatureShapeBlending, LinearBlending
+<div class="clipboard-copy-txt" id="cell-1">import numpy as np
 from matplotlib import pyplot as plt
-import numpy as np
-# from numpy import *</div>
+from curvey import Curve, Curves, ShapeStructureDataset
+from curvey.flow import WillmoreFlow
+from curvey.blend import Processed, CurvatureShapeBlending, LinearBlending</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">ImportError</span>                               Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[1], line 3</span>
+<span class="ansi-green-fg">      1</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> <span class="ansi-bold" style="color: rgb(0,0,255)">numpy</span> <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> <span class="ansi-bold" style="color: rgb(0,0,255)">np</span>
+<span class="ansi-green-fg">      2</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> <span class="ansi-bold" style="color: rgb(0,0,255)">matplotlib</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> pyplot <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> plt
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 3</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> <span class="ansi-bold" style="color: rgb(0,0,255)">curvey</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> Curve, Curves, ShapeStructureDataset
+<span class="ansi-green-fg">      4</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> <span class="ansi-bold" style="color: rgb(0,0,255)">curvey</span><span class="ansi-bold" style="color: rgb(0,0,255)">.</span><span class="ansi-bold" style="color: rgb(0,0,255)">flow</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> WillmoreFlow
+<span class="ansi-green-fg">      5</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> <span class="ansi-bold" style="color: rgb(0,0,255)">curvey</span><span class="ansi-bold" style="color: rgb(0,0,255)">.</span><span class="ansi-bold" style="color: rgb(0,0,255)">blend</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> Processed, CurvatureShapeBlending, LinearBlending
+
+<span class="ansi-red-intense-fg ansi-bold">ImportError</span>: cannot import name 'ShapeStructureDataset' from 'curvey' (C:\Users\dgamble4\Documents\python\curvey\src\curvey\__init__.py)</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6376e9ec-9edc-4d03-937e-2c0c9da0311e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1377,15 +1368,15 @@ import numpy as np
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=948ff784-a6ef-41ca-91aa-f8d55a96b136">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy for="cell-3">
+<clipboard-copy for="cell-2">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -1404,14 +1395,14 @@ import numpy as np
     <span class="n">dataset</span><span class="o">.</span><span class="n">load_curve</span><span class="p">(</span><span class="s1">'dino'</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s1">'center'</span><span class="p">)</span>
     <span class="o">.</span><span class="n">to_ccw</span><span class="p">()</span>
-    <span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">interpolate_n</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">tgt</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">dataset</span><span class="o">.</span><span class="n">load_curve</span><span class="p">(</span><span class="s1">'bird'</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
     <span class="o">.</span><span class="n">reflect</span><span class="p">(</span><span class="s1">'y'</span><span class="p">)</span>
     <span class="o">.</span><span class="n">to_ccw</span><span class="p">()</span>
     <span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s1">'center'</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">interpolate_n</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
 <span class="p">)</span>
 
 <span class="c1"># Finds the best vertex in the `tgt` shape to call the first vertex, to</span>
@@ -1422,7 +1413,7 @@ import numpy as np
 <span class="n">_</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">tgt</span><span class="o">.</span><span class="n">plot_edges</span><span class="p">(</span><span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'-:'</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3">dataset = ShapeStructureDataset("~/Downloads/ShapesJSON.zip")
+<div class="clipboard-copy-txt" id="cell-2">dataset = ShapeStructureDataset("~/Downloads/ShapesJSON.zip")
 
 # Load curves and center them so they're reasonably well-aligned, 
 # make sure they have the same orientation, and resample both 
@@ -1431,14 +1422,14 @@ src = (
     dataset.load_curve('dino', 0)
     .translate('center')
     .to_ccw()
-    .resample(n=200)
+    .interpolate_n(n=200)
 )
 tgt = (
     dataset.load_curve('bird', 8)
     .reflect('y')
     .to_ccw()
     .translate('center')
-    .resample(n=200)
+    .interpolate_n(n=200)
 )
 
 # Finds the best vertex in the `tgt` shape to call the first vertex, to
@@ -1461,35 +1452,27 @@ _ = tgt.plot_edges(directed=False, linestyle='-:')</div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>
 <span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>                            Traceback (most recent call last)
-Cell <span class="ansi-green-intense-fg ansi-bold">In[3], line 10</span>
-<span class="ansi-green-fg">      1</span> dataset <span style="color: rgb(98,98,98)">=</span> ShapeStructureDataset(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">~/Downloads/ShapesJSON.zip</span><span style="color: rgb(175,0,0)">"</span>)
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[2], line 1</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> dataset <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">ShapeStructureDataset</span>(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">~/Downloads/ShapesJSON.zip</span><span style="color: rgb(175,0,0)">"</span>)
 <span class="ansi-green-fg">      3</span> <span style="color: rgb(95,135,135)"># Load curves and center them so they're reasonably well-aligned, </span>
 <span class="ansi-green-fg">      4</span> <span style="color: rgb(95,135,135)"># make sure they have the same orientation, and resample both </span>
 <span class="ansi-green-fg">      5</span> <span style="color: rgb(95,135,135)"># to the same number of vertices</span>
 <span class="ansi-green-fg">      6</span> src <span style="color: rgb(98,98,98)">=</span> (
-<span class="ansi-green-fg">      7</span>     <span class="ansi-yellow-bg">dataset</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">load_curve</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">dino</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">0</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">      8</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">translate</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">center</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-fg">      9</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">to_ccw</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">---&gt; 10</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">resample</span>(n<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">200</span>)
+<span class="ansi-green-fg">      7</span>     dataset<span style="color: rgb(98,98,98)">.</span>load_curve(<span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">dino</span><span style="color: rgb(175,0,0)">'</span>, <span style="color: rgb(98,98,98)">0</span>)
+<span class="ansi-green-fg">      8</span>     <span style="color: rgb(98,98,98)">.</span>translate(<span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">center</span><span style="color: rgb(175,0,0)">'</span>)
+<span class="ansi-green-fg">      9</span>     <span style="color: rgb(98,98,98)">.</span>to_ccw()
+<span class="ansi-green-fg">     10</span>     <span style="color: rgb(98,98,98)">.</span>interpolate_n(n<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">200</span>)
 <span class="ansi-green-fg">     11</span> )
-<span class="ansi-green-fg">     12</span> tgt <span style="color: rgb(98,98,98)">=</span> (
-<span class="ansi-green-fg">     13</span>     dataset<span style="color: rgb(98,98,98)">.</span>load_curve(<span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">bird</span><span style="color: rgb(175,0,0)">'</span>, <span style="color: rgb(98,98,98)">8</span>)
-<span class="ansi-green-fg">     14</span>     <span style="color: rgb(98,98,98)">.</span>reflect(<span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">y</span><span style="color: rgb(175,0,0)">'</span>)
-<span class="ansi-green-intense-fg ansi-bold">   (...)</span>
-<span class="ansi-green-fg">     17</span>     <span style="color: rgb(98,98,98)">.</span>resample(n<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">200</span>)
-<span class="ansi-green-fg">     18</span> )
-<span class="ansi-green-fg">     20</span> <span style="color: rgb(95,135,135)"># Finds the best vertex in the `tgt` shape to call the first vertex, to</span>
-<span class="ansi-green-fg">     21</span> <span style="color: rgb(95,135,135)"># minimize the sum of square distances between corresponding vertices</span>
 
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>: 'Curve' object has no attribute 'resample'</pre>
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name 'ShapeStructureDataset' is not defined</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1ebaf7f2-aa94-4ae1-a0c8-aa4a8d730aec">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1500,7 +1483,69 @@ Cell <span class="ansi-green-intense-fg ansi-bold">In[3], line 10</span>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0fcd23b7-9796-435f-8f9f-8284ec2905ca">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=4">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy for="cell-3">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">lb</span> <span class="o">=</span> <span class="n">LinearBlending</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">tgt</span><span class="p">)</span>
+<span class="n">lin_blend_curves</span> <span class="o">=</span> <span class="n">lb</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">lin_blend_curves</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">subtitle</span><span class="o">=</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"t = </span><span class="si">{</span><span class="n">c</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-3">lb = LinearBlending(src, tgt)
+lin_blend_curves = lb.interpolate(t=np.linspace(0, 1, 5))
+_ = lin_blend_curves.subplots(figsize=(6, 4), subtitle=lambda c: f"t = {c['time']}")</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[3], line 1</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> lb <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">LinearBlending</span>(src, tgt)
+<span class="ansi-green-fg">      2</span> lin_blend_curves <span style="color: rgb(98,98,98)">=</span> lb<span style="color: rgb(98,98,98)">.</span>interpolate(t<span style="color: rgb(98,98,98)">=</span>np<span style="color: rgb(98,98,98)">.</span>linspace(<span style="color: rgb(98,98,98)">0</span>, <span style="color: rgb(98,98,98)">1</span>, <span style="color: rgb(98,98,98)">5</span>))
+<span class="ansi-green-fg">      3</span> _ <span style="color: rgb(98,98,98)">=</span> lin_blend_curves<span style="color: rgb(98,98,98)">.</span>subplots(figsize<span style="color: rgb(98,98,98)">=</span>(<span style="color: rgb(98,98,98)">6</span>, <span style="color: rgb(98,98,98)">4</span>), subtitle<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">lambda</span> c: <span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">t = </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>c[<span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">time</span><span style="color: rgb(175,0,0)">'</span>]<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)">"</span>)
+
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name 'LinearBlending' is not defined</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>The weakness of linear blending is that it can difficult to avoid small self intersections.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1518,74 +1563,12 @@ Cell <span class="ansi-green-intense-fg ansi-bold">In[3], line 10</span>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">lb</span> <span class="o">=</span> <span class="n">LinearBlending</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">tgt</span><span class="p">)</span>
-<span class="n">lin_blend_curves</span> <span class="o">=</span> <span class="n">lb</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">lin_blend_curves</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">subtitle</span><span class="o">=</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"t = </span><span class="si">{</span><span class="n">c</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-4">lb = LinearBlending(src, tgt)
-lin_blend_curves = lb.interpolate(t=np.linspace(0, 1, 5))
-_ = lin_blend_curves.subplots(figsize=(6, 4), subtitle=lambda c: f"t = {c['time']}")</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-intense-fg ansi-bold">In[4], line 1</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> lb <span style="color: rgb(98,98,98)">=</span> LinearBlending(<span class="ansi-yellow-bg">src</span>, tgt)
-<span class="ansi-green-fg">      2</span> lin_blend_curves <span style="color: rgb(98,98,98)">=</span> lb<span style="color: rgb(98,98,98)">.</span>interpolate(t<span style="color: rgb(98,98,98)">=</span>np<span style="color: rgb(98,98,98)">.</span>linspace(<span style="color: rgb(98,98,98)">0</span>, <span style="color: rgb(98,98,98)">1</span>, <span style="color: rgb(98,98,98)">5</span>))
-<span class="ansi-green-fg">      3</span> _ <span style="color: rgb(98,98,98)">=</span> lin_blend_curves<span style="color: rgb(98,98,98)">.</span>subplots(figsize<span style="color: rgb(98,98,98)">=</span>(<span style="color: rgb(98,98,98)">6</span>, <span style="color: rgb(98,98,98)">4</span>), subtitle<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">lambda</span> c: <span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">t = </span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>c[<span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">time</span><span style="color: rgb(175,0,0)">'</span>]<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)">"</span>)
-
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name 'src' is not defined</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=908aaf40-aa57-4733-b66c-86e72ac8ed5d">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The weakness of linear blending is that it can difficult to avoid small self intersections.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=5996e7ba-6ec7-48e0-b784-69f0827875ea">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy for="cell-5">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">lin_blend_curves</span><span class="p">:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">is_simple</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">edge_intersections</span><span class="p">())</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5">for c in lin_blend_curves:
+<div class="clipboard-copy-txt" id="cell-4">for c in lin_blend_curves:
     if not c.is_simple:
         print(c)
         print(c.edge_intersections())</div>
@@ -1603,7 +1586,7 @@ Cell <span class="ansi-green-intense-fg ansi-bold">In[4], line 1</span>
 <pre>
 <span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
 <span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-intense-fg ansi-bold">In[5], line 1</span>
+Cell <span class="ansi-green-intense-fg ansi-bold">In[4], line 1</span>
 <span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> c <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> <span class="ansi-yellow-bg">lin_blend_curves</span>:
 <span class="ansi-green-fg">      2</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> c<span style="color: rgb(98,98,98)">.</span>is_simple:
 <span class="ansi-green-fg">      3</span>         <span style="color: rgb(0,135,0)">print</span>(c)
@@ -1615,7 +1598,7 @@ Cell <span class="ansi-green-intense-fg ansi-bold">In[5], line 1</span>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=483181f1-844b-443b-a2ad-d81538af6b73">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1623,12 +1606,86 @@ Cell <span class="ansi-green-intense-fg ansi-bold">In[5], line 1</span>
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="curvature-blending">Curvature blending<a class="anchor-link" href="#curvature-blending">¶</a></h2><p>Based on <a href="https://www.sciencedirect.com/science/article/pii/S016783961730016X"><em>Rapid blending of closed curves based on curvature flow.</em> Masahiro Hirano, Yoshihiro Watanabe, and
 Masatoshi Ishikawa. 2017.</a>.</p>
-<p>Curvature blending uses Willmore flow. Instead of interpolating between vertex coordinates, it interpolates between vertex curvatures. For this to work, we'll need more than just the number of vertices to match—because Willmore flow operates isometrically, we'll need the total arclengths and individual edge lengths to match. <code>Pair.to_common_edge_length</code> rescales both input curves to length 1.0, and optimizes the distribution of vertices along the curves. We then store the original and processed pairs in a <code>Pair</code> object to pass to <code>CurvatureShapeBlending</code> so it has convenient access to both the original and rescaled curves.</p>
+<p>Curvature blending uses Willmore flow. Instead of interpolating between vertex coordinates, it interpolates between vertex curvatures. For this to work, we'll need more than just the number of vertices to match—because Willmore flow operates isometrically, we'll need the total arclengths and individual edge lengths to match. The <code>curvey.blend.Processed</code> class is just a convenience class to store the original and processed copies of a curve; <code>CurvatureShapeBlending</code> will need to reference both.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=61bd87aa-814c-458f-9d0e-ef544ba5c446">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=8">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy for="cell-5">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># These steps are performed by `CurvatureShapeBlending.preprocess`</span>
+<span class="c1"># for convenience, but done here explicitly for reference</span>
+<span class="n">src1</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">to_length</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">tgt1</span> <span class="o">=</span> <span class="n">tgt</span><span class="o">.</span><span class="n">to_length</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">src1</span> <span class="o">=</span> <span class="n">src1</span><span class="o">.</span><span class="n">optimize_edge_lengths_to</span><span class="p">(</span><span class="n">tgt1</span><span class="p">)</span>
+<span class="n">tgt1</span> <span class="o">=</span> <span class="n">tgt1</span><span class="o">.</span><span class="n">optimize_edge_lengths_to</span><span class="p">(</span><span class="n">src1</span><span class="p">)</span>
+<span class="n">p_src</span> <span class="o">=</span> <span class="n">Processed</span><span class="p">(</span><span class="n">original</span><span class="o">=</span><span class="n">src</span><span class="p">,</span> <span class="n">processed</span><span class="o">=</span><span class="n">src1</span><span class="p">)</span>
+<span class="n">p_tgt</span> <span class="o">=</span> <span class="n">Processed</span><span class="p">(</span><span class="n">original</span><span class="o">=</span><span class="n">tgt</span><span class="p">,</span> <span class="n">processed</span><span class="o">=</span><span class="n">tgt1</span><span class="p">)</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-5"># These steps are performed by `CurvatureShapeBlending.preprocess`
+# for convenience, but done here explicitly for reference
+src1 = src.to_length(1.0)
+tgt1 = tgt.to_length(1.0)
+src1 = src1.optimize_edge_lengths_to(tgt1)
+tgt1 = tgt1.optimize_edge_lengths_to(src1)
+p_src = Processed(original=src, processed=src1)
+p_tgt = Processed(original=tgt, processed=tgt1)</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
+Cell <span class="ansi-green-intense-fg ansi-bold">In[5], line 3</span>
+<span class="ansi-green-fg">      1</span> <span style="color: rgb(95,135,135)"># These steps are performed by `CurvatureShapeBlending.preprocess`</span>
+<span class="ansi-green-fg">      2</span> <span style="color: rgb(95,135,135)"># for convenience, but done here explicitly for reference</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 3</span> src1 <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">src</span><span style="color: rgb(98,98,98)">.</span>to_length(<span style="color: rgb(98,98,98)">1.0</span>)
+<span class="ansi-green-fg">      4</span> tgt1 <span style="color: rgb(98,98,98)">=</span> tgt<span style="color: rgb(98,98,98)">.</span>to_length(<span style="color: rgb(98,98,98)">1.0</span>)
+<span class="ansi-green-fg">      5</span> src1 <span style="color: rgb(98,98,98)">=</span> src1<span style="color: rgb(98,98,98)">.</span>optimize_edge_lengths_to(tgt1)
+
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name 'src' is not defined</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>In the Hirano et al. paper, they describe first flowing from the initial source shape to the first interpolated curvatures, from that to the second, and so on to the final target shape curvatures. I've found that this approach is vulnerable to getting 'stuck' in the middle, and never really hitting the final target shape. Instead, we'll first flow the initial source shape to a circle, and then flow that circle to each interpolated curvature independently. (The original approach is still available by using the <code>path_dependent</code> argument to <code>CurvatureShapeBlending.interpolate</code>.)</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=10">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1646,13 +1703,13 @@ Masatoshi Ishikawa. 2017.</a>.</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">src1</span><span class="p">,</span> <span class="n">tgt1</span> <span class="o">=</span> <span class="n">Pair</span><span class="o">.</span><span class="n">to_common_edge_length</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">tgt</span><span class="p">)</span>
-<span class="n">pair</span> <span class="o">=</span> <span class="n">Pair</span><span class="o">.</span><span class="n">from_pairs</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">src1</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">tgt1</span><span class="p">)</span>
-<span class="n">pair</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">wf</span> <span class="o">=</span> <span class="n">WillmoreFlow</span><span class="p">()</span>
+<span class="n">solver</span> <span class="o">=</span> <span class="n">wf</span><span class="o">.</span><span class="n">solver</span><span class="p">(</span><span class="n">initial</span><span class="o">=</span><span class="n">p_src</span><span class="o">.</span><span class="n">processed</span><span class="p">,</span> <span class="n">stop_tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+<span class="n">circle</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">run</span><span class="p">()</span><span class="o">.</span><span class="n">current</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">src1, tgt1 = Pair.to_common_edge_length(src, tgt)
-pair = Pair.from_pairs(src, src1, tgt, tgt1)
-pair</div>
+<div class="clipboard-copy-txt" id="cell-6">wf = WillmoreFlow()
+solver = wf.solver(initial=p_src.processed, stop_tol=1e-3)
+circle = solver.run().current</div>
 </div>
 </div>
 </div>
@@ -1668,29 +1725,29 @@ pair</div>
 <span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
 <span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
 Cell <span class="ansi-green-intense-fg ansi-bold">In[6], line 1</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> src1, tgt1 <span style="color: rgb(98,98,98)">=</span> Pair<span style="color: rgb(98,98,98)">.</span>to_common_edge_length(<span class="ansi-yellow-bg">src</span>, tgt)
-<span class="ansi-green-fg">      2</span> pair <span style="color: rgb(98,98,98)">=</span> Pair<span style="color: rgb(98,98,98)">.</span>from_pairs(src, src1, tgt, tgt1)
-<span class="ansi-green-fg">      3</span> pair
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> wf <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">WillmoreFlow</span>()
+<span class="ansi-green-fg">      2</span> solver <span style="color: rgb(98,98,98)">=</span> wf<span style="color: rgb(98,98,98)">.</span>solver(initial<span style="color: rgb(98,98,98)">=</span>p_src<span style="color: rgb(98,98,98)">.</span>processed, stop_tol<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">1e-3</span>)
+<span class="ansi-green-fg">      3</span> circle <span style="color: rgb(98,98,98)">=</span> solver<span style="color: rgb(98,98,98)">.</span>run()<span style="color: rgb(98,98,98)">.</span>current
 
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name 'src' is not defined</pre>
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name 'WillmoreFlow' is not defined</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=888b3945-5efe-4894-960e-617c78234b60">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=11">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>In the Hirano et al. paper, they describe first flowing from the initial source shape to the first interpolated curvatures, from that to the second, and so on to the final target shape curvatures. I've found that this approach is vulnerable to getting 'stuck' in the middle, and never really hitting the final target shape. Instead, we'll first flow the initial source shape to a circle, and then flow that circle to each interpolated curvature independently. (The original approach is still available by using the <code>path_dependent</code> argument to <code>CurvatureShapeBlending.interpolate</code>.)</p>
+<p>The <code>CurvatureShapeBlending</code> class uses target Willmore flow to flow from the initial shape, in this case that circle, to a number of intermediate curvatures $\kappa_t = (1 - t) \kappa_0 + t \kappa_1$. Because it does the flow on the rescaled curves, it will then rescale the interpolated curve back to a length or area interpolated from the original curves.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=01d07b5d-8d8c-449d-8a7a-351b47919e43">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=12">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1708,13 +1765,13 @@ Cell <span class="ansi-green-intense-fg ansi-bold">In[6], line 1</span>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">wf</span> <span class="o">=</span> <span class="n">WillmoreFlow</span><span class="p">()</span>
-<span class="n">solver</span> <span class="o">=</span> <span class="n">wf</span><span class="o">.</span><span class="n">solver</span><span class="p">(</span><span class="n">initial</span><span class="o">=</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">processed</span><span class="p">,</span> <span class="n">stop_tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
-<span class="n">circle</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">run</span><span class="p">()</span><span class="o">.</span><span class="n">current</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">csb</span> <span class="o">=</span> <span class="n">CurvatureShapeBlending</span><span class="p">(</span><span class="n">processed0</span><span class="o">=</span><span class="n">p_src</span><span class="p">,</span> <span class="n">processed1</span><span class="o">=</span><span class="n">p_tgt</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="n">circle</span><span class="p">,</span> <span class="n">flow</span><span class="o">=</span><span class="n">wf</span><span class="p">)</span>
+<span class="n">t_interp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">curv_blend_curves</span> <span class="o">=</span> <span class="n">csb</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="n">t_interp</span><span class="p">,</span> <span class="n">stop_tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">interp_size</span><span class="o">=</span><span class="s1">'area'</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-7">wf = WillmoreFlow()
-solver = wf.solver(initial=pair[0].processed, stop_tol=1e-3)
-circle = solver.run().current</div>
+<div class="clipboard-copy-txt" id="cell-7">csb = CurvatureShapeBlending(processed0=p_src, processed1=p_tgt, initial=circle, flow=wf)
+t_interp = np.linspace(0, 1, 5)
+curv_blend_curves = csb.interpolate(t=t_interp, stop_tol=1e-3, interp_size='area')</div>
 </div>
 </div>
 </div>
@@ -1729,30 +1786,30 @@ circle = solver.run().current</div>
 <pre>
 <span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
 <span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-intense-fg ansi-bold">In[7], line 2</span>
-<span class="ansi-green-fg">      1</span> wf <span style="color: rgb(98,98,98)">=</span> WillmoreFlow()
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 2</span> solver <span style="color: rgb(98,98,98)">=</span> wf<span style="color: rgb(98,98,98)">.</span>solver(initial<span style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">pair</span>[<span style="color: rgb(98,98,98)">0</span>]<span style="color: rgb(98,98,98)">.</span>processed, stop_tol<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">1e-3</span>)
-<span class="ansi-green-fg">      3</span> circle <span style="color: rgb(98,98,98)">=</span> solver<span style="color: rgb(98,98,98)">.</span>run()<span style="color: rgb(98,98,98)">.</span>current
+Cell <span class="ansi-green-intense-fg ansi-bold">In[7], line 1</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> csb <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">CurvatureShapeBlending</span>(processed0<span style="color: rgb(98,98,98)">=</span>p_src, processed1<span style="color: rgb(98,98,98)">=</span>p_tgt, initial<span style="color: rgb(98,98,98)">=</span>circle, flow<span style="color: rgb(98,98,98)">=</span>wf)
+<span class="ansi-green-fg">      2</span> t_interp <span style="color: rgb(98,98,98)">=</span> np<span style="color: rgb(98,98,98)">.</span>linspace(<span style="color: rgb(98,98,98)">0</span>, <span style="color: rgb(98,98,98)">1</span>, <span style="color: rgb(98,98,98)">5</span>)
+<span class="ansi-green-fg">      3</span> curv_blend_curves <span style="color: rgb(98,98,98)">=</span> csb<span style="color: rgb(98,98,98)">.</span>interpolate(t<span style="color: rgb(98,98,98)">=</span>t_interp, stop_tol<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">1e-3</span>, interp_size<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">area</span><span style="color: rgb(175,0,0)">'</span>)
 
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name 'pair' is not defined</pre>
+<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name 'CurvatureShapeBlending' is not defined</pre>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=05ddee1b-d8f1-43c7-b789-56b7ee4279f2">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=13">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The <code>CurvatureShapeBlending</code> class uses target Willmore flow to flow from the initial shape, in this case that circle, to a number of intermediate curvatures $\kappa_t = (1 - t) \kappa_0 + t \kappa_1$. Because it does the flow on the rescaled curves, it will then rescale the interpolated curve back to a length or area interpolated from the original curves.</p>
+<p><code>CurvatureShapeBlending.interpolate</code> returns a <code>Curves</code> object containing the interpolated curves:</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=40c4f7e1-bb04-4c39-a5d4-20a5b46d4b21">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=14">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1770,68 +1827,6 @@ Cell <span class="ansi-green-intense-fg ansi-bold">In[7], line 2</span>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">csb</span> <span class="o">=</span> <span class="n">CurvatureShapeBlending</span><span class="p">(</span><span class="n">pair</span><span class="o">=</span><span class="n">pair</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="n">circle</span><span class="p">,</span> <span class="n">flow</span><span class="o">=</span><span class="n">wf</span><span class="p">)</span>
-<span class="n">t_interp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="n">curv_blend_curves</span> <span class="o">=</span> <span class="n">csb</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="n">t_interp</span><span class="p">,</span> <span class="n">stop_tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">interp_size</span><span class="o">=</span><span class="s1">'area'</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-8">csb = CurvatureShapeBlending(pair=pair, initial=circle, flow=wf)
-t_interp = np.linspace(0, 1, 5)
-curv_blend_curves = csb.interpolate(t=t_interp, stop_tol=1e-3, interp_size='area')</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-intense-fg ansi-bold">In[8], line 1</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> csb <span style="color: rgb(98,98,98)">=</span> CurvatureShapeBlending(pair<span style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">pair</span>, initial<span style="color: rgb(98,98,98)">=</span>circle, flow<span style="color: rgb(98,98,98)">=</span>wf)
-<span class="ansi-green-fg">      2</span> t_interp <span style="color: rgb(98,98,98)">=</span> np<span style="color: rgb(98,98,98)">.</span>linspace(<span style="color: rgb(98,98,98)">0</span>, <span style="color: rgb(98,98,98)">1</span>, <span style="color: rgb(98,98,98)">5</span>)
-<span class="ansi-green-fg">      3</span> curv_blend_curves <span style="color: rgb(98,98,98)">=</span> csb<span style="color: rgb(98,98,98)">.</span>interpolate(t<span style="color: rgb(98,98,98)">=</span>t_interp, stop_tol<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">1e-3</span>, interp_size<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">area</span><span style="color: rgb(175,0,0)">'</span>)
-
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name 'pair' is not defined</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9a292238-5982-478e-9f64-d49c95220e45">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><code>CurvatureShapeBlending.interpolate</code> returns a <code>Curves</code> object containing the interpolated curves:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=3e9b92da-4783-4fc7-b0a2-7544756145d3">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy for="cell-9">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">axs</span> <span class="o">=</span> <span class="n">curv_blend_curves</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
     <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> 
     <span class="n">plot_fn</span><span class="o">=</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'black'</span><span class="p">),</span>
@@ -1840,7 +1835,7 @@ Cell <span class="ansi-green-intense-fg ansi-bold">In[8], line 1</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">tgt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-9">axs = curv_blend_curves.subplots(
+<div class="clipboard-copy-txt" id="cell-8">axs = curv_blend_curves.subplots(
     figsize=(6, 3), 
     plot_fn=lambda c: c.plot(color='black'),
     subtitle=lambda c: f"t = {c['time']:.02f}"
@@ -1861,7 +1856,7 @@ _ = tgt.plot(color='red', ax=axs[0, -1], alpha=0.5)</div>
 <pre>
 <span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
 <span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-intense-fg ansi-bold">In[9], line 1</span>
+Cell <span class="ansi-green-intense-fg ansi-bold">In[8], line 1</span>
 <span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> axs <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">curv_blend_curves</span><span style="color: rgb(98,98,98)">.</span>subplots(
 <span class="ansi-green-fg">      2</span>     figsize<span style="color: rgb(98,98,98)">=</span>(<span style="color: rgb(98,98,98)">6</span>, <span style="color: rgb(98,98,98)">3</span>), 
 <span class="ansi-green-fg">      3</span>     plot_fn<span style="color: rgb(98,98,98)">=</span><span class="ansi-bold" style="color: rgb(0,135,0)">lambda</span> c: c<span style="color: rgb(98,98,98)">.</span>plot(color<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">black</span><span style="color: rgb(175,0,0)">'</span>),
@@ -1877,7 +1872,7 @@ Cell <span class="ansi-green-intense-fg ansi-bold">In[9], line 1</span>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3704d57d-4846-4a49-a61c-2026feaa456e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=15">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1888,7 +1883,7 @@ Cell <span class="ansi-green-intense-fg ansi-bold">In[9], line 1</span>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ca82c3b8-9ac3-4983-aad4-e7661a98fd92">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=16">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1904,7 +1899,7 @@ Cell <span class="ansi-green-intense-fg ansi-bold">In[9], line 1</span>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0bf796f6-731e-47b4-9cb3-ec3c1261c111">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=17">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1919,15 +1914,15 @@ $$</p>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f22846f9-d0d2-4f70-9b1f-41ebc8828c62">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=18">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy for="cell-10">
+<clipboard-copy for="cell-9">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -1944,7 +1939,7 @@ $$</p>
 <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'error'</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">.75</span><span class="p">))</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-10">_ = plt.subplots(figsize=(4, 4))
+<div class="clipboard-copy-txt" id="cell-9">_ = plt.subplots(figsize=(4, 4))
 curv_blend_curves.plot('src_error', marker='o')
 curv_blend_curves.plot('tgt_error', marker='o')
 curv_blend_curves.plot('interp_error', marker='o')
@@ -1964,7 +1959,7 @@ _ = plt.legend(bbox_to_anchor=(1, .75))</div>
 <pre>
 <span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
 <span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-intense-fg ansi-bold">In[10], line 2</span>
+Cell <span class="ansi-green-intense-fg ansi-bold">In[9], line 2</span>
 <span class="ansi-green-fg">      1</span> _ <span style="color: rgb(98,98,98)">=</span> plt<span style="color: rgb(98,98,98)">.</span>subplots(figsize<span style="color: rgb(98,98,98)">=</span>(<span style="color: rgb(98,98,98)">4</span>, <span style="color: rgb(98,98,98)">4</span>))
 <span class="ansi-green-intense-fg ansi-bold">----&gt; 2</span> <span class="ansi-yellow-bg">curv_blend_curves</span><span style="color: rgb(98,98,98)">.</span>plot(<span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">src_error</span><span style="color: rgb(175,0,0)">'</span>, marker<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">o</span><span style="color: rgb(175,0,0)">'</span>)
 <span class="ansi-green-fg">      3</span> curv_blend_curves<span style="color: rgb(98,98,98)">.</span>plot(<span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">tgt_error</span><span style="color: rgb(175,0,0)">'</span>, marker<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">o</span><span style="color: rgb(175,0,0)">'</span>)
