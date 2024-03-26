@@ -1,6 +1,7 @@
 # Tutorials
 
-These are Jupyter lab notebooks --
+These are all rendered versions of the Jupyter lab notebooks available in the [docs/tutorial](
+https://github.com/darikg/curvey/tree/main/docs/tutorial) folder of the main repo.
 
 - [Introduction](introduction.ipynb)
     - Constructing a curve, plotting curves, sequences of curves
