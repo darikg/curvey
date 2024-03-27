@@ -1,75 +1,31 @@
-name: Use JSON output to build job matrix
+name: release
 
 on:
   push:
     branches: [main]
-  pull_request:
   workflow_dispatch:
-
-env:
-  FORCE_COLOR: "1" # Make tools pretty.
+  release:
+    types:
+      - published
 
 jobs:
-  build-package:
-    name: Build & verify package
+  dist:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-        with:
-          repository: darikg/curvey
-          path: curvey
-      - uses: actions/checkout@v4
-        with:
-          path: action
-      - uses: ./action
-        id: baipp
-        with:
-          path: curvey
+      - uses: hynek/build-and-inspect-python-package@v2
 
-    outputs:
-      python-versions: ${{ steps.baipp.outputs.supported_python_classifiers_json_array }}
-      # If your matrix consists only of Python versions, you can use the
-      # following, too:
-      # python-versions: ${{ steps.baipp.outputs.supported_python_classifiers_json_job_matrix_value }}
-
-  test-package:
-    needs: build-package
+  publish:
+    needs: [ dist ]
+    environment: pypi
+    permissions:
+      id-token: write
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # Create matrix from the 'python-versions' output from the build-package
-        # job.
-        python-version: ${{ fromJson(needs.build-package.outputs.python-versions) }}
-
-      # If you set 'python-versions' to
-      # 'supported_python_classifiers_json_job_matrix_value'
-      # above, you would set the matrix like this instead:
-      # matrix: ${{ fromJson(needs.build-package.outputs.python-versions) }}
-
+    if: github.event_name == 'release' && github.event.action == 'published'
     steps:
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Download built packages from the build-package job.
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
           name: Packages
           path: dist
 
-      - name: Prepare tests & config
-        run: |
-          # We use tox together with the fast tox-uv plugin.
-          python -Im pip install tox-uv
-
-          # Unpack SDist for tests & config files.
-          tar xf dist/*.tar.gz --strip-components=1
-
-          # Ensure tests run against wheel.
-          rm -rf src
-
-      # To conserve CI resources, we've commented the next step out to not
-      # actually run the tests. Just remove the 'echo' to run them.
-      - name: Run tox environments for ${{ matrix.python-version }}
-        run: echo python -Im tox run --installpkg dist/*.whl -f py$(echo ${{ matrix.python-version }} | tr -d .)
+      - uses: pypa/gh-action-pypi-publish@release/v1
