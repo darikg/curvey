@@ -1,0 +1,37 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: "v4.5.0"
+    hooks:
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: name-tests-test
+        args: ["--pytest-test-first"]
+      - id: requirements-txt-fixer
+      - id: trailing-whitespace
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: "v0.3.4"
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+      - id: ruff-format
+        # types_or: [ python, pyi, jupyter ]  # Too annoying to tweak tutorial line lengths etc
+
+# This is giving different errors then just mypy from the command line
+#  - repo: https://github.com/pre-commit/mirrors-mypy
+#    rev: "v1.9.0"
+#    hooks:
+#      - id: mypy
+#        args: [
+#          "--ignore-missing-imports",
+#          "--warn-unused-ignores",
+#          "--warn-unreachable",
+#          # "--warn-redundant-casts",
+#        ]
+  - repo: https://github.com/kynan/nbstripout
+    rev: "0.7.1"
+    hooks:
+      - id: nbstripout

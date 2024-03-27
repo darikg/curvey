@@ -1,38 +1,45 @@
+"""Definitions of flow infrastructure and implementations of some common flows"""
+
 from __future__ import annotations
 
-import inspect
+import enum
 import logging
-from abc import ABC, abstractmethod
-from operator import itemgetter
-from typing import Optional, Callable, Dict, Literal, Any, List, TypedDict, Tuple, Protocol
+from abc import abstractmethod
+from copy import copy
+from typing import (
+    Any,
+    Callable,
+    Generic,
+    Literal,
+    TypedDict,
+    TypeVar,
+    cast,
+)
 
+import numpy as np
 import scipy
-from numpy import ndarray, ones, sqrt, newaxis, clip
+from numpy import clip, eye, nan, ndarray, newaxis, ones, sqrt
 from typing_extensions import Self
 
 from .curve import Curve
 from .curves import Curves
+from .util import InterpType
 
 logger = logging.getLogger(__name__)
 
 
-class _SupportsCmp(Protocol):
-    def __lt__(self, other: Self) -> bool: ...
-
-    def __gt__(self, other: Self) -> bool: ...
-
-
 class _BraceMessage:
     """For lazy {} style log formatting"""
-    def __init__(self, msg: Optional[str] = None, *args: Any, **kwargs: Any):
+
+    def __init__(self, msg: str | None = None, *args: Any, **kwargs: Any):
         self.msg = [msg] if msg else []
         self.args = list(args)
         self.kwargs = kwargs
-        self._str: Optional[str] = None
+        self._str: str | None = None
 
     def __str__(self):
         if self._str is None:
-            msg = ''.join(self.msg)
+            msg = "".join(self.msg)
             self._str = msg.format(*self.args, **self.kwargs)
         return self._str
 
@@ -42,39 +49,45 @@ class _BraceMessage:
         self.kwargs.update(kwargs)
 
 
-class AbstractFlow(ABC):
-    """Abstract superclass for curve flow
+TData = TypeVar("TData")
+TData.__doc__ = "Flow-specific solver data type"
 
-    The main method that subclasses implement is `Flow.step`, which steps the curve by the
-    supplied timestep.
+
+class AbstractFlow(Generic[TData]):
+    """Abstract superclass for curve flow
 
     The basic contract is that `Flow` objects don't maintain any state specific
     to the solution of a flow. All state is stored in the curve metadata
-    or in the `Solver.state` dictionary. If state is needed, store it in the `state` object
-    in `Flow._init_state` method, which can be extended by subclasses.
+    or in the `Solver.data` class, which is generic over the `TData` type.
+
+    Two methods for subclasses to implement: `step`, which steps the curve by the
+    supplied timestep, and `solver`, which constructs the auxillary `Solver` object with
+    flow-specific `data: TData`.
+
     """
 
-    class State(TypedDict):
-        """Flow-specific state stored in the `Solver`, supplied to `Flow.step`"""
-        solver: Solver
+    @abstractmethod
+    def solver(self, initial: Curve, **kwargs) -> Solver[TData]:
+        """Construct a `Solver` to solve curve flow over time
 
-    def solver(self, initial: Curve, **kwargs) -> Solver:
-        """Construct a `Solver` to solve curve flow over time"""
-        solver_kwargs, state_kwargs = Solver.split_solver_kwargs(kwargs)
-        solver = Solver(flow=self, initial=initial, **solver_kwargs)
-        self._init_state(initial=initial, state=solver.state, **state_kwargs)
-        return solver
+        **kwargs are all passed to the `Solver` constructor.
+        """
+        ...
 
     @abstractmethod
-    def step(self, curve: Curve, timestep: float, state: State) -> Curve:
+    def step(self, curve: Curve, timestep: float, solver: Solver[TData]) -> Curve:
         """Step the curve by `timestep`"""
         ...
 
-    def _init_state(self, initial: Curve, state: State, **kwargs) -> None:
-        if kwargs:
-            # Subclasses should have stripped off their specific kwargs by now
-            kws = ', '.join(kwargs.keys())
-            raise ValueError(f"Unrecognized keyword arguments {kws}")
+    def poststep(self, curve: Curve, solver: Solver[TData]) -> Curve:  # noqa: ARG002
+        """Called after stepping the curve, but before logging it
+
+        This is called after attaching additional curve metadata requested by curve loggers.
+
+        Subclasses can raise `RetryStep` or `StopEarly` here if necessary, or further process the
+        curve.
+        """
+        return curve
 
 
 class RetryStep(Exception):
@@ -82,18 +95,16 @@ class RetryStep(Exception):
 
     Usually after adjusting the timestep or some other state.
     """
-    pass
 
 
 class StopEarly(Exception):
-    """This can be raise in a custom `Solver.step_fn` to stop the current run
+    """This can be raised in a custom `Solver.step_fn` to stop the current run
 
     Usually after reaching some stopping criterion.
     """
-    pass
 
 
-class Solver:
+class Solver(Generic[TData]):
     """Auxillary class for solving curve `Flow`s
 
     Parameters
@@ -116,6 +127,10 @@ class Solver:
     max_step
         Maximum number of iterations to run.
 
+    stop_on_non_simple
+        A step whose `Curve.is_simple == False` stops the run, discarding the non-simple
+        curve.
+
     verbose
         If true, curve state information and stopping messages are printed to stdout on each
         iteration.
@@ -124,52 +139,49 @@ class Solver:
         If true, the printed log messages as in `verbose` are saved as a list of `str`s in
         `Solver.log`
 
-    state
-        A dict[str, Any] where `Flow`s can store run-specific state. For static typing reasons,
-        `Flow`s maintain an inner `TypedDict` class `Flow.State` representing the data expected
-        to be stored there.
+    data
+        Flow specific data.
 
     step_fn
         A function `Solver -> Curve` that steps the curve forward at each iteration. This just
         defaults to `Solver.step`.
 
     """
+
     def __init__(
-            self,
-            *,
-            flow: AbstractFlow,
-            initial: Curve,
-            timestep: Optional[float] = None,
-            timestep_fn: Optional[Callable[[Solver], float]] = None,
-            history: bool = True,
-            max_step: Optional[int] = None,
-            verbose: bool = False,
-            log: bool = False,
-            state: Optional[Dict[str, Any]] = None,
-            step_fn: Optional[Callable[[Solver], Curve]] = None,
+        self,
+        *,
+        flow: AbstractFlow,
+        initial: Curve,
+        data: TData,
+        timestep: float | None = None,
+        timestep_fn: Callable[[Solver], float] | None = None,
+        history: bool = True,
+        max_step: int | None = None,
+        stop_on_non_simple: bool = False,
+        verbose: bool = False,
+        log: bool = False,
+        step_fn: Callable[[Solver], Curve] | None = None,
     ):
         self.flow = flow
         self.initial = initial
         self.current = initial.with_data(time=0, step=0)
-        self.previous: Optional[Curve] = None
+        self.previous: Curve | None = None
         self.timestep = timestep
         self.timestep_fn = timestep_fn
-        self.history: Optional[Curves] = None
+        self.history: Curves | None = None
         if history:
             # Note that we don't log the first curve until
             # self.run() in case some extra initialization needs to happen somewhere
             self.history = Curves([])
-        self.log_history: Optional[List[str]] = [] if log else None
+        self.log_history: list[str] | None = [] if log else None
         self.max_step = max_step
+        self.stop_on_non_simple = stop_on_non_simple
         self.verbose = verbose
 
-        self._stop_fns: List[Callable[[Solver], bool]] = []
-        self._curve_loggers: Dict[str, Callable[[Curve], Any]] = dict()
-
-        self.state = state or {}
-
-        # Stash self in `state`, which allows `Flow`s to use the log method if necessary
-        self.state['solver'] = self
+        self._stop_fns: list[Callable[[Solver], bool]] = []
+        self._curve_loggers: dict[str, Callable[[Curve], Any]] = {}
+        self.data = data
         self.step_fn = step_fn
 
     def __repr__(self) -> str:
@@ -189,7 +201,7 @@ class Solver:
     def _log(self, bm: _BraceMessage):
         logger.debug(bm)
         if self.verbose:
-            print(bm)
+            pass
         if self.log_history is not None:
             self.log_history.append(str(bm))
 
@@ -197,29 +209,28 @@ class Solver:
         m = _BraceMessage(msg=msg)
 
         for k, v in self.current.data.items():
-            if k != 'step':
-                m.append(', {} = {}', k, v)
+            if k != "step":
+                m.append(", {} = {}", k, v)
 
         self._log(m)
 
     def _log_step(self, c1: Curve):
-        m = _BraceMessage('Step {}', c1['step'])
+        m = _BraceMessage("Step {}", c1["step"])
         c0 = self.current
-        ks = (c0.data.keys() & c1.data.keys()) - {'step'}
+        ks = (c0.data.keys() & c1.data.keys()) - {"step"}
         for k in ks:
-            m.append(', {}: {} => {}', k, c0[k], c1[k])
+            m.append(", {}: {} => {}", k, c0[k], c1[k])
         self._log(m)
 
     def _stop_fn(self) -> bool:
         """Returns True if run should stop"""
-        if self.max_step is not None:
-            if self.current['step'] == self.max_step:
-                self.log('Stopping at max step {}', self.current['step'])
-                return True
+        if self.max_step is not None and self.current["step"] == self.max_step:
+            self.log("Stopping at max step {}", self.current["step"])
+            return True
 
         for fn in self._stop_fns:
             if fn(self):
-                self.log('Stopping due to stop fn {}', fn)
+                self.log("Stopping due to stop fn {}", fn)
                 return True
 
         return False
@@ -251,11 +262,11 @@ class Solver:
         return self
 
     def stop_on_param_limits(
-            self,
-            param: str,
-            min_val=None,
-            max_val=None,
-            param_fn: Optional[Callable[[Curve], _SupportsCmp]] = None,
+        self,
+        param: str,
+        min_val=None,
+        max_val=None,
+        param_fn: Callable[[Curve], Any] | None = None,
     ) -> Self:
         """Add a custom stop function based on a parameter value
 
@@ -282,7 +293,9 @@ class Solver:
 
         """
         if param_fn is None:
-            param_fn = itemgetter(param)
+
+            def param_fn(c: Curve) -> Any:
+                return c[param]
 
         def param_limits_stop_fn(solver: Solver) -> bool:
             val = param_fn(solver.current)
@@ -315,24 +328,29 @@ class Solver:
         if self.history is not None:
             self.history.append(self.current)
 
-        self._log_state('Initial state')
+        self._log_state("Initial state")
         step_fn = self.step_fn or Solver.step
 
         while not self._stop_fn():
             try:
-                next_state = step_fn(self)
+                next_curve = step_fn(self)
+                next_curve = self.flow.poststep(curve=next_curve, solver=self)
             except RetryStep:
                 continue
             except StopEarly:
                 break
 
-            self._log_step(next_state)
-            self.previous = self.current
-            self.current = next_state
-            if self.history is not None:
-                self.history.append(next_state)
+            if self.stop_on_non_simple and not next_curve.is_simple:
+                self.log("Curve is non-simple, stopping")
+                break
 
-        self._log_state('Final state')
+            self._log_step(next_curve)
+            self.previous = self.current
+            self.current = next_curve
+            if self.history is not None:
+                self.history.append(next_curve)
+
+        self._log_state("Final state")
         return self
 
     def step(self) -> Curve:
@@ -343,27 +361,24 @@ class Solver:
         elif self.timestep is not None:
             timestep = self.timestep
         else:
-            raise ValueError("Neither of `timestep` or `timestep_fn` were provided.")
+            msg = "Neither of `timestep` or `timestep_fn` were provided."
+            raise ValueError(msg)
 
         # The `Flow` does the actual work here
         curve = self.flow.step(
             curve=self.current,
             timestep=timestep,
-            state=self.state,
+            solver=self,
         )
 
         return self.attach_metadata(
             curve=curve,
-            time=self.current['time'] + timestep,
+            time=self.current["time"] + timestep,
             timestep=timestep,
         )
 
     def attach_metadata(
-            self,
-            curve: Curve,
-            time: float,
-            step: Optional[int] = None,
-            **kwargs
+        self, curve: Curve, time: float, step: int | None = None, **kwargs
     ) -> Curve:
         """Store requested metadata on the curve
 
@@ -388,37 +403,15 @@ class Solver:
             The curve with metadata attached.
         """
         if step is None:
-            step = self.current['step'] + 1
+            step = self.current["step"] + 1
 
         params = dict(time=time, step=step, **kwargs)
         for k, fn in self._curve_loggers.items():
             params[k] = fn(curve)
         return curve.with_data(**params)
 
-    @classmethod
-    def split_solver_kwargs(cls, kwargs: Dict[str, Any]) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-        """Split `kwargs` into `Solver` constructor kwargs and `Flow` state-specific kwargs
 
-        Parameters
-        ----------
-        kwargs
-            The kwargs dict.
-
-        Returns
-        -------
-        solver_kwargs
-            Kwargs to pass to the `Solver` constructor.
-
-        flow_kwargs
-            Left-over kwargs the `Flow` should process.
-
-        """
-        params = kwargs.keys() & inspect.signature(cls).parameters.keys()
-        solver_kwargs = {k: kwargs.pop(k) for k in params}
-        return solver_kwargs, kwargs
-
-
-class AbstractCurvatureFlow(AbstractFlow):
+class AbstractCurvatureFlow(AbstractFlow[TData], Generic[TData]):
     """Abstract superclass for curvature flows
 
     Parameters
@@ -431,41 +424,40 @@ class AbstractCurvatureFlow(AbstractFlow):
         length or area, preventing the usual curvature flow shrinkage.
     """
 
-    class State(AbstractFlow.State):
-        initial_area: float
-        initial_length: float
-
     def __init__(
-            self,
-            curvature_fn: Optional[Callable[[Curve], ndarray]] = None,
-            rescale: Optional[Literal['length', 'area']] = None,
+        self,
+        curvature_fn: Callable[[Curve], ndarray] | None = None,
+        rescale: Literal["length", "area"] | None = None,
     ):
         super().__init__()
         self.curvature_fn = curvature_fn or self.default_curvature_fn
-        self.preserve = rescale
+        self.rescale = rescale
 
     @abstractmethod
-    def step(self, curve: Curve, timestep: float, state: Dict[str, Any]) -> Curve: ...
+    def step(self, curve: Curve, timestep: float, solver: Solver[TData]) -> Curve: ...
 
-    def _init_state(self, initial: Curve, state: State, **kwargs) -> None:
-        super()._init_state(initial=initial, state=state, **kwargs)
-        state['initial_area'] = initial.area
-        state['initial_length'] = initial.length
+    @abstractmethod
+    def solver(self, initial: Curve, **kwargs) -> Solver[TData]: ...
 
-    def _postprocess(self, curve: Curve, state: Dict[str, Any]) -> Curve:
-        if self.preserve == 'area':
-            curve = curve.scale(sqrt(state['initial_area'] / curve.area))
-        elif self.preserve == 'length':
-            curve = curve.scale(state['initial_length'] / curve.length)
+    def _postprocess(self, curve: Curve, solver: Solver[TData]) -> Curve:
+        if self.rescale == "area":
+            curve = curve.scale(sqrt(solver.initial.area / curve.area))
+        elif self.rescale == "length":
+            curve = curve.scale(solver.initial.length / curve.length)
 
         return curve
 
     @staticmethod
     def default_curvature_fn(curve: Curve) -> ndarray:
-        return curve.exterior_angle_curvatures
+        """Simply return the value of the `Curve.curvature` property"""
+        return curve.curvature
 
 
-class CurveShorteningFlow(AbstractCurvatureFlow):
+class _CsfData(TypedDict):
+    orig_thresh: float
+
+
+class CurveShorteningFlow(AbstractCurvatureFlow[_CsfData]):
     r"""Basic curve shortening flow
 
     At each iteration, vertices coordinates are moved by $\Delta t \kappa_i N_i$, for
@@ -473,41 +465,51 @@ class CurveShorteningFlow(AbstractCurvatureFlow):
 
     Parameters
     ----------
-    resample
-        If true, the curve is resampled at each iteration to maintain the same average edge
-        length as was present in the initial curve.
+    resample_mode
+        Type of interpolation to use when resampling, one of ('linear', 'cubic', 'pchip').
 
     **kwargs
         Remaining kwargs are passed to the `AbstractCurvatureFlow` constructor.
     """
-    class State(AbstractCurvatureFlow.State):
-        orig_thresh: float
 
     def __init__(
-            self,
-            resample: bool = True,
-            **kwargs,
+        self,
+        resample_mode: InterpType | None = "cubic",
+        **kwargs,
     ):
         super().__init__(**kwargs)
-        self.resample = resample
+        self.resample_mode = resample_mode
 
-    def _init_state(self, initial: Curve, state: State, **kwargs) -> None:
-        super()._init_state(initial=initial, state=state, **kwargs)
-        state['orig_thresh'] = initial.edge_length.mean()
+    def solver(self, initial: Curve, **kwargs) -> Solver[_CsfData]:
+        """Construct a `CurveShorteningFlow` `Solver`
 
-    def step(self, curve: Curve, timestep: float, state: State) -> Curve:
-        curve = curve.translate(
-            timestep * self.curvature_fn(curve)[:, newaxis] * curve.normal
-        )
-        curve = super()._postprocess(curve=curve, state=state)
+        **kwargs are all passed to the `Solver` constructor.
+        """
+        data = _CsfData(orig_thresh=initial.edge_length.mean())
+        return Solver(flow=self, initial=initial, data=data, **kwargs)
 
-        if self.resample:
-            curve = curve.resample(thresh=state['orig_thresh'])
+    def step(self, curve: Curve, timestep: float, solver: Solver[_CsfData]) -> Curve:
+        curve = curve.translate(timestep * self.curvature_fn(curve)[:, newaxis] * curve.normal)
+        curve = super()._postprocess(curve=curve, solver=solver)
+
+        if self.resample_mode:
+            curve = curve.interpolate_thresh(
+                thresh=solver.data["orig_thresh"],
+                typ=self.resample_mode,
+            )
 
         return curve
 
 
-class WillmoreFlow(AbstractCurvatureFlow):
+class _Sentinel(enum.Enum):
+    DEFAULT = object()
+
+
+class _WillmoreFlowData(TypedDict):
+    stop_on_energy_increase: bool
+
+
+class WillmoreFlow(AbstractCurvatureFlow[_WillmoreFlowData]):
     r"""Willmore Flow
 
     As explained in [*Robust Fairing via Conformal Curvature Flow.* Keenan Crane, Ulrich Pinkall,
@@ -518,9 +520,8 @@ class WillmoreFlow(AbstractCurvatureFlow):
     ----------
     filter_width
     filter_shape
-        The `σ` and `k` parameters in Crane §4. These filter the curvature flow direction and
-        can be used to prioritize high or low frequency smoothing. See
-        `WillmoreFlow.filter_flow_direction`.
+        The $\theta$ and $k$ parameters in Crane §4. These filter the curvature flow direction and
+        can be used to prioritize high or low frequency smoothing.
 
     constrain
         Whether to apply the closed curve constraints on the curvature flow direction at each
@@ -537,24 +538,20 @@ class WillmoreFlow(AbstractCurvatureFlow):
         an unnecessary computation each iteration if alignment isn't important. See method
         `Curve.with_curvatures` for more details.
 
-    Notes
-    -----
-    Target curvatures can be supplied to `WillmoreFlow.solver` to flow towards desired target
-    curvatures.
+    tgt_curvature
+        Vector of target vertex curvatures to flow towards.
 
     """
 
-    class State(AbstractCurvatureFlow.State):
-        tgt_curvatures: Optional[ndarray]
-
     def __init__(
-            self,
-            constrain: bool = True,
-            filter_width: Optional[float] = None,
-            filter_shape: Optional[int] = None,
-            solve_vertices: bool = True,
-            realign: bool = True,
-            **kwargs
+        self,
+        constrain: bool = True,
+        filter_width: float | None = None,
+        filter_shape: int | None = None,
+        solve_vertices: bool = True,
+        realign: bool = True,
+        tgt_curvature: ndarray | None = None,
+        **kwargs,
     ):
         super().__init__(**kwargs)
         self.constrain = constrain
@@ -562,30 +559,37 @@ class WillmoreFlow(AbstractCurvatureFlow):
         self.filter_shape = filter_shape
         _filter_params_specified = {filter_shape is not None, filter_width is not None}
         if len(_filter_params_specified) != 1:
-            raise ValueError(
+            msg = (
                 "Both `filter_width` and `filter_shape` must be specified to filter curvature flow"
             )
+            raise ValueError(msg)
         self._do_filter: bool = _filter_params_specified.pop()
 
         self.solve_vertices = solve_vertices
         self.realign = realign
+        self.tgt_curvature = tgt_curvature
 
     @staticmethod
     def constrain_flow(curve: Curve, dk: ndarray) -> ndarray:
         """Constrain curvature flow as per Crane §5
 
-        Constraints are 1. end points must meet: f(0) = f(L) and 2. tangents must agree
-        at endpoints: T(0) = T(L).
+        Constraints are
+
+        1. end points must meet: $f(0) = f(L)$
+        2. tangents must agree at endpoints: $T(0) = T(L)$.
 
         Parameters
         ----------
-        curve: Curve
-        dk : ndarray
-            An `n_vertices` length vector indicating the curvature flow.
+        curve
+            The curve to constrain flow for.
+
+        dk
+            A `n_vertices` length vector indicating the curvature flow.
 
         Returns
         -------
-        `dk_constrained` the curvature flow direction after applying the constraints.
+        dk_constrained
+            the curvature flow direction after applying the constraints.
 
         """
         mass = curve.dual_edge_length
@@ -598,31 +602,48 @@ class WillmoreFlow(AbstractCurvatureFlow):
             """Projection of f onto g"""
             return inner_product(f, g) / inner_product(g, g) * g
 
-        # Construct orthogonal constraint basis (Crane §4, the `c_i` terms) via Gram–Schmidt
-        x, y = curve.pts.T
+        # Construct orthogonal constraint basis (Crane §4, the `c_i` terms) via Gram-Schmidt
+        x, y = curve.points.T
         c0 = ones(curve.n)
         c1 = x - proj(x, c0)
         c2 = y - proj(y, c1) - proj(y, c0)
 
         # Subtract flow along the constraint basis
-        dk = dk - proj(dk, c0) - proj(dk, c1) - proj(dk, c2)
-        return dk
+        return dk - proj(dk, c0) - proj(dk, c1) - proj(dk, c2)
 
     def filter_flow_direction(self, curve: Curve, dk: ndarray) -> ndarray:
         """Filter curvature flow gradient"""
         sigma, order = self.filter_width, self.filter_shape
+        if sigma is None:
+            msg = "filter_width is None"
+            raise ValueError(msg)
+        if order is None:
+            msg = "filter_shape is None"
+            raise ValueError(msg)
+
+        n = curve.n
+
         # Square matrix `a` here is the term `id - σ∆^k` in Crane §4
-        a = scipy.sparse.eye(curve.n, curve.n) - sigma * curve.laplacian ** order
-        dk = dk - scipy.sparse.spsolve(a, dk)  # `v ← v - inv(a)v`
-        return dk
+        # `filtered` is inv(a) @ dk
+        if order == 0:
+            # can't be a sparse array
+            a = eye(n, n) - sigma * ones((n, n))
+            filtered = np.linalg.solve(a, dk)
+        else:
+            # lb = curve.laplacian
+            lb = scipy.sparse.diags_array(-1 / curve.dual_edge_length) @ curve.laplacian
+            a = scipy.sparse.eye(n, n) - sigma * (lb**order)
+            filtered = scipy.sparse.linalg.spsolve(a, dk)
+
+        return dk - filtered  # v ← v - inv(a)v
 
     def solver(
-            self,
-            initial: Curve,
-            tgt_curvatures: Optional[ndarray] = None,
-            stop_tol: Optional[float] = None,
-            **kwargs,
-    ) -> Solver:
+        self,
+        initial: Curve,
+        stop_tol: float | None = None,
+        stop_on_energy_increase: bool = False,
+        **kwargs,
+    ) -> Solver[_WillmoreFlowData]:
         """Construct a `Solver` for the flow
 
         Parameters
@@ -630,8 +651,12 @@ class WillmoreFlow(AbstractCurvatureFlow):
         initial
             The initial `Curve`.
 
-        tgt_curvatures
-            A length `n` vector of target curvatures, if desired.
+        stop_tol
+            Optional stopping tolerance. See `WillmoreFlow.stop_on_gradient_tolerance`
+            for more details.
+
+        stop_on_energy_increase
+            Stop the first time energy is increased. The step with increased energy is discarded.
 
         **kwargs
             Remaining kwargs passed to the `Solver` constructor.
@@ -643,32 +668,25 @@ class WillmoreFlow(AbstractCurvatureFlow):
         `tgt_curvatures` is None, it's probably safe to just use a reasonably large timestep < 1,
         but an adaptive timestep seems to be safer for targeted curvature flow.
         """
-        if tgt_curvatures is not None and len(tgt_curvatures) != initial.n:
-            raise ValueError(
-                f"`len(tgt_curvatures)` (got {len(tgt_curvatures)}) must match "
-                f"`initial.n` (got {initial.n})."
-            )
-        solver = super().solver(initial=initial, **kwargs)
-        solver.state['tgt_curvatures'] = tgt_curvatures
 
-        solver.add_curve_loggers(willmore_energy=lambda c: self.energy(c, tgt_curvatures))
+        data = _WillmoreFlowData(stop_on_energy_increase=stop_on_energy_increase)
+        solver = Solver(flow=self, initial=initial, data=data, **kwargs)
+        solver.add_curve_loggers(willmore_energy=self.energy)
 
         if solver.timestep is solver.timestep_fn is None:
             solver.timestep_fn = self.autotimestep_fn()
 
         if stop_tol is not None:
-            solver.add_stop_fn(self.autostop_fn(stop_tol))
+            solver.add_stop_fn(self.stop_on_gradient_tolerance(stop_tol))
 
         return solver
 
-    def step(self, curve: Curve, timestep: float, state: State) -> Curve:
+    def step(self, curve: Curve, timestep: float, solver: Solver[_WillmoreFlowData]) -> Curve:
+        """Step the curve along its Willmore energy gradient"""
         k0 = self.curvature_fn(curve)
 
         # Calculate curvature gradient, i.e. the derivative of E(k) = ||k||^2
-        if (tgt := state.get('tgt_curvatures')) is not None:
-            dk = 2 * (tgt - k0)
-        else:
-            dk = -2 * k0
+        dk = -2 * k0 if self.tgt_curvature is None else -2 * (k0 - self.tgt_curvature)
 
         if self._do_filter:
             dk = self.filter_flow_direction(curve, dk)
@@ -677,15 +695,32 @@ class WillmoreFlow(AbstractCurvatureFlow):
             dk = self.constrain_flow(curve, dk)
 
         k1 = k0 + timestep * dk
-        curve = curve.with_curvatures(
-            curvatures=k1,
+        curve = curve.with_curvature(
+            curvature=k1,
             solve_vertices=self.solve_vertices,
             realign=self.realign,
         )
-        return self._postprocess(curve, state=state)
+        return self._postprocess(curve, solver=solver)
 
-    def energy(self, c: Curve, tgt_curvatures: Optional[ndarray] = None) -> float:
+    def poststep(self, curve: Curve, solver: Solver[_WillmoreFlowData]) -> Curve:
+        if solver.data["stop_on_energy_increase"]:
+            e1 = curve["willmore_energy"]
+            e0 = solver.current["willmore_energy"]
+            if e1 > e0:
+                solver.log("Willmore energy increased {} => {}, stopping", e0, e1)
+                raise StopEarly()
+
+        return curve
+
+    def energy(
+        self,
+        curve: Curve,
+        tgt_curvature: ndarray | _Sentinel | None = _Sentinel.DEFAULT,
+    ) -> float:
         r"""Calculate curve energy
+
+        By default uses `self.tgt_curvature`, but can be overridden with the supplied
+        `tgt_curvature`.
 
         If `tgt_curvature` is None, calculates the Willmore energy
 
@@ -695,24 +730,28 @@ class WillmoreFlow(AbstractCurvatureFlow):
 
         for vertex curvatures $\kappa_i$ and dual edge lengths $l_i$.
 
-        If `tgt_curvatures` is supplied, calculates
+        If `tgt_curvature` is not None, calculates
 
         $$
             E(c) = \sum_i^n ( \kappa_i - \hat \kappa_i)^2 l_i
         $$
 
-        for target curvatures $\hat \kappa_i$.
+        for target vertex curvatures $\hat \kappa_i$.
 
         """
-        if tgt_curvatures is None:
-            return (self.curvature_fn(c) ** 2 * c.dual_edge_length).sum()
-        else:
-            return ((self.curvature_fn(c) - tgt_curvatures) ** 2 * c.dual_edge_length).sum()
+        if tgt_curvature is _Sentinel.DEFAULT:
+            tgt_curvature = self.tgt_curvature
+
+        if tgt_curvature is None:
+            return (self.curvature_fn(curve) ** 2 * curve.dual_edge_length).sum()
+
+        dk = self.curvature_fn(curve) - tgt_curvature
+        return (dk**2 * curve.dual_edge_length).sum()
 
     @staticmethod
     def autotimestep_fn(
-            min_step: Optional[float] = 1e-5,
-            max_step: Optional[float] = 0.9,
+        min_step: float | None = 1e-5,
+        max_step: float | None = 0.9,
     ) -> Callable[[Solver], float]:
         r"""Construct an adaptive timestep function
 
@@ -736,32 +775,45 @@ class WillmoreFlow(AbstractCurvatureFlow):
 
         def timestep_fn(solver: Solver) -> float:
             # NB WillmoreFlow.solver adds an energy logger
-            e = solver.current['willmore_energy']
+            e = solver.current["willmore_energy"]
             if e == 0:
-                # Probably doesn't matter what the stepsize is but avoid division by zero
-                return max_step
-            else:
-                return float(clip(1 / sqrt(e), min_step, max_step))
+                # Doesn't matter what the stepsize is
+                dt = solver.current.data.get("timestep", nan)
+                return cast(float, np.nan_to_num(dt))
+
+            return float(clip(1 / sqrt(e), min_step, max_step))
 
         return timestep_fn
 
     @staticmethod
-    def autostop_fn(tol: float) -> Callable[[Solver], bool]:
+    def stop_on_gradient_tolerance(tol: float) -> Callable[[Solver], bool]:
+        """Construct a `Solver` stopping function for the supplied tolerance"""
+
         def stop_fn(solver: Solver):
             if solver.previous is None:
                 return False
 
-            e1 = solver.current['willmore_energy']
-            e0 = solver.previous['willmore_energy']
-            dt = solver.current['timestep']
+            e1 = solver.current["willmore_energy"]
+            e0 = solver.previous["willmore_energy"]
+            dt = solver.current["timestep"]
             gradient = abs(e1 - e0) / dt
             if gradient < tol:
                 solver.log("Willmore energy gradient {} < tol {}, stopping", gradient, tol)
                 return True
-            else:
-                return False
+
+            return False
 
         return stop_fn
+
+    def with_tgt_curvature(self, tgt_curvature: ndarray) -> WillmoreFlow:
+        """Replace the target curvatures"""
+        out = copy(self)
+        out.tgt_curvature = tgt_curvature
+        return out
+
+
+class _SfmcfData(TypedDict):
+    stiffness: scipy.sparse.sparray
 
 
 class SingularityFreeMeanCurvatureFlow(AbstractCurvatureFlow):
@@ -779,22 +831,30 @@ class SingularityFreeMeanCurvatureFlow(AbstractCurvatureFlow):
     See also the explanation in
 
     [*Mean Curvature Flow and Applications*. Maria Eduarda Duarte and Leonardo Sacht. 2017.](
-    http://sibgrapi.sid.inpe.br/col/sid.inpe.br/sibgrapi/2017/09.04.18.39/doc/Mean%20Curvature%20Flow%20and%20Applications.pdf)
+    https://sibgrapi.sid.inpe.br/col/sid.inpe.br/sibgrapi/2017/09.04.18.39/doc/Mean%20Curvature%20Flow%20and%20Applications.pdf)
+
+    Parameters
+    ----------
+    **kwargs
+        All kwargs passed to `AbstractCurvatureFlow` constructor.
     """
-    class State(AbstractCurvatureFlow.State):
-        stiffness: scipy.sparse.dia_array
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def _init_state(self, initial: Curve, state: State, **kwargs) -> None:
-        super()._init_state(initial=initial, state=state, **kwargs)
-        state['stiffness'] = scipy.sparse.diags(-1 / initial.dual_edge_length) @ initial.laplacian
+    def solver(self, initial: Curve, **kwargs) -> Solver[_SfmcfData]:
+        """Construct a solver for this flow
 
-    def step(self, curve: Curve, timestep: float, state: State) -> Curve:
+        All **kwargs are passed to the `Solver` constructor.
+        """
+        stiffness = scipy.sparse.diags(-1 / initial.dual_edge_length) @ initial.laplacian
+        data = _SfmcfData(stiffness=stiffness)
+        return Solver(flow=self, initial=initial, data=data, **kwargs)
+
+    def step(self, curve: Curve, timestep: float, solver: Solver[_SfmcfData]) -> Curve:
         inv_mass = scipy.sparse.diags(1 / curve.dual_edge_length)  # The $D_t^-1$ matrix
-        stiffness = state['stiffness']  # The stiffness $L_0$
-        pts = scipy.sparse.linalg.spsolve(inv_mass - timestep * stiffness, inv_mass @ curve.pts)
-        curve = Curve(pts)
-        curve = super()._postprocess(curve=curve, state=state)
-        return curve
+        stiffness = solver.data["stiffness"]  # The stiffness $L_0$
+        # noinspection PyTypeChecker
+        pts = scipy.sparse.linalg.spsolve(inv_mass - timestep * stiffness, inv_mass @ curve.points)
+        curve = solver.initial.with_points(pts)
+        return super()._postprocess(curve=curve, solver=solver)

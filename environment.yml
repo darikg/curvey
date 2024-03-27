@@ -1,0 +1,24 @@
+name: curvey
+
+channels:
+  - conda-forge
+
+dependencies:
+  - jupyterlab
+  - matplotlib
+  - mkdocs-material
+  - mkdocstrings
+  - mkdocstrings-python
+  - mkdocs-jupyter
+  - mypy
+  - numpy
+  - pip
+  - pre-commit
+  - pytest
+  - ruff
+  - scipy
+  - shapely
+  - sybil
+  - pip:
+    - triangle
+    - sortedcontainers

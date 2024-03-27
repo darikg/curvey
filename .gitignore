@@ -1,1 +1,6 @@
 /.idea
+**/__pycache__
+/docs/tutorial/.ipynb_checkpoints/**
+
+# The docs
+/site

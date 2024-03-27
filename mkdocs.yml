@@ -1,0 +1,111 @@
+site_name: Curvey
+repo_url: https://github.com/darikg/curvey
+
+nav:
+  - Home: index.md
+  - Tutorials:
+    - tutorial/index.md
+    - Introduction: tutorial/introduction.ipynb
+    - Shape structure dataset: tutorial/shape_structure_dataset.ipynb
+    - Flows: tutorial/flow.ipynb
+    - Blends: tutorial/blend.ipynb
+  - API:
+    - api/index.md
+    - Curve: api/curve.md
+    - Curves: api/curves.md
+    - Flow: api/flow.md
+    - Blend: api/blend.md
+    - Shape structure dataset: api/shape_structure_dataset.md
+    - Util: api/util.md
+  - Bibliography: bibliography.md
+
+# TO tweak notebook widths
+# https://squidfunk.github.io/mkdocs-material/customization/#overriding-template-blocks
+# See https://pypi.org/project/mkdocs-jupyter/
+# Adjusting width https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#content-area-width
+
+theme:
+  name: material
+  features:
+  - content.code.copy
+  - content.tooltips
+  - navigation.footer
+  - navigation.indexes
+  - navigation.sections
+  - navigation.tabs
+  - navigation.tabs.sticky
+  - navigation.top
+  - search.highlight
+  - search.suggest
+  - toc.follow
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: purple
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: lime
+      toggle:
+        icon: material/weather-night
+        name: Switch to system preference
+
+markdown_extensions:
+  - toc:
+      permalink: "¤"
+  - attr_list
+  - def_list
+  - tables
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.arithmatex:
+      generic: true
+
+#extra_javascript:
+#  - javascripts/mathjax.js
+#  - https://polyfill.io/v3/polyfill.min.js?features=es6
+#  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+extra_javascript:
+  - javascripts/katex.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
+
+extra_css:
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
+
+docs_dir: docs
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          options:
+            show_source: true
+            separate_signature: false
+            parameter_headings: true
+            show_root_heading: true
+            show_root_full_path: false
+            inherited_members: true
+            members_order: alphabetical
+            summary: true
+            docstring_style: numpy
+            show_symbol_type_heading: false
+            show_symbol_type_toc: true
+            signature_crossrefs: true
+            show_signature_annotations: true
+  - mkdocs-jupyter:
+      theme: dark
+      execute: true
+      allow_errors: false
+      include_source: true
