@@ -17,15 +17,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          repository: hynek/structlog
-          path: structlog
+          repository: darikg/curvey
+          path: curvey
       - uses: actions/checkout@v4
         with:
           path: action
       - uses: ./action
         id: baipp
         with:
-          path: structlog
+          path: curvey
 
     outputs:
       python-versions: ${{ steps.baipp.outputs.supported_python_classifiers_json_array }}
