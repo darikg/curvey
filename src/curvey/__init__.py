@@ -1,9 +1,3 @@
-"""
-TODO
-    - Pip install, etc
-    - separate environment.yml
-"""
-
 from __future__ import annotations
 
 from .curve import Curve
