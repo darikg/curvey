@@ -55,9 +55,8 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "mypy",
     "precommit",
-    "pytest",
+    "mypy",
     "ruff",
     "sybil",
 ]
@@ -66,6 +65,10 @@ docs = [
     "mkdocs-material",
     "mkdocstrings[python]>=0.18",
     "mkdocs-jupyter",
+]
+test = [
+    "pytest",
+    "sybil",
 ]
 
 [project.urls]
