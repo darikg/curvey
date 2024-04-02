@@ -976,64 +976,6 @@ class Curve:
         cspec = _VariableColorSpec.parse(self.n, color)
         return ax.scatter(self.x, self.y, s=size, c=cspec.varied, **kwargs)
 
-    def triangulate(
-        self,
-        max_tri_area: float | None = None,
-        min_angle: float | None = None,
-        extra_params: str | None = None,
-    ) -> tuple[ndarray, ndarray, ndarray]:
-        """Triangulate the polygon enclosed by the curve with Shewchuck's triangulation library
-
-        The python bindings [triangle](https://rufat.be/triangle/index.html) must be importable.
-        They can be installed with `pip install triangle`.
-
-        Parameters
-        ----------
-        max_tri_area: float, optional
-            A global maximum triangle area constraint.
-
-        min_angle: float, optional
-            Minimum angle constraint, in degrees.
-
-        extra_params: str, optional
-            See the [API documentation](https://rufat.be/triangle/API.html).
-            E.g. `extra_params='S10X' specifies a maximum number of 10 Steiner points and suppresses
-            exact arithmetic.
-
-        Returns
-        -------
-        points :
-            The `(n, 2)` vertex coordinates of the triangulation. If `max_tri_area=None`,
-            this is probably equal to `self.points`
-
-        tris :
-            `(n_tris, 3)` array of integer vertex indices.
-
-        is_border :
-            Length `n` vector of booleans, true for vertices on the border of the triangulation.
-
-        """
-        try:
-            import triangle
-        except ImportError as e:
-            msg = "Cannot import `triangle`. Use `pip install triangle` to install."
-            raise ValueError(msg) from e
-
-        idx = arange(self.n)
-        segments = stack([idx, roll(idx, -1)], axis=1)
-        params = "p"  # Constrained polygon triangulation
-        if max_tri_area is not None:
-            params += f"a{max_tri_area: f}"
-        if min_angle is not None:
-            params += f"q{min_angle: f}"
-        if extra_params is not None:
-            params += extra_params
-
-        d = triangle.triangulate({"vertices": self._pts, "segments": segments}, params)
-        verts, tris, is_border = d["vertices"], d["triangles"], d["vertex_markers"]
-        is_border = is_border.astype(bool).squeeze()
-        return verts, tris, is_border
-
     def transform(self, transform: ndarray) -> Curve:
         """Apply a 2x2 or 3x3 transform matrix to the vertex positions"""
         pts = self._pts
