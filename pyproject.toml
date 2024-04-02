@@ -57,6 +57,7 @@ dev = [
     "precommit",
     "mypy",
     "ruff",
+    "sortedcontainers-stubs",
     "sybil",
 ]
 docs = [

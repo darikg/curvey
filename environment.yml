@@ -22,3 +22,4 @@ dependencies:
   - pip:
     - triangle
     - sortedcontainers
+    - sortedcontainers-stubs
