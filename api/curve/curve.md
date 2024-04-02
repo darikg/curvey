@@ -44,11 +44,12 @@ These are special cases and have length `n + 1`
 
 ## Edge-valued properties
 The following properties have length `n`:
+### ::: curvey.curve.Curve.cum_edge_length
 ### ::: curvey.curve.Curve.edge
 ### ::: curvey.curve.Curve.edge_length
-### ::: curvey.curve.Curve.unit_edge
 ### ::: curvey.curve.Curve.edge_normal
-### ::: curvey.curve.Curve.cum_edge_length
+### ::: curvey.curve.Curve.edges
+### ::: curvey.curve.Curve.unit_edge
 
 ## Transformations
 All transformations return a new `Curve`; nothing modifies a `Curve` inplace.
@@ -99,5 +100,5 @@ These transformations accept an additional target curve.
 ### ::: curvey.curve.Curve.interpolator
 
 ## Library interface
+### ::: curvey.curve.Curve.from_shapely
 ### ::: curvey.curve.Curve.to_shapely
-### ::: curvey.curve.Curve.triangulate
