@@ -204,3 +204,13 @@ def test_optimize_edge_lengths_to(circle, star):
     star = star.optimize_edge_lengths_to(circle)
     err1 = ((star.edge_length - circle.edge_length) ** 2).sum()
     assert err1 < err0
+
+
+def test_split_longest_edges(tri):
+    tri1 = tri.split_longest_edges(1)
+    assert tri1.n == 4
+
+
+def test_split_long_edges(tri):
+    tri1 = tri.split_long_edges(thresh=1.1)
+    assert tri1.n == 4

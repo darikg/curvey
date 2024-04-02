@@ -1148,7 +1148,7 @@ class Curve:
 
     def split_long_edges(self, thresh: float) -> Curve:
         """Split edges evenly so all edge lengths are below `thresh`"""
-        n_split = ceil(self.edge_length / thresh)
+        n_split = ceil(self.edge_length / thresh).astype("int")
         return self.split_edges(n_split)
 
     def split_longest_edges(self, n: int) -> Curve:
@@ -1176,13 +1176,19 @@ class Curve:
         )
 
         # Priority queue -- break length ties by the less split edge
-        queue = sortedcontainers.SortedList(orig_edges, key=lambda e: (e.length, -e.n_subdivide))
+        queue = sortedcontainers.SortedList(
+            orig_edges, key=lambda e: (e.split_length, -e.n_subdivide)
+        )
 
         for _ in range(n):
-            edge = queue.pop()
-            edge.n_subdivide += 1
-            edge.split_length = edge.orig_length / edge.n_subdivide
-            queue.add(edge)
+            e = queue.pop()
+            e = Edge(
+                split_length=e.orig_length / (e.n_subdivide + 1),
+                n_subdivide=e.n_subdivide + 1,
+                idx=e.idx,
+                orig_length=e.orig_length,
+            )
+            queue.add(e)
 
         edges = sorted(queue, key=lambda e: e.idx)
         n_subdivide = array([e.n_subdivide for e in edges])
