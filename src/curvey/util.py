@@ -1,12 +1,10 @@
 from __future__ import annotations
 
-from typing import Any, Callable, Literal, NamedTuple, Union, cast, overload
+from typing import Callable, Literal, overload
 
 import scipy
 from matplotlib import pyplot as plt
-from matplotlib.axes import Axes
-from numpy import arctan2, array, asarray, concatenate, cos, cross, eye, ndarray, sin, stack
-from numpy.typing import ArrayLike
+from numpy import arctan2, array, concatenate, cos, cross, eye, ndarray, sin, stack
 
 
 def angle_to_points(theta: ndarray) -> ndarray:
@@ -210,76 +208,6 @@ def periodic_interpolator(
 
     msg = f"Unrecognized interpolator type {typ}"
     raise ValueError(msg)
-
-
-# A way of typing the extra *args to quiver
-# Might be the empty tuple, or a single element tuple
-_SingleColorOrNothing = Union[tuple[()], tuple[Any]]
-
-
-class _VariableColorSpec(NamedTuple):
-    """Interpret a colorspec that could be either a constant color or an array of scalars
-
-    The reason we return both variables instead of an enum is for convenience with e.g.
-    matplotlibs quiver, which takes two disjoint arguments, `c` (varied) and `color` (fixed)
-
-    """
-
-    fixed: Any = None
-    varied: ArrayLike | None = None
-
-    @property
-    def maybe_varied(self) -> tuple[()] | tuple[ArrayLike]:
-        # Quiver doesn't allow named parameter for the varied color argument,
-        # so we need a little splatting magic
-        if self.varied is None:
-            return ()
-
-        return (self.varied,)
-
-    @staticmethod
-    def parse(
-        n_data: int | None,
-        supplied: Any,
-        default_varied=None,
-        default_fixed=None,
-    ) -> _VariableColorSpec:
-        if supplied is None:
-            return _VariableColorSpec(fixed=default_fixed, varied=default_varied)
-
-        if isinstance(supplied, str):  # e.g. color='black'
-            return _VariableColorSpec(fixed=supplied, varied=None)
-
-        try:
-            supplied_len = len(supplied)
-        except TypeError as e:
-            msg = "Expected `color` to have a length"
-            raise NotImplementedError(msg) from e
-
-        if n_data == supplied_len == 3:
-            # This is ambiguous and hopefully rare
-            # Could raise a warning or something but whatever
-            return _VariableColorSpec(fixed=None, varied=asarray(supplied))
-
-        if n_data == supplied_len:
-            return _VariableColorSpec(fixed=None, varied=asarray(supplied))
-
-        msg = f"Expected color to be of length {n_data}, got {supplied_len}"
-        raise ValueError(msg)
-
-
-def _get_ax(ax: Axes | None) -> Axes:
-    if ax:
-        return ax
-
-    if len(plt.get_fignums()) == 0:
-        # making a new axes so don't feel bad about setting some defaults
-        _fig, ax = plt.subplots()
-        ax = cast(Axes, ax)
-        ax.axis("equal")
-        return ax
-
-    return plt.gca()
 
 
 def _rescale(v, vout: tuple[float, float] | None = None) -> ndarray | None:

@@ -24,7 +24,7 @@ from numpy import arange, array, asanyarray, asarray, ceil, nan, ndarray, sqrt
 from numpy.typing import ArrayLike
 
 from .curve import Curve
-from .util import _get_ax
+from .plot import _get_ax
 
 NamedMetadata = Union[tuple[str, Sequence], tuple[str, Callable[[Curve], Any]]]
 BareMetadata = Union["str", Sequence, Callable[[Curve], Any]]

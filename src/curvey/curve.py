@@ -14,7 +14,6 @@ import numpy as np
 import scipy
 import shapely
 import sortedcontainers
-from matplotlib import pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection, PathCollection
 from matplotlib.lines import Line2D
@@ -52,11 +51,10 @@ from numpy.linalg import norm
 from numpy.typing import ArrayLike
 from typing_extensions import Self
 
+from .plot import _get_ax, _VariableColorSpec, quiver, segments
 from .util import (
     InterpType,
-    _get_ax,
     _rescale,
-    _VariableColorSpec,
     align_edges,
     angle_to_points,
     periodic_interpolator,
@@ -868,11 +866,6 @@ class Curve:
         : matplotlib.collections.LineCollection
             If `directed` is False.
         """
-        ax = _get_ax(ax)
-        width = _rescale(width, scale_width)
-        colorspec = _VariableColorSpec.parse(
-            n_data=self.n, supplied=color, default_varied=self.arclength
-        )
 
         if directed:
             if isinstance(width, (collections.abc.Sequence, ndarray)):
@@ -883,43 +876,23 @@ class Curve:
                 )
                 raise ValueError(msg)
 
-            x, y = self._pts.T
-            dx, dy = self.edge.T
-            return ax.quiver(
-                x,
-                y,
-                dx,
-                dy,
-                *colorspec.maybe_varied,
-                color=colorspec.fixed,
-                angles="xy",
-                scale_units="xy",
-                scale=1.0,
-                width=width,
+            return quiver(
+                points=self._pts,
+                vectors=self.edge,
+                color=color,
+                ax=ax,
                 **kwargs,
             )
 
-        # not directed
-        pts = self.closed_points.reshape((-1, 1, 2))
-        segments = concatenate([pts[:-1], pts[1:]], axis=1)
-
-        if colorspec.varied is not None:
-            lc = LineCollection(
-                segments=segments,
-                cmap="viridis",
-                norm=plt.Normalize(),
-                linewidths=width,
-                **kwargs,
-            )
-            lc.set_array(colorspec.varied)
-        else:
-            lc = LineCollection(segments=segments, color=colorspec.fixed, linewidths=width)
-        ax.add_collection(lc)
-
-        # Adding a line collection doesn't update limits so do it here
-        ax.update_datalim(self._pts)
-        ax.autoscale_view()
-        return lc
+        return segments(
+            points=self._pts,
+            edges=self.edges,
+            color=color,
+            width=width,
+            scale_width=scale_width,
+            ax=ax,
+            **kwargs,
+        )
 
     def plot_vectors(
         self,
@@ -955,35 +928,13 @@ class Curve:
         **kwargs
             additional kwargs passed to `matplotlib.pyplot.quiver`
         """
-        ax = _get_ax(ax)
-
-        _vectors = self.normal if vectors is None else vectors
-
-        if scale is not None:
-            _vectors = scale.reshape(-1, 1) * _vectors
-
-        if scale_length is not None:
-            length = norm(_vectors, axis=1, keepdims=True)
-            scaled_length = _rescale(length, scale_length)
-            _vectors = _vectors / length * scaled_length
-
-        colorspec = _VariableColorSpec.parse(self.n, color, default_fixed="black")
-
-        # By default quiver doesn't include vector endpoints in x/y lim calculations
-        ax.update_datalim(self._pts + _vectors)
-
-        x, y = self._pts.T
-        dx, dy = _vectors.T
-        return ax.quiver(
-            x,
-            y,
-            dx,
-            dy,
-            *colorspec.maybe_varied,
-            color=colorspec.fixed,
-            angles="xy",
-            scale_units="xy",
-            scale=1.0,
+        return quiver(
+            points=self._pts,
+            vectors=self.normal if vectors is None else vectors,
+            scale=scale,
+            color=color,
+            scale_length=scale_length,
+            ax=ax,
             **kwargs,
         )
 
@@ -1018,13 +969,11 @@ class Curve:
 
         """
         ax = _get_ax(ax)
-
         if color is None:
             color = self.dual_edge_length
-
         size = _rescale(size, scale_sz)
-
-        return ax.scatter(self.x, self.y, s=size, c=color, **kwargs)
+        cspec = _VariableColorSpec.parse(self.n, color)
+        return ax.scatter(self.x, self.y, s=size, c=cspec.varied, **kwargs)
 
     def triangulate(
         self,
