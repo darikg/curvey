@@ -214,3 +214,13 @@ def test_split_longest_edges(tri):
 def test_split_long_edges(tri):
     tri1 = tri.split_long_edges(thresh=1.1)
     assert tri1.n == 4
+
+
+def test_shapely_roundtrip(tri):
+    ring = tri.to_shapely("ring")
+    tri1 = Curve.from_shapely(ring)
+    assert_array_equal(tri.points, tri1.points)
+    tri_rev = tri.reverse()
+    ring_rev = tri_rev.to_shapely("ring")
+    tri1_rev = Curve.from_shapely(ring_rev)
+    assert_array_equal(tri_rev.points, tri1_rev.points)

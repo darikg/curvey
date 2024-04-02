@@ -100,5 +100,6 @@ These transformations accept an additional target curve.
 ### ::: curvey.curve.Curve.interpolator
 
 ## Library interface
+### ::: curvey.curve.Curve.from_shapely
 ### ::: curvey.curve.Curve.to_shapely
 ### ::: curvey.curve.Curve.triangulate

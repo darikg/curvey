@@ -24,6 +24,7 @@ from numpy import (
     arctan2,
     argmin,
     array,
+    array_equal,
     asanyarray,
     asarray,
     ceil,
@@ -1264,6 +1265,16 @@ class Curve:
             ],
             offsets=(-(n - 1), -1, 0, 1, n - 1),
         ).tocsc()
+
+    @classmethod
+    def from_shapely(cls, ring: shapely.LinearRing) -> Self:
+        """Convert a `shapely.LinearRing` to a `curvey.Curve`"""
+        pts = array(ring.coords)
+        if array_equal(pts[0], pts[-1]):
+            # Shapely likes to explicitly close points
+            pts = pts[:-1]
+
+        return cls(pts)
 
     @classmethod
     def from_curvature(
