@@ -126,6 +126,15 @@ class Curve:
         pts.flags["WRITEABLE"] = False
         return pts
 
+    @property
+    def edges(self) -> ndarray:
+        """A `(n, 2)` array of vertex indices
+
+        The integer valued vertex connectivity array `[(0, 1), (1, 2), ..., (n-2, n-1), (n-1, 0)]`.
+        """
+        idx = arange(self.n)
+        return stack([idx, roll(idx, -1)], axis=1)
+
     def __getitem__(self, item: str) -> Any:
         """Get curve metadata value by key name
 
