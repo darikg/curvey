@@ -1139,14 +1139,14 @@ class Curve:
             for i, edge_length in enumerate(self.edge_length)
         }
 
-        # Priority queue by edge length
+        # Priority queue by edge length (shortest last)
         queue = sortedcontainers.SortedSet(verts.values(), key=lambda v: -v.edge_length)
 
         for n_removed in itertools.count(1):
             shortest = queue.pop(-1)
             del verts[shortest.idx]
 
-            if (n_removed == n) or (queue[-1] >= min_edge_length):
+            if (n_removed == n) or (queue[-1].edge_length >= min_edge_length):
                 break
 
             # Remove previous and next vertices so we can update them

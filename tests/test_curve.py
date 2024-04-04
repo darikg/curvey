@@ -138,9 +138,9 @@ def test_subdivide(tri: Curve):
     assert tri2.n == tri.n * 2
 
 
-@pytest.mark.parametrize("kwargs", [{"n": 1}, {"min_edge_length": 0.1}])
+@pytest.mark.parametrize("kwargs", [{"n": 2}, {"min_edge_length": 0.1}])
 def test_collapse_shortest_edges(kwargs):
-    c = Curve([[0, 0], [0.98, 0], [1, 0], [1, 1]]).collapse_shortest_edges(**kwargs)
+    c = Curve([[0, 0], [0.97, 0], [0.98, 0], [1, 0], [1, 1]]).collapse_shortest_edges(**kwargs)
     assert_array_equal(c.points, [[0, 0], [1, 0], [1, 1]])
 
 
