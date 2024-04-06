@@ -587,7 +587,7 @@ class Curve:
         Parameters
         ----------
         orientation
-            Must be either 1 or -1.
+            Must be either `+1` or `-1`. `+1' is counterclockwise.
         """
         if orientation not in (1, -1):
             msg = f"orientation must be either 1 or -1, got {orientation}"
