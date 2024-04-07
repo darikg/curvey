@@ -183,7 +183,7 @@ class ApproxMedialAxisBuilder:
             if len(sampled) == 0:
                 msg = "Failed to find medial axis. The abs_thresh or dist_thresh may be too large."
                 raise FailedToFindMedialAxis(msg)
-            
+
             if ma_pts := self.medial_axis_points(sampled):
                 # Found a point on the medial axis
                 return ma_pts.biggest_disk()
