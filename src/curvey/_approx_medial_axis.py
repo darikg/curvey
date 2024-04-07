@@ -139,6 +139,10 @@ class VisitedDisks:
         return pts[~self.has_visited(pts)]
 
 
+class FailedToFindMedialAxis(Exception):
+    pass
+
+
 class ApproxMedialAxisBuilder:
     def __init__(
         self,
@@ -176,6 +180,10 @@ class ApproxMedialAxisBuilder:
 
         while True:
             sampled = self.sample_disk_boundary(disk)
+            if len(sampled) == 0:
+                msg = "Failed to find medial axis. The abs_thresh or dist_thresh may be too large."
+                raise FailedToFindMedialAxis(msg)
+            
             if ma_pts := self.medial_axis_points(sampled):
                 # Found a point on the medial axis
                 return ma_pts.biggest_disk()
@@ -247,6 +255,9 @@ class ApproxMedialAxisBuilder:
         return self.distance_to_boundary(ma_pts)
 
     def sample_disk_boundary(self, disk: Disk) -> SampledPoints:
+        if disk.r < self.abs_err:
+            return SampledPoints.empty()
+
         n = int(ceil(pi / arcsin(self.abs_err / disk.r)))
         n = max(n, 4)
         theta = linspace(0, 2 * pi, n, endpoint=False)
