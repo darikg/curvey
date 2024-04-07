@@ -241,6 +241,9 @@ class ApproxMedialAxisBuilder:
             dist2 = scipy.spatial.distance.cdist(ma_pts, queue_points, metric="sqeuclidean")
             ma_pts = ma_pts[~(dist2 < self.min_edge_length**2).any(axis=1)]
 
+        if len(ma_pts) == 0:
+            return SampledPoints.empty()
+
         return self.distance_to_boundary(ma_pts)
 
     def sample_disk_boundary(self, disk: Disk) -> SampledPoints:
@@ -298,7 +301,7 @@ class ApproxMedialAxisBuilder:
         out = Edges(
             points=stack([v.disk.pt for v in self.verts], axis=0),
             edges=stack(self.edges, axis=0) if self.edges else zeros((0, 2), dtype="int"),
-            point_data={"edges": array([v.disk.r for v in self.verts])},
+            point_data={"distance": array([v.disk.r for v in self.verts])},
         )
 
         if close_loops and len(out.edges):
