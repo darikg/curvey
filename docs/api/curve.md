@@ -98,8 +98,10 @@ These transformations accept an additional target curve.
 ### ::: curvey.curve.Curve.deriv
 ### ::: curvey.curve.Curve.edge_intersections
 ### ::: curvey.curve.Curve.interpolator
+### ::: curvey.curve.Curve.to_edges
 
-## Library interface
+## Type conversion
 ### ::: curvey.curve.Curve.from_shapely
+### ::: curvey.curve.Curve.to_edges
 ### ::: curvey.curve.Curve.to_matplotlib
 ### ::: curvey.curve.Curve.to_shapely

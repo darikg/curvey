@@ -53,6 +53,7 @@ from numpy.linalg import norm
 from typing_extensions import Self
 
 from ._typing import PointsLike
+from .edges import Edges
 from .plot import _get_ax, _VariableColorSpec, quiver, segments
 from .util import (
     InterpType,
@@ -1218,6 +1219,10 @@ class Curve:
             pts = pts[:-1]
 
         return cls(pts)
+
+    def to_edges(self) -> Edges:
+        """Representation of the curve as an 'edge soup' in `curvey.edge.Edges` format"""
+        return Edges(points=self.points, edges=self.edges)
 
     @classmethod
     def from_curvature(

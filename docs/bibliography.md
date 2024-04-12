@@ -18,3 +18,6 @@ https://www.cs.cmu.edu/~kmcrane/Projects/ConformalWillmoreFlow/paper.pdf)
 
   - [*Rapid blending of closed curves based on curvature flow.* Masahiro Hirano, Yoshihiro Watanabe, and
 Masatoshi Ishikawa. 2017.](https://www.sciencedirect.com/science/article/pii/S016783961730016X)
+
+  - [Triangle: Engineering a 2D Quality Mesh Generator and Delaunay Triangulator.* Jonathan Richard Shewchuk. 1996.](
+https://people.eecs.berkeley.edu/~jrs/papers/triangle.pdf)

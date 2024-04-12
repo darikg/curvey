@@ -49,6 +49,7 @@ dependencies = [
     "scipy",
     "shapely",
     "sortedcontainers",
+    "triangle",
     "typing_extensions",
 ]
 
