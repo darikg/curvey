@@ -101,4 +101,5 @@ These transformations accept an additional target curve.
 
 ## Library interface
 ### ::: curvey.curve.Curve.from_shapely
+### ::: curvey.curve.Curve.to_matplotlib
 ### ::: curvey.curve.Curve.to_shapely

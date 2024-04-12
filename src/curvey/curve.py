@@ -10,6 +10,7 @@ from functools import cached_property
 from types import MappingProxyType
 from typing import Any, Callable, Literal, NamedTuple, cast, overload
 
+import matplotlib.path
 import numpy as np
 import scipy
 import shapely
@@ -1645,6 +1646,16 @@ class Curve:
             warnings.warn(msg, OptimizationFailed, stacklevel=2)
 
         return self.with_points(_resample(opt.x)._pts)
+
+    def to_matplotlib(self) -> matplotlib.path.Path:
+        """Convert to a `matplotlib.path.Path` object"""
+        from matplotlib.path import Path
+
+        pts = self.closed_points
+        codes = np.full(self.n + 1, Path.LINETO)
+        codes[0] = Path.MOVETO
+        codes[-1] = Path.CLOSEPOLY
+        return Path(pts, codes)
 
 
 class NotEnoughPoints(Exception):
