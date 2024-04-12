@@ -49,9 +49,9 @@ from numpy import (
     zeros,
 )
 from numpy.linalg import norm
-from numpy.typing import ArrayLike
 from typing_extensions import Self
 
+from ._typing import PointsLike
 from .plot import _get_ax, _VariableColorSpec, quiver, segments
 from .util import (
     InterpType,
@@ -78,7 +78,7 @@ class Curve:
 
     def __init__(
         self,
-        pts: ndarray | Sequence[Sequence[float] | tuple[float, float]] | ArrayLike,
+        pts: PointsLike,
         _data: dict[str, Any] | None = None,
         **kwargs,
     ):
