@@ -29,9 +29,11 @@ from pathlib import Path
 from typing import TypedDict
 from zipfile import ZipFile
 
-from numpy import array, ndarray
+from numpy import array
 
 from .curve import Curve
+from .polygon import Polygon
+from .triangulation import Triangulation
 
 
 class _JsonPoint(TypedDict):
@@ -72,55 +74,43 @@ class ShapeStructureDataset:
 
     def __init__(self, dataset: str | Path):
         self.dataset = ZipFile(Path(dataset).expanduser())
-        self.cache: dict[str, ndarray] = {}
+        self.cache: dict[str, Triangulation] = {}
 
-    def _load_json(self, name: str, idx: int | None = True) -> _JsonShape:
+    def _load_json(self, name: str, idx: int | None = None) -> _JsonShape:
         name = self._canonical_name(name, idx)
         shape_bytes = self.dataset.read(f"Shapes/{name}.json")
         return json.loads(shape_bytes)
 
-    def load_shape(
+    def load_triangulation(
         self,
         name: str,
         idx: int | None = None,
-        load_triangles: bool = True,
-    ) -> tuple[ndarray, ndarray | None]:
-        """A `(n_verts, 2)` array of points and a `(n_faces, 3)` array of triangles"""
-        data = self._load_json(name, idx)
-        pts = array([[d["x"], d["y"]] for d in data["points"]])
-        if load_triangles:
-            tris = array([[d["p1"], d["p2"], d["p3"]] for d in data["triangles"]])
-        else:
-            tris = None
-        return pts, tris
-
-    def load_points(self, name: str, idx: int | None = None) -> ndarray:
-        """Load the points from the specified dataset
-
-        Note
-        ----
-        Some shapes in the dataset include repeated points. This method returns point-sets
-        as-is, without any further processing.
-
-        The dataset also includes triangulations. Use method `load_shape` to load those as well.
-        """
+    ) -> Triangulation:
+        """The triangulated shape"""
         name = self._canonical_name(name, idx)
         if name in self.cache:
             return self.cache[name]
-        pts, _ = self.load_shape(name, load_triangles=False)
-        self.cache[name] = pts
-        return pts
+
+        data = self._load_json(name)
+        pts = array([[d["x"], d["y"]] for d in data["points"]])
+        faces = array([[d["p1"], d["p2"], d["p3"]] for d in data["triangles"]])
+        tris = self.cache[name] = Triangulation(pts, faces)
+        return tris
+
+    def load_polygon(self, name: str, idx: int | None = None) -> Polygon:
+        tris = self.load_triangulation(name, idx)
+        loops = list(tris.boundary_loops())
+        return Polygon(loops[0], loops[1:])
 
     def load_curve(self, name: str, idx: int | None = None) -> Curve:
         """Construct a `Curve` from the named shape in the dataset
 
         Can load curves by explicit name, e.g. `dataset.load_curve('Bone-13')`,
         or a class name and an index, e.g. `dataset.load_curve('Bone', 1)`.
-        Names are case-insensitive. Curves have `drop_repeated_points` applied automatically.
+        Names are case-insensitive.
         """
-        name = self._canonical_name(name, idx)
-        pts = self.load_points(name).copy()
-        return Curve(pts).drop_repeated_points().with_data(ssd_name=name)
+        poly = self.load_polygon(name, idx)
+        return poly.exterior
 
     def _canonical_name(self, name: str, idx: int | None = None) -> str:
         if idx is None:

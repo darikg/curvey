@@ -45,6 +45,7 @@ classifiers = [
 
 dependencies = [
     "matplotlib",
+    "networkx",
     "numpy",
     "scipy",
     "shapely",

@@ -11,6 +11,8 @@ _DATASET_FILE = Path("~/Downloads/ShapesJSON.zip").expanduser()
 _DATASET_MISSING = not _DATASET_FILE.exists()
 _DATASET_MISSING_REASON = "Dataset file could not be found"
 
+requires_ssd = pytest.mark.skipif(_DATASET_MISSING, reason=_DATASET_MISSING_REASON)
+
 
 def test_missing_zip_file_raises():
     with pytest.raises(FileNotFoundError):
@@ -22,7 +24,10 @@ def dataset():
     return ShapeStructureDataset(_DATASET_FILE)
 
 
-@pytest.mark.skipif(_DATASET_MISSING, reason=_DATASET_MISSING_REASON)
+@requires_ssd
 def test_load_curve(dataset):
     curve = dataset.load_curve("elephant-1")
+    assert isinstance(curve, Curve)
+
+    curve = dataset.load_curve("elephant", 0)
     assert isinstance(curve, Curve)
