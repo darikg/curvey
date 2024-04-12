@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+from collections.abc import Iterable
 from typing import Any, NamedTuple, cast
 
 from matplotlib import pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.collections import LineCollection
 from matplotlib.quiver import Quiver
+from matplotlib.text import Text
 from numpy import asarray, ndarray, newaxis
 from numpy.linalg import norm
 from numpy.typing import ArrayLike
@@ -164,7 +166,7 @@ def quiver(
 def segments(
     points: ndarray,
     edges: ndarray,
-    directed: bool = False,
+    directed: bool = True,
     color=None,
     width: float | ndarray | None = None,
     scale_width: tuple[float, float] | None = None,
@@ -182,7 +184,7 @@ def segments(
         `(n, 2)` integer array of indices into `points` defining the start and end of each segment.
 
     directed
-        If true, plot as a quiver plot.
+        If true, plot as a quiver plot, otherwise a line plot.
 
     color
         The color to plot each edge. Can be a constant color or vector of length `n` specifying
@@ -233,3 +235,46 @@ def segments(
     ax.update_datalim(points)
     ax.autoscale_view()
     return lc
+
+
+def text(
+    points: ndarray,
+    labels: Iterable[str] | None = None,
+    clip: bool = True,
+    ax: Axes | None = None,
+    **kwargs,
+) -> list[Text]:
+    """Draw text at the points
+
+    Parameters
+    ----------
+    points
+        `(n, 2)` array of points.
+
+    labels
+        `(n,)` sequence of string labels. If not supplied, defaults to the indices
+        `0, 1, ..., n-1`.
+
+    clip
+        By default matplotlib doesn't restrict clip labels by axes limits -- it's the default here.
+
+    ax
+        Matplotlib axes to draw in. Defaults to current axes.
+
+    **kwargs
+        Remaining kwargs passed to `matplotlib.pyplot.text`.
+
+    """
+    ax = _get_ax(ax)
+    txts: list[Text] = []
+
+    if labels is None:
+        labels = (str(i) for i in range(len(points)))
+
+    for (x, y), label in zip(points, labels):
+        txt = ax.text(x, y, label, **kwargs)
+        txts.append(txt)
+        if clip:
+            txt.set_clip_on(True)
+
+    return txts
