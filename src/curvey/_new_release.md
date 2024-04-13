@@ -1,0 +1,7 @@
+- `pre-commit run --all-files`
+- `mypy`
+- pytest
+- grep for `todo`
+- nbstripout
+- bump version in pyproject.toml
+- release on github
