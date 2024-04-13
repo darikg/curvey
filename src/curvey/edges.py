@@ -373,7 +373,10 @@ class Edges:
 
         constraints = {"vertices": points, "segments": self.edges}
         if holes is not None:
-            constraints["holes"] = holes
+            holes = np.asarray(holes)
+            # triangle doesn't like empty arrays
+            if len(holes):
+                constraints["holes"] = holes
 
         d = triangle.triangulate(constraints, params)
         is_boundary = d["vertex_markers"].astype(bool).squeeze()

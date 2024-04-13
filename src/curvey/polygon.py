@@ -11,7 +11,7 @@ import shapely
 from matplotlib.axes import Axes
 from matplotlib.patches import PathPatch
 from matplotlib.path import Path
-from numpy import argmax, array, ndarray, pi, stack
+from numpy import argmax, array, ndarray, pi, stack, zeros
 from typing_extensions import Self
 
 from .approx_medial_axis import ApproxMedialAxisBuilder
@@ -215,7 +215,10 @@ class Polygon:
 
         This is probably only useful for triangulation.
         """
-        return stack(list(self._iter_hole_points()), axis=0)
+        if pts := list(self._iter_hole_points()):
+            return stack(pts, axis=0)
+
+        return zeros((0, 2))
 
     @cached_property
     def boundary(self) -> Edges:
