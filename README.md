@@ -31,3 +31,11 @@ https://www.cs.cmu.edu/~kmcrane/Projects/ConformalWillmoreFlow/paper.pdf).
 
 Implementations of linear shape blending and [curvature flow shape blending](
 https://www.sciencedirect.com/science/article/pii/S016783961730016X).
+
+
+### Approximate medial axis
+
+<img src="https://raw.githubusercontent.com/darikg/curvey/main/static/ama.png" alt="approximate medial axis" width="150"/>
+
+Implementation of the [approximate medial axis](
+https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=cfc187181ce85d983843c4a184651dbd2a07e7e5).
