@@ -1,0 +1,3 @@
+# curvey.triangulation
+
+## ::: curvey.triangulation

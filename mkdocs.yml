@@ -6,6 +6,7 @@ nav:
   - Tutorials:
     - tutorial/index.md
     - Introduction: tutorial/introduction.ipynb
+    - Polygons, triangulations, and the medial axis: tutorial/polygon.ipynb
     - Shape structure dataset: tutorial/shape_structure_dataset.ipynb
     - Flows: tutorial/flow.ipynb
     - Blends: tutorial/blend.ipynb
