@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import collections.abc
 import itertools
 import warnings
 from collections.abc import Sequence
@@ -870,22 +869,8 @@ class Curve:
             If `directed` is False.
         """
 
-        if directed:
-            if isinstance(width, (collections.abc.Sequence, ndarray)):
-                msg = (
-                    "`width` was supplied as a sequence but "
-                    "matplotlib.pyplot.Quiver doesn't support scaling individual arrows. "
-                    "Use directed=False to scale edge width."
-                )
-                raise ValueError(msg)
-
-            return quiver(
-                points=self._pts,
-                vectors=self.edge,
-                color=color,
-                ax=ax,
-                **kwargs,
-            )
+        if color is None:
+            color = self.cum_edge_length
 
         return segments(
             points=self._pts,
@@ -893,6 +878,7 @@ class Curve:
             color=color,
             width=width,
             scale_width=scale_width,
+            directed=directed,
             ax=ax,
             **kwargs,
         )

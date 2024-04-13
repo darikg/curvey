@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import collections
 from collections.abc import Iterable
 from typing import Any, NamedTuple, cast
 
@@ -205,6 +206,14 @@ def segments(
     ax = _get_ax(ax)
 
     if directed:
+        if isinstance(width, (collections.abc.Sequence, ndarray)):
+            msg = (
+                "`width` was supplied as a sequence but "
+                "matplotlib.pyplot.Quiver doesn't support scaling individual arrows widths. "
+                "Use directed=False to scale edge width."
+            )
+            raise ValueError(msg)
+
         return quiver(
             points=points[edges[:, 0]],
             vectors=points[edges[:, 1]] - points[edges[:, 0]],
