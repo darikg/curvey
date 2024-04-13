@@ -12,11 +12,14 @@ nav:
     - Blends: tutorial/blend.ipynb
   - API:
     - api/index.md
+    - Blend: api/blend.md
     - Curve: api/curve.md
     - Curves: api/curves.md
+    - Edges: api/edges.md
     - Flow: api/flow.md
-    - Blend: api/blend.md
+    - Polygon: api/polygon.md
     - Shape structure dataset: api/shape_structure_dataset.md
+    - Triangulation: api/triangulation.md
     - Util: api/util.md
   - Bibliography: bibliography.md
 

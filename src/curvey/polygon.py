@@ -37,7 +37,6 @@ class Polygon:
         The exterior boundary `Curve`.
 
     interiors
-    ---------
         A (possibly) empty sequence of `Curve`s bounding holes in the polygon.
 
     """
@@ -342,6 +341,7 @@ class Polygon:
         return b.finalize(close_loops=close_loops)
 
     def to_matplotlib(self) -> Path:
+        """Convert a `Polygon` to a `matplotlib.path.Path`"""
         from matplotlib.path import Path
 
         paths = [c.to_matplotlib() for c in self.boundaries()]
@@ -350,6 +350,7 @@ class Polygon:
         return Path(vertices, codes)
 
     def plot_polygon(self, ax: Axes | None = None) -> PathPatch:
+        """Plot a filled polygon"""
         ax = _get_ax(ax)
         patch = PathPatch(self.to_matplotlib())
         ax.add_patch(patch)
