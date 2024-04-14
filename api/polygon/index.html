@@ -1749,7 +1749,10 @@ but this is not enforced.</p>
 <span class="normal"><a href="#__codelineno-0-356">356</a></span>
 <span class="normal"><a href="#__codelineno-0-357">357</a></span>
 <span class="normal"><a href="#__codelineno-0-358">358</a></span>
-<span class="normal"><a href="#__codelineno-0-359">359</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="k">class</span> <span class="nc">Polygon</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-359">359</a></span>
+<span class="normal"><a href="#__codelineno-0-360">360</a></span>
+<span class="normal"><a href="#__codelineno-0-361">361</a></span>
+<span class="normal"><a href="#__codelineno-0-362">362</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="k">class</span> <span class="nc">Polygon</span><span class="p">:</span>
 <a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;A polygon defined by its boundary curves</span>
 <a id="__codelineno-0-30" name="__codelineno-0-30"></a>
 <a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">    It&#39;s assumed that the interior curves have opposite orientation to the exterior,</span>
@@ -1939,148 +1942,151 @@ but this is not enforced.</p>
 <a id="__codelineno-0-215" name="__codelineno-0-215"></a>
 <a id="__codelineno-0-216" name="__codelineno-0-216"></a><span class="sd">        This is probably only useful for triangulation.</span>
 <a id="__codelineno-0-217" name="__codelineno-0-217"></a><span class="sd">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-218" name="__codelineno-0-218"></a>        <span class="k">return</span> <span class="n">stack</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_iter_hole_points</span><span class="p">()),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<a id="__codelineno-0-219" name="__codelineno-0-219"></a>
-<a id="__codelineno-0-220" name="__codelineno-0-220"></a>    <span class="nd">@cached_property</span>
-<a id="__codelineno-0-221" name="__codelineno-0-221"></a>    <span class="k">def</span> <span class="nf">boundary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Edges</span><span class="p">:</span>
-<a id="__codelineno-0-222" name="__codelineno-0-222"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Boundary edges as an edge soup&quot;&quot;&quot;</span>
-<a id="__codelineno-0-223" name="__codelineno-0-223"></a>        <span class="k">return</span> <span class="n">Edges</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">to_edges</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boundaries</span><span class="p">()))</span>
-<a id="__codelineno-0-224" name="__codelineno-0-224"></a>
-<a id="__codelineno-0-225" name="__codelineno-0-225"></a>    <span class="k">def</span> <span class="nf">triangulate</span><span class="p">(</span>
-<a id="__codelineno-0-226" name="__codelineno-0-226"></a>        <span class="bp">self</span><span class="p">,</span>
-<a id="__codelineno-0-227" name="__codelineno-0-227"></a>        <span class="n">max_tri_area</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-228" name="__codelineno-0-228"></a>        <span class="n">min_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-229" name="__codelineno-0-229"></a>        <span class="n">extra_params</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-230" name="__codelineno-0-230"></a>        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<a id="__codelineno-0-231" name="__codelineno-0-231"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Triangulation</span><span class="p">:</span>
-<a id="__codelineno-0-232" name="__codelineno-0-232"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Triangulate the polygon</span>
-<a id="__codelineno-0-233" name="__codelineno-0-233"></a>
-<a id="__codelineno-0-234" name="__codelineno-0-234"></a><span class="sd">        Parameters</span>
-<a id="__codelineno-0-235" name="__codelineno-0-235"></a><span class="sd">        ----------</span>
-<a id="__codelineno-0-236" name="__codelineno-0-236"></a><span class="sd">        max_tri_area</span>
-<a id="__codelineno-0-237" name="__codelineno-0-237"></a><span class="sd">            A global maximum triangle area constraint.</span>
-<a id="__codelineno-0-238" name="__codelineno-0-238"></a>
-<a id="__codelineno-0-239" name="__codelineno-0-239"></a><span class="sd">        min_angle</span>
-<a id="__codelineno-0-240" name="__codelineno-0-240"></a><span class="sd">            Minimum angle constraint, in degrees.</span>
+<a id="__codelineno-0-218" name="__codelineno-0-218"></a>        <span class="k">if</span> <span class="n">pts</span> <span class="o">:=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_iter_hole_points</span><span class="p">()):</span>
+<a id="__codelineno-0-219" name="__codelineno-0-219"></a>            <span class="k">return</span> <span class="n">stack</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-0-220" name="__codelineno-0-220"></a>
+<a id="__codelineno-0-221" name="__codelineno-0-221"></a>        <span class="k">return</span> <span class="n">zeros</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<a id="__codelineno-0-222" name="__codelineno-0-222"></a>
+<a id="__codelineno-0-223" name="__codelineno-0-223"></a>    <span class="nd">@cached_property</span>
+<a id="__codelineno-0-224" name="__codelineno-0-224"></a>    <span class="k">def</span> <span class="nf">boundary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Edges</span><span class="p">:</span>
+<a id="__codelineno-0-225" name="__codelineno-0-225"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Boundary edges as an edge soup&quot;&quot;&quot;</span>
+<a id="__codelineno-0-226" name="__codelineno-0-226"></a>        <span class="k">return</span> <span class="n">Edges</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">to_edges</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boundaries</span><span class="p">()))</span>
+<a id="__codelineno-0-227" name="__codelineno-0-227"></a>
+<a id="__codelineno-0-228" name="__codelineno-0-228"></a>    <span class="k">def</span> <span class="nf">triangulate</span><span class="p">(</span>
+<a id="__codelineno-0-229" name="__codelineno-0-229"></a>        <span class="bp">self</span><span class="p">,</span>
+<a id="__codelineno-0-230" name="__codelineno-0-230"></a>        <span class="n">max_tri_area</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-231" name="__codelineno-0-231"></a>        <span class="n">min_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-232" name="__codelineno-0-232"></a>        <span class="n">extra_params</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-233" name="__codelineno-0-233"></a>        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<a id="__codelineno-0-234" name="__codelineno-0-234"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Triangulation</span><span class="p">:</span>
+<a id="__codelineno-0-235" name="__codelineno-0-235"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Triangulate the polygon</span>
+<a id="__codelineno-0-236" name="__codelineno-0-236"></a>
+<a id="__codelineno-0-237" name="__codelineno-0-237"></a><span class="sd">        Parameters</span>
+<a id="__codelineno-0-238" name="__codelineno-0-238"></a><span class="sd">        ----------</span>
+<a id="__codelineno-0-239" name="__codelineno-0-239"></a><span class="sd">        max_tri_area</span>
+<a id="__codelineno-0-240" name="__codelineno-0-240"></a><span class="sd">            A global maximum triangle area constraint.</span>
 <a id="__codelineno-0-241" name="__codelineno-0-241"></a>
-<a id="__codelineno-0-242" name="__codelineno-0-242"></a><span class="sd">        extra_params</span>
-<a id="__codelineno-0-243" name="__codelineno-0-243"></a><span class="sd">            See the [API documentation](https://rufat.be/triangle/API.html).</span>
-<a id="__codelineno-0-244" name="__codelineno-0-244"></a><span class="sd">            E.g. `extra_params=&#39;S10X&#39; specifies a maximum number of 10 Steiner points and suppresses</span>
-<a id="__codelineno-0-245" name="__codelineno-0-245"></a><span class="sd">            exact arithmetic.</span>
-<a id="__codelineno-0-246" name="__codelineno-0-246"></a>
-<a id="__codelineno-0-247" name="__codelineno-0-247"></a><span class="sd">        **kwargs</span>
-<a id="__codelineno-0-248" name="__codelineno-0-248"></a><span class="sd">            Remaining kwargs passed to `Edges.triangulate`.</span>
+<a id="__codelineno-0-242" name="__codelineno-0-242"></a><span class="sd">        min_angle</span>
+<a id="__codelineno-0-243" name="__codelineno-0-243"></a><span class="sd">            Minimum angle constraint, in degrees.</span>
+<a id="__codelineno-0-244" name="__codelineno-0-244"></a>
+<a id="__codelineno-0-245" name="__codelineno-0-245"></a><span class="sd">        extra_params</span>
+<a id="__codelineno-0-246" name="__codelineno-0-246"></a><span class="sd">            See the [API documentation](https://rufat.be/triangle/API.html).</span>
+<a id="__codelineno-0-247" name="__codelineno-0-247"></a><span class="sd">            E.g. `extra_params=&#39;S10X&#39; specifies a maximum number of 10 Steiner points and suppresses</span>
+<a id="__codelineno-0-248" name="__codelineno-0-248"></a><span class="sd">            exact arithmetic.</span>
 <a id="__codelineno-0-249" name="__codelineno-0-249"></a>
-<a id="__codelineno-0-250" name="__codelineno-0-250"></a><span class="sd">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-251" name="__codelineno-0-251"></a>        <span class="n">tris</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">triangulate</span><span class="p">(</span>
-<a id="__codelineno-0-252" name="__codelineno-0-252"></a>            <span class="n">polygon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<a id="__codelineno-0-253" name="__codelineno-0-253"></a>            <span class="n">max_tri_area</span><span class="o">=</span><span class="n">max_tri_area</span><span class="p">,</span>
-<a id="__codelineno-0-254" name="__codelineno-0-254"></a>            <span class="n">min_angle</span><span class="o">=</span><span class="n">min_angle</span><span class="p">,</span>
-<a id="__codelineno-0-255" name="__codelineno-0-255"></a>            <span class="n">holes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hole_points</span><span class="p">,</span>
-<a id="__codelineno-0-256" name="__codelineno-0-256"></a>            <span class="n">extra_params</span><span class="o">=</span><span class="n">extra_params</span><span class="p">,</span>
-<a id="__codelineno-0-257" name="__codelineno-0-257"></a>            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<a id="__codelineno-0-258" name="__codelineno-0-258"></a>        <span class="p">)</span>
-<a id="__codelineno-0-259" name="__codelineno-0-259"></a>        <span class="n">tris</span><span class="o">.</span><span class="n">boundary_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">boundary</span>  <span class="c1"># overwrite cached property defn</span>
-<a id="__codelineno-0-260" name="__codelineno-0-260"></a>        <span class="k">return</span> <span class="n">tris</span>
-<a id="__codelineno-0-261" name="__codelineno-0-261"></a>
-<a id="__codelineno-0-262" name="__codelineno-0-262"></a>    <span class="k">def</span> <span class="nf">approximate_medial_axis</span><span class="p">(</span>
-<a id="__codelineno-0-263" name="__codelineno-0-263"></a>        <span class="bp">self</span><span class="p">,</span>
-<a id="__codelineno-0-264" name="__codelineno-0-264"></a>        <span class="n">dist_thresh</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-<a id="__codelineno-0-265" name="__codelineno-0-265"></a>        <span class="n">abs_err</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-<a id="__codelineno-0-266" name="__codelineno-0-266"></a>        <span class="n">angle_thresh</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">pi</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
-<a id="__codelineno-0-267" name="__codelineno-0-267"></a>        <span class="n">min_edge_length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-268" name="__codelineno-0-268"></a>        <span class="n">pt0</span><span class="p">:</span> <span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-269" name="__codelineno-0-269"></a>        <span class="n">close_loops</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-<a id="__codelineno-0-270" name="__codelineno-0-270"></a>        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<a id="__codelineno-0-271" name="__codelineno-0-271"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Edges</span><span class="p">:</span>
-<a id="__codelineno-0-272" name="__codelineno-0-272"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct the approximate medial axis of the polygon</span>
-<a id="__codelineno-0-273" name="__codelineno-0-273"></a>
-<a id="__codelineno-0-274" name="__codelineno-0-274"></a><span class="sd">        Implementation of [*Efficient and Robust Computation of an Approximated Medial Axis.*</span>
-<a id="__codelineno-0-275" name="__codelineno-0-275"></a><span class="sd">        Yuandong Yang, Oliver Brock, and Robert N. Moll. 2004.](</span>
-<a id="__codelineno-0-276" name="__codelineno-0-276"></a><span class="sd">        https://citeseerx.ist.psu.edu/document?repid=rep1&amp;type=pdf&amp;doi=cfc187181ce85d983843c4a184651dbd2a07e7e5)</span>
-<a id="__codelineno-0-277" name="__codelineno-0-277"></a>
-<a id="__codelineno-0-278" name="__codelineno-0-278"></a><span class="sd">        The algorithm operates as follows:</span>
-<a id="__codelineno-0-279" name="__codelineno-0-279"></a>
-<a id="__codelineno-0-280" name="__codelineno-0-280"></a><span class="sd">        1. Locate an initial point on the medial axis.</span>
-<a id="__codelineno-0-281" name="__codelineno-0-281"></a><span class="sd">        2. Construct a maximally inscribed disk at that point</span>
-<a id="__codelineno-0-282" name="__codelineno-0-282"></a><span class="sd">        3. Uniformly sample points on the boundary of that disk</span>
-<a id="__codelineno-0-283" name="__codelineno-0-283"></a><span class="sd">        4. For each of the sampled points, construct direction vectors pointing at their</span>
-<a id="__codelineno-0-284" name="__codelineno-0-284"></a><span class="sd">        corresponding closest points on the polygon boundary.</span>
-<a id="__codelineno-0-285" name="__codelineno-0-285"></a><span class="sd">        5. Compare the angles between the direction vectors of adjacent points sampled on the</span>
-<a id="__codelineno-0-286" name="__codelineno-0-286"></a><span class="sd">        disk boundary. If the vectors diverge, i.e. the difference in angle exceeds a threshold</span>
-<a id="__codelineno-0-287" name="__codelineno-0-287"></a><span class="sd">        `angle_thresh`, the disk is assumed to intersect the medial axis at midpoint between those</span>
-<a id="__codelineno-0-288" name="__codelineno-0-288"></a><span class="sd">        two adjacent points.</span>
-<a id="__codelineno-0-289" name="__codelineno-0-289"></a><span class="sd">        6. Points found in the previous step are added to the medial axis, and also added to a queue</span>
-<a id="__codelineno-0-290" name="__codelineno-0-290"></a><span class="sd">        to repeated sample maximally inscribed disks as per steps 2-5.</span>
-<a id="__codelineno-0-291" name="__codelineno-0-291"></a>
-<a id="__codelineno-0-292" name="__codelineno-0-292"></a><span class="sd">        Parameters</span>
-<a id="__codelineno-0-293" name="__codelineno-0-293"></a><span class="sd">        ----------</span>
-<a id="__codelineno-0-294" name="__codelineno-0-294"></a><span class="sd">        dist_thresh</span>
-<a id="__codelineno-0-295" name="__codelineno-0-295"></a><span class="sd">            Distance from the boundary to stop propagating the medial axis.</span>
-<a id="__codelineno-0-296" name="__codelineno-0-296"></a>
-<a id="__codelineno-0-297" name="__codelineno-0-297"></a><span class="sd">        abs_err</span>
-<a id="__codelineno-0-298" name="__codelineno-0-298"></a><span class="sd">            The error allowed in the MA vertex positions. Smaller numbers sample inscribed disks</span>
-<a id="__codelineno-0-299" name="__codelineno-0-299"></a><span class="sd">            more finely.</span>
-<a id="__codelineno-0-300" name="__codelineno-0-300"></a>
-<a id="__codelineno-0-301" name="__codelineno-0-301"></a><span class="sd">        angle_thresh</span>
-<a id="__codelineno-0-302" name="__codelineno-0-302"></a><span class="sd">            Angle discreprancy (in radians) to count as a medial axis intersection. Default</span>
-<a id="__codelineno-0-303" name="__codelineno-0-303"></a><span class="sd">            is $pi / 3$.</span>
-<a id="__codelineno-0-304" name="__codelineno-0-304"></a>
-<a id="__codelineno-0-305" name="__codelineno-0-305"></a><span class="sd">        min_edge_length</span>
-<a id="__codelineno-0-306" name="__codelineno-0-306"></a><span class="sd">            Prevent adding new vertices if they&#39;re within this distance of other vertices</span>
+<a id="__codelineno-0-250" name="__codelineno-0-250"></a><span class="sd">        **kwargs</span>
+<a id="__codelineno-0-251" name="__codelineno-0-251"></a><span class="sd">            Remaining kwargs passed to `Edges.triangulate`.</span>
+<a id="__codelineno-0-252" name="__codelineno-0-252"></a>
+<a id="__codelineno-0-253" name="__codelineno-0-253"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-254" name="__codelineno-0-254"></a>        <span class="n">tris</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">triangulate</span><span class="p">(</span>
+<a id="__codelineno-0-255" name="__codelineno-0-255"></a>            <span class="n">polygon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-0-256" name="__codelineno-0-256"></a>            <span class="n">max_tri_area</span><span class="o">=</span><span class="n">max_tri_area</span><span class="p">,</span>
+<a id="__codelineno-0-257" name="__codelineno-0-257"></a>            <span class="n">min_angle</span><span class="o">=</span><span class="n">min_angle</span><span class="p">,</span>
+<a id="__codelineno-0-258" name="__codelineno-0-258"></a>            <span class="n">holes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hole_points</span><span class="p">,</span>
+<a id="__codelineno-0-259" name="__codelineno-0-259"></a>            <span class="n">extra_params</span><span class="o">=</span><span class="n">extra_params</span><span class="p">,</span>
+<a id="__codelineno-0-260" name="__codelineno-0-260"></a>            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<a id="__codelineno-0-261" name="__codelineno-0-261"></a>        <span class="p">)</span>
+<a id="__codelineno-0-262" name="__codelineno-0-262"></a>        <span class="n">tris</span><span class="o">.</span><span class="n">boundary_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">boundary</span>  <span class="c1"># overwrite cached property defn</span>
+<a id="__codelineno-0-263" name="__codelineno-0-263"></a>        <span class="k">return</span> <span class="n">tris</span>
+<a id="__codelineno-0-264" name="__codelineno-0-264"></a>
+<a id="__codelineno-0-265" name="__codelineno-0-265"></a>    <span class="k">def</span> <span class="nf">approximate_medial_axis</span><span class="p">(</span>
+<a id="__codelineno-0-266" name="__codelineno-0-266"></a>        <span class="bp">self</span><span class="p">,</span>
+<a id="__codelineno-0-267" name="__codelineno-0-267"></a>        <span class="n">dist_thresh</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<a id="__codelineno-0-268" name="__codelineno-0-268"></a>        <span class="n">abs_err</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<a id="__codelineno-0-269" name="__codelineno-0-269"></a>        <span class="n">angle_thresh</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">pi</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+<a id="__codelineno-0-270" name="__codelineno-0-270"></a>        <span class="n">min_edge_length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-271" name="__codelineno-0-271"></a>        <span class="n">pt0</span><span class="p">:</span> <span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-272" name="__codelineno-0-272"></a>        <span class="n">close_loops</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-0-273" name="__codelineno-0-273"></a>        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<a id="__codelineno-0-274" name="__codelineno-0-274"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Edges</span><span class="p">:</span>
+<a id="__codelineno-0-275" name="__codelineno-0-275"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct the approximate medial axis of the polygon</span>
+<a id="__codelineno-0-276" name="__codelineno-0-276"></a>
+<a id="__codelineno-0-277" name="__codelineno-0-277"></a><span class="sd">        Implementation of [*Efficient and Robust Computation of an Approximated Medial Axis.*</span>
+<a id="__codelineno-0-278" name="__codelineno-0-278"></a><span class="sd">        Yuandong Yang, Oliver Brock, and Robert N. Moll. 2004.](</span>
+<a id="__codelineno-0-279" name="__codelineno-0-279"></a><span class="sd">        https://citeseerx.ist.psu.edu/document?repid=rep1&amp;type=pdf&amp;doi=cfc187181ce85d983843c4a184651dbd2a07e7e5)</span>
+<a id="__codelineno-0-280" name="__codelineno-0-280"></a>
+<a id="__codelineno-0-281" name="__codelineno-0-281"></a><span class="sd">        The algorithm operates as follows:</span>
+<a id="__codelineno-0-282" name="__codelineno-0-282"></a>
+<a id="__codelineno-0-283" name="__codelineno-0-283"></a><span class="sd">        1. Locate an initial point on the medial axis.</span>
+<a id="__codelineno-0-284" name="__codelineno-0-284"></a><span class="sd">        2. Construct a maximally inscribed disk at that point</span>
+<a id="__codelineno-0-285" name="__codelineno-0-285"></a><span class="sd">        3. Uniformly sample points on the boundary of that disk</span>
+<a id="__codelineno-0-286" name="__codelineno-0-286"></a><span class="sd">        4. For each of the sampled points, construct direction vectors pointing at their</span>
+<a id="__codelineno-0-287" name="__codelineno-0-287"></a><span class="sd">        corresponding closest points on the polygon boundary.</span>
+<a id="__codelineno-0-288" name="__codelineno-0-288"></a><span class="sd">        5. Compare the angles between the direction vectors of adjacent points sampled on the</span>
+<a id="__codelineno-0-289" name="__codelineno-0-289"></a><span class="sd">        disk boundary. If the vectors diverge, i.e. the difference in angle exceeds a threshold</span>
+<a id="__codelineno-0-290" name="__codelineno-0-290"></a><span class="sd">        `angle_thresh`, the disk is assumed to intersect the medial axis at midpoint between those</span>
+<a id="__codelineno-0-291" name="__codelineno-0-291"></a><span class="sd">        two adjacent points.</span>
+<a id="__codelineno-0-292" name="__codelineno-0-292"></a><span class="sd">        6. Points found in the previous step are added to the medial axis, and also added to a queue</span>
+<a id="__codelineno-0-293" name="__codelineno-0-293"></a><span class="sd">        to repeated sample maximally inscribed disks as per steps 2-5.</span>
+<a id="__codelineno-0-294" name="__codelineno-0-294"></a>
+<a id="__codelineno-0-295" name="__codelineno-0-295"></a><span class="sd">        Parameters</span>
+<a id="__codelineno-0-296" name="__codelineno-0-296"></a><span class="sd">        ----------</span>
+<a id="__codelineno-0-297" name="__codelineno-0-297"></a><span class="sd">        dist_thresh</span>
+<a id="__codelineno-0-298" name="__codelineno-0-298"></a><span class="sd">            Distance from the boundary to stop propagating the medial axis.</span>
+<a id="__codelineno-0-299" name="__codelineno-0-299"></a>
+<a id="__codelineno-0-300" name="__codelineno-0-300"></a><span class="sd">        abs_err</span>
+<a id="__codelineno-0-301" name="__codelineno-0-301"></a><span class="sd">            The error allowed in the MA vertex positions. Smaller numbers sample inscribed disks</span>
+<a id="__codelineno-0-302" name="__codelineno-0-302"></a><span class="sd">            more finely.</span>
+<a id="__codelineno-0-303" name="__codelineno-0-303"></a>
+<a id="__codelineno-0-304" name="__codelineno-0-304"></a><span class="sd">        angle_thresh</span>
+<a id="__codelineno-0-305" name="__codelineno-0-305"></a><span class="sd">            Angle discreprancy (in radians) to count as a medial axis intersection. Default</span>
+<a id="__codelineno-0-306" name="__codelineno-0-306"></a><span class="sd">            is $pi / 3$.</span>
 <a id="__codelineno-0-307" name="__codelineno-0-307"></a>
-<a id="__codelineno-0-308" name="__codelineno-0-308"></a><span class="sd">        pt0</span>
-<a id="__codelineno-0-309" name="__codelineno-0-309"></a><span class="sd">            A arbitrary starting point interior to the polygon to begin searching for the medial</span>
-<a id="__codelineno-0-310" name="__codelineno-0-310"></a><span class="sd">            axis. If not supplied, this is chosen automatically by choosing the centroid of the</span>
-<a id="__codelineno-0-311" name="__codelineno-0-311"></a><span class="sd">            largest triangle of the triangulated polygon.</span>
-<a id="__codelineno-0-312" name="__codelineno-0-312"></a>
-<a id="__codelineno-0-313" name="__codelineno-0-313"></a><span class="sd">        close_loops</span>
-<a id="__codelineno-0-314" name="__codelineno-0-314"></a><span class="sd">            The standard AMA algorithm produces medial axes in the form of a tree graph. As a final</span>
-<a id="__codelineno-0-315" name="__codelineno-0-315"></a><span class="sd">            post-processing step, look for pairs of leaf vertices within eachother&#39;s disks</span>
-<a id="__codelineno-0-316" name="__codelineno-0-316"></a><span class="sd">            and add edges connecting them.</span>
-<a id="__codelineno-0-317" name="__codelineno-0-317"></a>
-<a id="__codelineno-0-318" name="__codelineno-0-318"></a><span class="sd">        Returns</span>
-<a id="__codelineno-0-319" name="__codelineno-0-319"></a><span class="sd">        -------</span>
-<a id="__codelineno-0-320" name="__codelineno-0-320"></a><span class="sd">        ama :</span>
-<a id="__codelineno-0-321" name="__codelineno-0-321"></a><span class="sd">            The approximate medial axis as an `curvey.edge.Edges` object. The distance of each</span>
-<a id="__codelineno-0-322" name="__codelineno-0-322"></a><span class="sd">            vertex in the medial axis from the polygon boundary is stored in the `distance`</span>
-<a id="__codelineno-0-323" name="__codelineno-0-323"></a><span class="sd">            point data property.</span>
-<a id="__codelineno-0-324" name="__codelineno-0-324"></a>
-<a id="__codelineno-0-325" name="__codelineno-0-325"></a><span class="sd">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-326" name="__codelineno-0-326"></a>        <span class="k">if</span> <span class="n">pt0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-327" name="__codelineno-0-327"></a>            <span class="n">tris</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">triangulate</span><span class="p">()</span>
-<a id="__codelineno-0-328" name="__codelineno-0-328"></a>            <span class="n">tri</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">tris</span><span class="o">.</span><span class="n">shapely</span><span class="o">.</span><span class="n">geoms</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">area</span><span class="p">)</span>
-<a id="__codelineno-0-329" name="__codelineno-0-329"></a>            <span class="n">pt0</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">tri</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<a id="__codelineno-0-330" name="__codelineno-0-330"></a>
-<a id="__codelineno-0-331" name="__codelineno-0-331"></a>        <span class="n">b</span> <span class="o">=</span> <span class="n">ApproxMedialAxisBuilder</span><span class="p">(</span>
-<a id="__codelineno-0-332" name="__codelineno-0-332"></a>            <span class="n">boundary</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">boundary</span><span class="p">,</span>
-<a id="__codelineno-0-333" name="__codelineno-0-333"></a>            <span class="n">dist_thresh</span><span class="o">=</span><span class="n">dist_thresh</span><span class="p">,</span>
-<a id="__codelineno-0-334" name="__codelineno-0-334"></a>            <span class="n">angle_thresh</span><span class="o">=</span><span class="n">angle_thresh</span><span class="p">,</span>
-<a id="__codelineno-0-335" name="__codelineno-0-335"></a>            <span class="n">abs_err</span><span class="o">=</span><span class="n">abs_err</span><span class="p">,</span>
-<a id="__codelineno-0-336" name="__codelineno-0-336"></a>            <span class="n">min_edge_length</span><span class="o">=</span><span class="n">min_edge_length</span><span class="p">,</span>
-<a id="__codelineno-0-337" name="__codelineno-0-337"></a>            <span class="n">pt0</span><span class="o">=</span><span class="n">pt0</span><span class="p">,</span>
-<a id="__codelineno-0-338" name="__codelineno-0-338"></a>            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<a id="__codelineno-0-339" name="__codelineno-0-339"></a>        <span class="p">)</span>
-<a id="__codelineno-0-340" name="__codelineno-0-340"></a>        <span class="n">b</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-<a id="__codelineno-0-341" name="__codelineno-0-341"></a>        <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">finalize</span><span class="p">(</span><span class="n">close_loops</span><span class="o">=</span><span class="n">close_loops</span><span class="p">)</span>
-<a id="__codelineno-0-342" name="__codelineno-0-342"></a>
-<a id="__codelineno-0-343" name="__codelineno-0-343"></a>    <span class="k">def</span> <span class="nf">to_matplotlib</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<a id="__codelineno-0-344" name="__codelineno-0-344"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a `Polygon` to a `matplotlib.path.Path`&quot;&quot;&quot;</span>
-<a id="__codelineno-0-345" name="__codelineno-0-345"></a>        <span class="kn">from</span> <span class="nn">matplotlib.path</span> <span class="kn">import</span> <span class="n">Path</span>
-<a id="__codelineno-0-346" name="__codelineno-0-346"></a>
-<a id="__codelineno-0-347" name="__codelineno-0-347"></a>        <span class="n">paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">to_matplotlib</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boundaries</span><span class="p">()]</span>
-<a id="__codelineno-0-348" name="__codelineno-0-348"></a>        <span class="n">vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">vertices</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<a id="__codelineno-0-349" name="__codelineno-0-349"></a>        <span class="n">codes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">codes</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">])</span>
-<a id="__codelineno-0-350" name="__codelineno-0-350"></a>        <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">codes</span><span class="p">)</span>
-<a id="__codelineno-0-351" name="__codelineno-0-351"></a>
-<a id="__codelineno-0-352" name="__codelineno-0-352"></a>    <span class="k">def</span> <span class="nf">plot_polygon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PathPatch</span><span class="p">:</span>
-<a id="__codelineno-0-353" name="__codelineno-0-353"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot a filled polygon&quot;&quot;&quot;</span>
-<a id="__codelineno-0-354" name="__codelineno-0-354"></a>        <span class="n">ax</span> <span class="o">=</span> <span class="n">_get_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
-<a id="__codelineno-0-355" name="__codelineno-0-355"></a>        <span class="n">patch</span> <span class="o">=</span> <span class="n">PathPatch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_matplotlib</span><span class="p">())</span>
-<a id="__codelineno-0-356" name="__codelineno-0-356"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span>
-<a id="__codelineno-0-357" name="__codelineno-0-357"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">update_datalim</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
-<a id="__codelineno-0-358" name="__codelineno-0-358"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">autoscale_view</span><span class="p">()</span>
-<a id="__codelineno-0-359" name="__codelineno-0-359"></a>        <span class="k">return</span> <span class="n">patch</span>
+<a id="__codelineno-0-308" name="__codelineno-0-308"></a><span class="sd">        min_edge_length</span>
+<a id="__codelineno-0-309" name="__codelineno-0-309"></a><span class="sd">            Prevent adding new vertices if they&#39;re within this distance of other vertices</span>
+<a id="__codelineno-0-310" name="__codelineno-0-310"></a>
+<a id="__codelineno-0-311" name="__codelineno-0-311"></a><span class="sd">        pt0</span>
+<a id="__codelineno-0-312" name="__codelineno-0-312"></a><span class="sd">            A arbitrary starting point interior to the polygon to begin searching for the medial</span>
+<a id="__codelineno-0-313" name="__codelineno-0-313"></a><span class="sd">            axis. If not supplied, this is chosen automatically by choosing the centroid of the</span>
+<a id="__codelineno-0-314" name="__codelineno-0-314"></a><span class="sd">            largest triangle of the triangulated polygon.</span>
+<a id="__codelineno-0-315" name="__codelineno-0-315"></a>
+<a id="__codelineno-0-316" name="__codelineno-0-316"></a><span class="sd">        close_loops</span>
+<a id="__codelineno-0-317" name="__codelineno-0-317"></a><span class="sd">            The standard AMA algorithm produces medial axes in the form of a tree graph. As a final</span>
+<a id="__codelineno-0-318" name="__codelineno-0-318"></a><span class="sd">            post-processing step, look for pairs of leaf vertices within eachother&#39;s disks</span>
+<a id="__codelineno-0-319" name="__codelineno-0-319"></a><span class="sd">            and add edges connecting them.</span>
+<a id="__codelineno-0-320" name="__codelineno-0-320"></a>
+<a id="__codelineno-0-321" name="__codelineno-0-321"></a><span class="sd">        Returns</span>
+<a id="__codelineno-0-322" name="__codelineno-0-322"></a><span class="sd">        -------</span>
+<a id="__codelineno-0-323" name="__codelineno-0-323"></a><span class="sd">        ama :</span>
+<a id="__codelineno-0-324" name="__codelineno-0-324"></a><span class="sd">            The approximate medial axis as an `curvey.edge.Edges` object. The distance of each</span>
+<a id="__codelineno-0-325" name="__codelineno-0-325"></a><span class="sd">            vertex in the medial axis from the polygon boundary is stored in the `distance`</span>
+<a id="__codelineno-0-326" name="__codelineno-0-326"></a><span class="sd">            point data property.</span>
+<a id="__codelineno-0-327" name="__codelineno-0-327"></a>
+<a id="__codelineno-0-328" name="__codelineno-0-328"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-329" name="__codelineno-0-329"></a>        <span class="k">if</span> <span class="n">pt0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-330" name="__codelineno-0-330"></a>            <span class="n">tris</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">triangulate</span><span class="p">()</span>
+<a id="__codelineno-0-331" name="__codelineno-0-331"></a>            <span class="n">tri</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">tris</span><span class="o">.</span><span class="n">shapely</span><span class="o">.</span><span class="n">geoms</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">area</span><span class="p">)</span>
+<a id="__codelineno-0-332" name="__codelineno-0-332"></a>            <span class="n">pt0</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">tri</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<a id="__codelineno-0-333" name="__codelineno-0-333"></a>
+<a id="__codelineno-0-334" name="__codelineno-0-334"></a>        <span class="n">b</span> <span class="o">=</span> <span class="n">ApproxMedialAxisBuilder</span><span class="p">(</span>
+<a id="__codelineno-0-335" name="__codelineno-0-335"></a>            <span class="n">boundary</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">boundary</span><span class="p">,</span>
+<a id="__codelineno-0-336" name="__codelineno-0-336"></a>            <span class="n">dist_thresh</span><span class="o">=</span><span class="n">dist_thresh</span><span class="p">,</span>
+<a id="__codelineno-0-337" name="__codelineno-0-337"></a>            <span class="n">angle_thresh</span><span class="o">=</span><span class="n">angle_thresh</span><span class="p">,</span>
+<a id="__codelineno-0-338" name="__codelineno-0-338"></a>            <span class="n">abs_err</span><span class="o">=</span><span class="n">abs_err</span><span class="p">,</span>
+<a id="__codelineno-0-339" name="__codelineno-0-339"></a>            <span class="n">min_edge_length</span><span class="o">=</span><span class="n">min_edge_length</span><span class="p">,</span>
+<a id="__codelineno-0-340" name="__codelineno-0-340"></a>            <span class="n">pt0</span><span class="o">=</span><span class="n">pt0</span><span class="p">,</span>
+<a id="__codelineno-0-341" name="__codelineno-0-341"></a>            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<a id="__codelineno-0-342" name="__codelineno-0-342"></a>        <span class="p">)</span>
+<a id="__codelineno-0-343" name="__codelineno-0-343"></a>        <span class="n">b</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<a id="__codelineno-0-344" name="__codelineno-0-344"></a>        <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">finalize</span><span class="p">(</span><span class="n">close_loops</span><span class="o">=</span><span class="n">close_loops</span><span class="p">)</span>
+<a id="__codelineno-0-345" name="__codelineno-0-345"></a>
+<a id="__codelineno-0-346" name="__codelineno-0-346"></a>    <span class="k">def</span> <span class="nf">to_matplotlib</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<a id="__codelineno-0-347" name="__codelineno-0-347"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a `Polygon` to a `matplotlib.path.Path`&quot;&quot;&quot;</span>
+<a id="__codelineno-0-348" name="__codelineno-0-348"></a>        <span class="kn">from</span> <span class="nn">matplotlib.path</span> <span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-0-349" name="__codelineno-0-349"></a>
+<a id="__codelineno-0-350" name="__codelineno-0-350"></a>        <span class="n">paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">to_matplotlib</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boundaries</span><span class="p">()]</span>
+<a id="__codelineno-0-351" name="__codelineno-0-351"></a>        <span class="n">vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">vertices</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-0-352" name="__codelineno-0-352"></a>        <span class="n">codes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">codes</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">])</span>
+<a id="__codelineno-0-353" name="__codelineno-0-353"></a>        <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">codes</span><span class="p">)</span>
+<a id="__codelineno-0-354" name="__codelineno-0-354"></a>
+<a id="__codelineno-0-355" name="__codelineno-0-355"></a>    <span class="k">def</span> <span class="nf">plot_polygon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PathPatch</span><span class="p">:</span>
+<a id="__codelineno-0-356" name="__codelineno-0-356"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot a filled polygon&quot;&quot;&quot;</span>
+<a id="__codelineno-0-357" name="__codelineno-0-357"></a>        <span class="n">ax</span> <span class="o">=</span> <span class="n">_get_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<a id="__codelineno-0-358" name="__codelineno-0-358"></a>        <span class="n">patch</span> <span class="o">=</span> <span class="n">PathPatch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_matplotlib</span><span class="p">())</span>
+<a id="__codelineno-0-359" name="__codelineno-0-359"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span>
+<a id="__codelineno-0-360" name="__codelineno-0-360"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">update_datalim</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
+<a id="__codelineno-0-361" name="__codelineno-0-361"></a>        <span class="n">ax</span><span class="o">.</span><span class="n">autoscale_view</span><span class="p">()</span>
+<a id="__codelineno-0-362" name="__codelineno-0-362"></a>        <span class="k">return</span> <span class="n">patch</span>
 </code></pre></div></td></tr></table></div>
             </details>
 
@@ -2481,10 +2487,7 @@ point data property.</p>
 
           <details class="quote">
             <summary>Source code in <code>src\curvey\polygon.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-262">262</a></span>
-<span class="normal"><a href="#__codelineno-0-263">263</a></span>
-<span class="normal"><a href="#__codelineno-0-264">264</a></span>
-<span class="normal"><a href="#__codelineno-0-265">265</a></span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-265">265</a></span>
 <span class="normal"><a href="#__codelineno-0-266">266</a></span>
 <span class="normal"><a href="#__codelineno-0-267">267</a></span>
 <span class="normal"><a href="#__codelineno-0-268">268</a></span>
@@ -2560,86 +2563,89 @@ point data property.</p>
 <span class="normal"><a href="#__codelineno-0-338">338</a></span>
 <span class="normal"><a href="#__codelineno-0-339">339</a></span>
 <span class="normal"><a href="#__codelineno-0-340">340</a></span>
-<span class="normal"><a href="#__codelineno-0-341">341</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-262" name="__codelineno-0-262"></a><span class="k">def</span> <span class="nf">approximate_medial_axis</span><span class="p">(</span>
-<a id="__codelineno-0-263" name="__codelineno-0-263"></a>    <span class="bp">self</span><span class="p">,</span>
-<a id="__codelineno-0-264" name="__codelineno-0-264"></a>    <span class="n">dist_thresh</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-<a id="__codelineno-0-265" name="__codelineno-0-265"></a>    <span class="n">abs_err</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-<a id="__codelineno-0-266" name="__codelineno-0-266"></a>    <span class="n">angle_thresh</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">pi</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
-<a id="__codelineno-0-267" name="__codelineno-0-267"></a>    <span class="n">min_edge_length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-268" name="__codelineno-0-268"></a>    <span class="n">pt0</span><span class="p">:</span> <span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-269" name="__codelineno-0-269"></a>    <span class="n">close_loops</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-<a id="__codelineno-0-270" name="__codelineno-0-270"></a>    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<a id="__codelineno-0-271" name="__codelineno-0-271"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Edges</span><span class="p">:</span>
-<a id="__codelineno-0-272" name="__codelineno-0-272"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct the approximate medial axis of the polygon</span>
-<a id="__codelineno-0-273" name="__codelineno-0-273"></a>
-<a id="__codelineno-0-274" name="__codelineno-0-274"></a><span class="sd">    Implementation of [*Efficient and Robust Computation of an Approximated Medial Axis.*</span>
-<a id="__codelineno-0-275" name="__codelineno-0-275"></a><span class="sd">    Yuandong Yang, Oliver Brock, and Robert N. Moll. 2004.](</span>
-<a id="__codelineno-0-276" name="__codelineno-0-276"></a><span class="sd">    https://citeseerx.ist.psu.edu/document?repid=rep1&amp;type=pdf&amp;doi=cfc187181ce85d983843c4a184651dbd2a07e7e5)</span>
-<a id="__codelineno-0-277" name="__codelineno-0-277"></a>
-<a id="__codelineno-0-278" name="__codelineno-0-278"></a><span class="sd">    The algorithm operates as follows:</span>
-<a id="__codelineno-0-279" name="__codelineno-0-279"></a>
-<a id="__codelineno-0-280" name="__codelineno-0-280"></a><span class="sd">    1. Locate an initial point on the medial axis.</span>
-<a id="__codelineno-0-281" name="__codelineno-0-281"></a><span class="sd">    2. Construct a maximally inscribed disk at that point</span>
-<a id="__codelineno-0-282" name="__codelineno-0-282"></a><span class="sd">    3. Uniformly sample points on the boundary of that disk</span>
-<a id="__codelineno-0-283" name="__codelineno-0-283"></a><span class="sd">    4. For each of the sampled points, construct direction vectors pointing at their</span>
-<a id="__codelineno-0-284" name="__codelineno-0-284"></a><span class="sd">    corresponding closest points on the polygon boundary.</span>
-<a id="__codelineno-0-285" name="__codelineno-0-285"></a><span class="sd">    5. Compare the angles between the direction vectors of adjacent points sampled on the</span>
-<a id="__codelineno-0-286" name="__codelineno-0-286"></a><span class="sd">    disk boundary. If the vectors diverge, i.e. the difference in angle exceeds a threshold</span>
-<a id="__codelineno-0-287" name="__codelineno-0-287"></a><span class="sd">    `angle_thresh`, the disk is assumed to intersect the medial axis at midpoint between those</span>
-<a id="__codelineno-0-288" name="__codelineno-0-288"></a><span class="sd">    two adjacent points.</span>
-<a id="__codelineno-0-289" name="__codelineno-0-289"></a><span class="sd">    6. Points found in the previous step are added to the medial axis, and also added to a queue</span>
-<a id="__codelineno-0-290" name="__codelineno-0-290"></a><span class="sd">    to repeated sample maximally inscribed disks as per steps 2-5.</span>
-<a id="__codelineno-0-291" name="__codelineno-0-291"></a>
-<a id="__codelineno-0-292" name="__codelineno-0-292"></a><span class="sd">    Parameters</span>
-<a id="__codelineno-0-293" name="__codelineno-0-293"></a><span class="sd">    ----------</span>
-<a id="__codelineno-0-294" name="__codelineno-0-294"></a><span class="sd">    dist_thresh</span>
-<a id="__codelineno-0-295" name="__codelineno-0-295"></a><span class="sd">        Distance from the boundary to stop propagating the medial axis.</span>
-<a id="__codelineno-0-296" name="__codelineno-0-296"></a>
-<a id="__codelineno-0-297" name="__codelineno-0-297"></a><span class="sd">    abs_err</span>
-<a id="__codelineno-0-298" name="__codelineno-0-298"></a><span class="sd">        The error allowed in the MA vertex positions. Smaller numbers sample inscribed disks</span>
-<a id="__codelineno-0-299" name="__codelineno-0-299"></a><span class="sd">        more finely.</span>
-<a id="__codelineno-0-300" name="__codelineno-0-300"></a>
-<a id="__codelineno-0-301" name="__codelineno-0-301"></a><span class="sd">    angle_thresh</span>
-<a id="__codelineno-0-302" name="__codelineno-0-302"></a><span class="sd">        Angle discreprancy (in radians) to count as a medial axis intersection. Default</span>
-<a id="__codelineno-0-303" name="__codelineno-0-303"></a><span class="sd">        is $pi / 3$.</span>
-<a id="__codelineno-0-304" name="__codelineno-0-304"></a>
-<a id="__codelineno-0-305" name="__codelineno-0-305"></a><span class="sd">    min_edge_length</span>
-<a id="__codelineno-0-306" name="__codelineno-0-306"></a><span class="sd">        Prevent adding new vertices if they&#39;re within this distance of other vertices</span>
+<span class="normal"><a href="#__codelineno-0-341">341</a></span>
+<span class="normal"><a href="#__codelineno-0-342">342</a></span>
+<span class="normal"><a href="#__codelineno-0-343">343</a></span>
+<span class="normal"><a href="#__codelineno-0-344">344</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-265" name="__codelineno-0-265"></a><span class="k">def</span> <span class="nf">approximate_medial_axis</span><span class="p">(</span>
+<a id="__codelineno-0-266" name="__codelineno-0-266"></a>    <span class="bp">self</span><span class="p">,</span>
+<a id="__codelineno-0-267" name="__codelineno-0-267"></a>    <span class="n">dist_thresh</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<a id="__codelineno-0-268" name="__codelineno-0-268"></a>    <span class="n">abs_err</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<a id="__codelineno-0-269" name="__codelineno-0-269"></a>    <span class="n">angle_thresh</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">pi</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+<a id="__codelineno-0-270" name="__codelineno-0-270"></a>    <span class="n">min_edge_length</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-271" name="__codelineno-0-271"></a>    <span class="n">pt0</span><span class="p">:</span> <span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-272" name="__codelineno-0-272"></a>    <span class="n">close_loops</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-0-273" name="__codelineno-0-273"></a>    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<a id="__codelineno-0-274" name="__codelineno-0-274"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Edges</span><span class="p">:</span>
+<a id="__codelineno-0-275" name="__codelineno-0-275"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct the approximate medial axis of the polygon</span>
+<a id="__codelineno-0-276" name="__codelineno-0-276"></a>
+<a id="__codelineno-0-277" name="__codelineno-0-277"></a><span class="sd">    Implementation of [*Efficient and Robust Computation of an Approximated Medial Axis.*</span>
+<a id="__codelineno-0-278" name="__codelineno-0-278"></a><span class="sd">    Yuandong Yang, Oliver Brock, and Robert N. Moll. 2004.](</span>
+<a id="__codelineno-0-279" name="__codelineno-0-279"></a><span class="sd">    https://citeseerx.ist.psu.edu/document?repid=rep1&amp;type=pdf&amp;doi=cfc187181ce85d983843c4a184651dbd2a07e7e5)</span>
+<a id="__codelineno-0-280" name="__codelineno-0-280"></a>
+<a id="__codelineno-0-281" name="__codelineno-0-281"></a><span class="sd">    The algorithm operates as follows:</span>
+<a id="__codelineno-0-282" name="__codelineno-0-282"></a>
+<a id="__codelineno-0-283" name="__codelineno-0-283"></a><span class="sd">    1. Locate an initial point on the medial axis.</span>
+<a id="__codelineno-0-284" name="__codelineno-0-284"></a><span class="sd">    2. Construct a maximally inscribed disk at that point</span>
+<a id="__codelineno-0-285" name="__codelineno-0-285"></a><span class="sd">    3. Uniformly sample points on the boundary of that disk</span>
+<a id="__codelineno-0-286" name="__codelineno-0-286"></a><span class="sd">    4. For each of the sampled points, construct direction vectors pointing at their</span>
+<a id="__codelineno-0-287" name="__codelineno-0-287"></a><span class="sd">    corresponding closest points on the polygon boundary.</span>
+<a id="__codelineno-0-288" name="__codelineno-0-288"></a><span class="sd">    5. Compare the angles between the direction vectors of adjacent points sampled on the</span>
+<a id="__codelineno-0-289" name="__codelineno-0-289"></a><span class="sd">    disk boundary. If the vectors diverge, i.e. the difference in angle exceeds a threshold</span>
+<a id="__codelineno-0-290" name="__codelineno-0-290"></a><span class="sd">    `angle_thresh`, the disk is assumed to intersect the medial axis at midpoint between those</span>
+<a id="__codelineno-0-291" name="__codelineno-0-291"></a><span class="sd">    two adjacent points.</span>
+<a id="__codelineno-0-292" name="__codelineno-0-292"></a><span class="sd">    6. Points found in the previous step are added to the medial axis, and also added to a queue</span>
+<a id="__codelineno-0-293" name="__codelineno-0-293"></a><span class="sd">    to repeated sample maximally inscribed disks as per steps 2-5.</span>
+<a id="__codelineno-0-294" name="__codelineno-0-294"></a>
+<a id="__codelineno-0-295" name="__codelineno-0-295"></a><span class="sd">    Parameters</span>
+<a id="__codelineno-0-296" name="__codelineno-0-296"></a><span class="sd">    ----------</span>
+<a id="__codelineno-0-297" name="__codelineno-0-297"></a><span class="sd">    dist_thresh</span>
+<a id="__codelineno-0-298" name="__codelineno-0-298"></a><span class="sd">        Distance from the boundary to stop propagating the medial axis.</span>
+<a id="__codelineno-0-299" name="__codelineno-0-299"></a>
+<a id="__codelineno-0-300" name="__codelineno-0-300"></a><span class="sd">    abs_err</span>
+<a id="__codelineno-0-301" name="__codelineno-0-301"></a><span class="sd">        The error allowed in the MA vertex positions. Smaller numbers sample inscribed disks</span>
+<a id="__codelineno-0-302" name="__codelineno-0-302"></a><span class="sd">        more finely.</span>
+<a id="__codelineno-0-303" name="__codelineno-0-303"></a>
+<a id="__codelineno-0-304" name="__codelineno-0-304"></a><span class="sd">    angle_thresh</span>
+<a id="__codelineno-0-305" name="__codelineno-0-305"></a><span class="sd">        Angle discreprancy (in radians) to count as a medial axis intersection. Default</span>
+<a id="__codelineno-0-306" name="__codelineno-0-306"></a><span class="sd">        is $pi / 3$.</span>
 <a id="__codelineno-0-307" name="__codelineno-0-307"></a>
-<a id="__codelineno-0-308" name="__codelineno-0-308"></a><span class="sd">    pt0</span>
-<a id="__codelineno-0-309" name="__codelineno-0-309"></a><span class="sd">        A arbitrary starting point interior to the polygon to begin searching for the medial</span>
-<a id="__codelineno-0-310" name="__codelineno-0-310"></a><span class="sd">        axis. If not supplied, this is chosen automatically by choosing the centroid of the</span>
-<a id="__codelineno-0-311" name="__codelineno-0-311"></a><span class="sd">        largest triangle of the triangulated polygon.</span>
-<a id="__codelineno-0-312" name="__codelineno-0-312"></a>
-<a id="__codelineno-0-313" name="__codelineno-0-313"></a><span class="sd">    close_loops</span>
-<a id="__codelineno-0-314" name="__codelineno-0-314"></a><span class="sd">        The standard AMA algorithm produces medial axes in the form of a tree graph. As a final</span>
-<a id="__codelineno-0-315" name="__codelineno-0-315"></a><span class="sd">        post-processing step, look for pairs of leaf vertices within eachother&#39;s disks</span>
-<a id="__codelineno-0-316" name="__codelineno-0-316"></a><span class="sd">        and add edges connecting them.</span>
-<a id="__codelineno-0-317" name="__codelineno-0-317"></a>
-<a id="__codelineno-0-318" name="__codelineno-0-318"></a><span class="sd">    Returns</span>
-<a id="__codelineno-0-319" name="__codelineno-0-319"></a><span class="sd">    -------</span>
-<a id="__codelineno-0-320" name="__codelineno-0-320"></a><span class="sd">    ama :</span>
-<a id="__codelineno-0-321" name="__codelineno-0-321"></a><span class="sd">        The approximate medial axis as an `curvey.edge.Edges` object. The distance of each</span>
-<a id="__codelineno-0-322" name="__codelineno-0-322"></a><span class="sd">        vertex in the medial axis from the polygon boundary is stored in the `distance`</span>
-<a id="__codelineno-0-323" name="__codelineno-0-323"></a><span class="sd">        point data property.</span>
-<a id="__codelineno-0-324" name="__codelineno-0-324"></a>
-<a id="__codelineno-0-325" name="__codelineno-0-325"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-326" name="__codelineno-0-326"></a>    <span class="k">if</span> <span class="n">pt0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-327" name="__codelineno-0-327"></a>        <span class="n">tris</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">triangulate</span><span class="p">()</span>
-<a id="__codelineno-0-328" name="__codelineno-0-328"></a>        <span class="n">tri</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">tris</span><span class="o">.</span><span class="n">shapely</span><span class="o">.</span><span class="n">geoms</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">area</span><span class="p">)</span>
-<a id="__codelineno-0-329" name="__codelineno-0-329"></a>        <span class="n">pt0</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">tri</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<a id="__codelineno-0-330" name="__codelineno-0-330"></a>
-<a id="__codelineno-0-331" name="__codelineno-0-331"></a>    <span class="n">b</span> <span class="o">=</span> <span class="n">ApproxMedialAxisBuilder</span><span class="p">(</span>
-<a id="__codelineno-0-332" name="__codelineno-0-332"></a>        <span class="n">boundary</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">boundary</span><span class="p">,</span>
-<a id="__codelineno-0-333" name="__codelineno-0-333"></a>        <span class="n">dist_thresh</span><span class="o">=</span><span class="n">dist_thresh</span><span class="p">,</span>
-<a id="__codelineno-0-334" name="__codelineno-0-334"></a>        <span class="n">angle_thresh</span><span class="o">=</span><span class="n">angle_thresh</span><span class="p">,</span>
-<a id="__codelineno-0-335" name="__codelineno-0-335"></a>        <span class="n">abs_err</span><span class="o">=</span><span class="n">abs_err</span><span class="p">,</span>
-<a id="__codelineno-0-336" name="__codelineno-0-336"></a>        <span class="n">min_edge_length</span><span class="o">=</span><span class="n">min_edge_length</span><span class="p">,</span>
-<a id="__codelineno-0-337" name="__codelineno-0-337"></a>        <span class="n">pt0</span><span class="o">=</span><span class="n">pt0</span><span class="p">,</span>
-<a id="__codelineno-0-338" name="__codelineno-0-338"></a>        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<a id="__codelineno-0-339" name="__codelineno-0-339"></a>    <span class="p">)</span>
-<a id="__codelineno-0-340" name="__codelineno-0-340"></a>    <span class="n">b</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-<a id="__codelineno-0-341" name="__codelineno-0-341"></a>    <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">finalize</span><span class="p">(</span><span class="n">close_loops</span><span class="o">=</span><span class="n">close_loops</span><span class="p">)</span>
+<a id="__codelineno-0-308" name="__codelineno-0-308"></a><span class="sd">    min_edge_length</span>
+<a id="__codelineno-0-309" name="__codelineno-0-309"></a><span class="sd">        Prevent adding new vertices if they&#39;re within this distance of other vertices</span>
+<a id="__codelineno-0-310" name="__codelineno-0-310"></a>
+<a id="__codelineno-0-311" name="__codelineno-0-311"></a><span class="sd">    pt0</span>
+<a id="__codelineno-0-312" name="__codelineno-0-312"></a><span class="sd">        A arbitrary starting point interior to the polygon to begin searching for the medial</span>
+<a id="__codelineno-0-313" name="__codelineno-0-313"></a><span class="sd">        axis. If not supplied, this is chosen automatically by choosing the centroid of the</span>
+<a id="__codelineno-0-314" name="__codelineno-0-314"></a><span class="sd">        largest triangle of the triangulated polygon.</span>
+<a id="__codelineno-0-315" name="__codelineno-0-315"></a>
+<a id="__codelineno-0-316" name="__codelineno-0-316"></a><span class="sd">    close_loops</span>
+<a id="__codelineno-0-317" name="__codelineno-0-317"></a><span class="sd">        The standard AMA algorithm produces medial axes in the form of a tree graph. As a final</span>
+<a id="__codelineno-0-318" name="__codelineno-0-318"></a><span class="sd">        post-processing step, look for pairs of leaf vertices within eachother&#39;s disks</span>
+<a id="__codelineno-0-319" name="__codelineno-0-319"></a><span class="sd">        and add edges connecting them.</span>
+<a id="__codelineno-0-320" name="__codelineno-0-320"></a>
+<a id="__codelineno-0-321" name="__codelineno-0-321"></a><span class="sd">    Returns</span>
+<a id="__codelineno-0-322" name="__codelineno-0-322"></a><span class="sd">    -------</span>
+<a id="__codelineno-0-323" name="__codelineno-0-323"></a><span class="sd">    ama :</span>
+<a id="__codelineno-0-324" name="__codelineno-0-324"></a><span class="sd">        The approximate medial axis as an `curvey.edge.Edges` object. The distance of each</span>
+<a id="__codelineno-0-325" name="__codelineno-0-325"></a><span class="sd">        vertex in the medial axis from the polygon boundary is stored in the `distance`</span>
+<a id="__codelineno-0-326" name="__codelineno-0-326"></a><span class="sd">        point data property.</span>
+<a id="__codelineno-0-327" name="__codelineno-0-327"></a>
+<a id="__codelineno-0-328" name="__codelineno-0-328"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-329" name="__codelineno-0-329"></a>    <span class="k">if</span> <span class="n">pt0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-330" name="__codelineno-0-330"></a>        <span class="n">tris</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">triangulate</span><span class="p">()</span>
+<a id="__codelineno-0-331" name="__codelineno-0-331"></a>        <span class="n">tri</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">tris</span><span class="o">.</span><span class="n">shapely</span><span class="o">.</span><span class="n">geoms</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">area</span><span class="p">)</span>
+<a id="__codelineno-0-332" name="__codelineno-0-332"></a>        <span class="n">pt0</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">tri</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<a id="__codelineno-0-333" name="__codelineno-0-333"></a>
+<a id="__codelineno-0-334" name="__codelineno-0-334"></a>    <span class="n">b</span> <span class="o">=</span> <span class="n">ApproxMedialAxisBuilder</span><span class="p">(</span>
+<a id="__codelineno-0-335" name="__codelineno-0-335"></a>        <span class="n">boundary</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">boundary</span><span class="p">,</span>
+<a id="__codelineno-0-336" name="__codelineno-0-336"></a>        <span class="n">dist_thresh</span><span class="o">=</span><span class="n">dist_thresh</span><span class="p">,</span>
+<a id="__codelineno-0-337" name="__codelineno-0-337"></a>        <span class="n">angle_thresh</span><span class="o">=</span><span class="n">angle_thresh</span><span class="p">,</span>
+<a id="__codelineno-0-338" name="__codelineno-0-338"></a>        <span class="n">abs_err</span><span class="o">=</span><span class="n">abs_err</span><span class="p">,</span>
+<a id="__codelineno-0-339" name="__codelineno-0-339"></a>        <span class="n">min_edge_length</span><span class="o">=</span><span class="n">min_edge_length</span><span class="p">,</span>
+<a id="__codelineno-0-340" name="__codelineno-0-340"></a>        <span class="n">pt0</span><span class="o">=</span><span class="n">pt0</span><span class="p">,</span>
+<a id="__codelineno-0-341" name="__codelineno-0-341"></a>        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<a id="__codelineno-0-342" name="__codelineno-0-342"></a>    <span class="p">)</span>
+<a id="__codelineno-0-343" name="__codelineno-0-343"></a>    <span class="n">b</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<a id="__codelineno-0-344" name="__codelineno-0-344"></a>    <span class="k">return</span> <span class="n">b</span><span class="o">.</span><span class="n">finalize</span><span class="p">(</span><span class="n">close_loops</span><span class="o">=</span><span class="n">close_loops</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -2976,21 +2982,21 @@ point data property.</p>
 
           <details class="quote">
             <summary>Source code in <code>src\curvey\polygon.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-352">352</a></span>
-<span class="normal"><a href="#__codelineno-0-353">353</a></span>
-<span class="normal"><a href="#__codelineno-0-354">354</a></span>
-<span class="normal"><a href="#__codelineno-0-355">355</a></span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-355">355</a></span>
 <span class="normal"><a href="#__codelineno-0-356">356</a></span>
 <span class="normal"><a href="#__codelineno-0-357">357</a></span>
 <span class="normal"><a href="#__codelineno-0-358">358</a></span>
-<span class="normal"><a href="#__codelineno-0-359">359</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-352" name="__codelineno-0-352"></a><span class="k">def</span> <span class="nf">plot_polygon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PathPatch</span><span class="p">:</span>
-<a id="__codelineno-0-353" name="__codelineno-0-353"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot a filled polygon&quot;&quot;&quot;</span>
-<a id="__codelineno-0-354" name="__codelineno-0-354"></a>    <span class="n">ax</span> <span class="o">=</span> <span class="n">_get_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
-<a id="__codelineno-0-355" name="__codelineno-0-355"></a>    <span class="n">patch</span> <span class="o">=</span> <span class="n">PathPatch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_matplotlib</span><span class="p">())</span>
-<a id="__codelineno-0-356" name="__codelineno-0-356"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span>
-<a id="__codelineno-0-357" name="__codelineno-0-357"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">update_datalim</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
-<a id="__codelineno-0-358" name="__codelineno-0-358"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">autoscale_view</span><span class="p">()</span>
-<a id="__codelineno-0-359" name="__codelineno-0-359"></a>    <span class="k">return</span> <span class="n">patch</span>
+<span class="normal"><a href="#__codelineno-0-359">359</a></span>
+<span class="normal"><a href="#__codelineno-0-360">360</a></span>
+<span class="normal"><a href="#__codelineno-0-361">361</a></span>
+<span class="normal"><a href="#__codelineno-0-362">362</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-355" name="__codelineno-0-355"></a><span class="k">def</span> <span class="nf">plot_polygon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PathPatch</span><span class="p">:</span>
+<a id="__codelineno-0-356" name="__codelineno-0-356"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot a filled polygon&quot;&quot;&quot;</span>
+<a id="__codelineno-0-357" name="__codelineno-0-357"></a>    <span class="n">ax</span> <span class="o">=</span> <span class="n">_get_ax</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<a id="__codelineno-0-358" name="__codelineno-0-358"></a>    <span class="n">patch</span> <span class="o">=</span> <span class="n">PathPatch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_matplotlib</span><span class="p">())</span>
+<a id="__codelineno-0-359" name="__codelineno-0-359"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span>
+<a id="__codelineno-0-360" name="__codelineno-0-360"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">update_datalim</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exterior</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
+<a id="__codelineno-0-361" name="__codelineno-0-361"></a>    <span class="n">ax</span><span class="o">.</span><span class="n">autoscale_view</span><span class="p">()</span>
+<a id="__codelineno-0-362" name="__codelineno-0-362"></a>    <span class="k">return</span> <span class="n">patch</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -3098,21 +3104,21 @@ point data property.</p>
 
           <details class="quote">
             <summary>Source code in <code>src\curvey\polygon.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-343">343</a></span>
-<span class="normal"><a href="#__codelineno-0-344">344</a></span>
-<span class="normal"><a href="#__codelineno-0-345">345</a></span>
-<span class="normal"><a href="#__codelineno-0-346">346</a></span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-346">346</a></span>
 <span class="normal"><a href="#__codelineno-0-347">347</a></span>
 <span class="normal"><a href="#__codelineno-0-348">348</a></span>
 <span class="normal"><a href="#__codelineno-0-349">349</a></span>
-<span class="normal"><a href="#__codelineno-0-350">350</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-343" name="__codelineno-0-343"></a><span class="k">def</span> <span class="nf">to_matplotlib</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<a id="__codelineno-0-344" name="__codelineno-0-344"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a `Polygon` to a `matplotlib.path.Path`&quot;&quot;&quot;</span>
-<a id="__codelineno-0-345" name="__codelineno-0-345"></a>    <span class="kn">from</span> <span class="nn">matplotlib.path</span> <span class="kn">import</span> <span class="n">Path</span>
-<a id="__codelineno-0-346" name="__codelineno-0-346"></a>
-<a id="__codelineno-0-347" name="__codelineno-0-347"></a>    <span class="n">paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">to_matplotlib</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boundaries</span><span class="p">()]</span>
-<a id="__codelineno-0-348" name="__codelineno-0-348"></a>    <span class="n">vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">vertices</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<a id="__codelineno-0-349" name="__codelineno-0-349"></a>    <span class="n">codes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">codes</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">])</span>
-<a id="__codelineno-0-350" name="__codelineno-0-350"></a>    <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">codes</span><span class="p">)</span>
+<span class="normal"><a href="#__codelineno-0-350">350</a></span>
+<span class="normal"><a href="#__codelineno-0-351">351</a></span>
+<span class="normal"><a href="#__codelineno-0-352">352</a></span>
+<span class="normal"><a href="#__codelineno-0-353">353</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-346" name="__codelineno-0-346"></a><span class="k">def</span> <span class="nf">to_matplotlib</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<a id="__codelineno-0-347" name="__codelineno-0-347"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a `Polygon` to a `matplotlib.path.Path`&quot;&quot;&quot;</span>
+<a id="__codelineno-0-348" name="__codelineno-0-348"></a>    <span class="kn">from</span> <span class="nn">matplotlib.path</span> <span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-0-349" name="__codelineno-0-349"></a>
+<a id="__codelineno-0-350" name="__codelineno-0-350"></a>    <span class="n">paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">to_matplotlib</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">boundaries</span><span class="p">()]</span>
+<a id="__codelineno-0-351" name="__codelineno-0-351"></a>    <span class="n">vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">vertices</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-0-352" name="__codelineno-0-352"></a>    <span class="n">codes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">codes</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">])</span>
+<a id="__codelineno-0-353" name="__codelineno-0-353"></a>    <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">vertices</span><span class="p">,</span> <span class="n">codes</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -3320,10 +3326,7 @@ exact arithmetic.</p>
 
           <details class="quote">
             <summary>Source code in <code>src\curvey\polygon.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-225">225</a></span>
-<span class="normal"><a href="#__codelineno-0-226">226</a></span>
-<span class="normal"><a href="#__codelineno-0-227">227</a></span>
-<span class="normal"><a href="#__codelineno-0-228">228</a></span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-228">228</a></span>
 <span class="normal"><a href="#__codelineno-0-229">229</a></span>
 <span class="normal"><a href="#__codelineno-0-230">230</a></span>
 <span class="normal"><a href="#__codelineno-0-231">231</a></span>
@@ -3355,42 +3358,45 @@ exact arithmetic.</p>
 <span class="normal"><a href="#__codelineno-0-257">257</a></span>
 <span class="normal"><a href="#__codelineno-0-258">258</a></span>
 <span class="normal"><a href="#__codelineno-0-259">259</a></span>
-<span class="normal"><a href="#__codelineno-0-260">260</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-225" name="__codelineno-0-225"></a><span class="k">def</span> <span class="nf">triangulate</span><span class="p">(</span>
-<a id="__codelineno-0-226" name="__codelineno-0-226"></a>    <span class="bp">self</span><span class="p">,</span>
-<a id="__codelineno-0-227" name="__codelineno-0-227"></a>    <span class="n">max_tri_area</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-228" name="__codelineno-0-228"></a>    <span class="n">min_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-229" name="__codelineno-0-229"></a>    <span class="n">extra_params</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-230" name="__codelineno-0-230"></a>    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<a id="__codelineno-0-231" name="__codelineno-0-231"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Triangulation</span><span class="p">:</span>
-<a id="__codelineno-0-232" name="__codelineno-0-232"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Triangulate the polygon</span>
-<a id="__codelineno-0-233" name="__codelineno-0-233"></a>
-<a id="__codelineno-0-234" name="__codelineno-0-234"></a><span class="sd">    Parameters</span>
-<a id="__codelineno-0-235" name="__codelineno-0-235"></a><span class="sd">    ----------</span>
-<a id="__codelineno-0-236" name="__codelineno-0-236"></a><span class="sd">    max_tri_area</span>
-<a id="__codelineno-0-237" name="__codelineno-0-237"></a><span class="sd">        A global maximum triangle area constraint.</span>
-<a id="__codelineno-0-238" name="__codelineno-0-238"></a>
-<a id="__codelineno-0-239" name="__codelineno-0-239"></a><span class="sd">    min_angle</span>
-<a id="__codelineno-0-240" name="__codelineno-0-240"></a><span class="sd">        Minimum angle constraint, in degrees.</span>
+<span class="normal"><a href="#__codelineno-0-260">260</a></span>
+<span class="normal"><a href="#__codelineno-0-261">261</a></span>
+<span class="normal"><a href="#__codelineno-0-262">262</a></span>
+<span class="normal"><a href="#__codelineno-0-263">263</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-228" name="__codelineno-0-228"></a><span class="k">def</span> <span class="nf">triangulate</span><span class="p">(</span>
+<a id="__codelineno-0-229" name="__codelineno-0-229"></a>    <span class="bp">self</span><span class="p">,</span>
+<a id="__codelineno-0-230" name="__codelineno-0-230"></a>    <span class="n">max_tri_area</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-231" name="__codelineno-0-231"></a>    <span class="n">min_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-232" name="__codelineno-0-232"></a>    <span class="n">extra_params</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-233" name="__codelineno-0-233"></a>    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<a id="__codelineno-0-234" name="__codelineno-0-234"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Triangulation</span><span class="p">:</span>
+<a id="__codelineno-0-235" name="__codelineno-0-235"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Triangulate the polygon</span>
+<a id="__codelineno-0-236" name="__codelineno-0-236"></a>
+<a id="__codelineno-0-237" name="__codelineno-0-237"></a><span class="sd">    Parameters</span>
+<a id="__codelineno-0-238" name="__codelineno-0-238"></a><span class="sd">    ----------</span>
+<a id="__codelineno-0-239" name="__codelineno-0-239"></a><span class="sd">    max_tri_area</span>
+<a id="__codelineno-0-240" name="__codelineno-0-240"></a><span class="sd">        A global maximum triangle area constraint.</span>
 <a id="__codelineno-0-241" name="__codelineno-0-241"></a>
-<a id="__codelineno-0-242" name="__codelineno-0-242"></a><span class="sd">    extra_params</span>
-<a id="__codelineno-0-243" name="__codelineno-0-243"></a><span class="sd">        See the [API documentation](https://rufat.be/triangle/API.html).</span>
-<a id="__codelineno-0-244" name="__codelineno-0-244"></a><span class="sd">        E.g. `extra_params=&#39;S10X&#39; specifies a maximum number of 10 Steiner points and suppresses</span>
-<a id="__codelineno-0-245" name="__codelineno-0-245"></a><span class="sd">        exact arithmetic.</span>
-<a id="__codelineno-0-246" name="__codelineno-0-246"></a>
-<a id="__codelineno-0-247" name="__codelineno-0-247"></a><span class="sd">    **kwargs</span>
-<a id="__codelineno-0-248" name="__codelineno-0-248"></a><span class="sd">        Remaining kwargs passed to `Edges.triangulate`.</span>
+<a id="__codelineno-0-242" name="__codelineno-0-242"></a><span class="sd">    min_angle</span>
+<a id="__codelineno-0-243" name="__codelineno-0-243"></a><span class="sd">        Minimum angle constraint, in degrees.</span>
+<a id="__codelineno-0-244" name="__codelineno-0-244"></a>
+<a id="__codelineno-0-245" name="__codelineno-0-245"></a><span class="sd">    extra_params</span>
+<a id="__codelineno-0-246" name="__codelineno-0-246"></a><span class="sd">        See the [API documentation](https://rufat.be/triangle/API.html).</span>
+<a id="__codelineno-0-247" name="__codelineno-0-247"></a><span class="sd">        E.g. `extra_params=&#39;S10X&#39; specifies a maximum number of 10 Steiner points and suppresses</span>
+<a id="__codelineno-0-248" name="__codelineno-0-248"></a><span class="sd">        exact arithmetic.</span>
 <a id="__codelineno-0-249" name="__codelineno-0-249"></a>
-<a id="__codelineno-0-250" name="__codelineno-0-250"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-251" name="__codelineno-0-251"></a>    <span class="n">tris</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">triangulate</span><span class="p">(</span>
-<a id="__codelineno-0-252" name="__codelineno-0-252"></a>        <span class="n">polygon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<a id="__codelineno-0-253" name="__codelineno-0-253"></a>        <span class="n">max_tri_area</span><span class="o">=</span><span class="n">max_tri_area</span><span class="p">,</span>
-<a id="__codelineno-0-254" name="__codelineno-0-254"></a>        <span class="n">min_angle</span><span class="o">=</span><span class="n">min_angle</span><span class="p">,</span>
-<a id="__codelineno-0-255" name="__codelineno-0-255"></a>        <span class="n">holes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hole_points</span><span class="p">,</span>
-<a id="__codelineno-0-256" name="__codelineno-0-256"></a>        <span class="n">extra_params</span><span class="o">=</span><span class="n">extra_params</span><span class="p">,</span>
-<a id="__codelineno-0-257" name="__codelineno-0-257"></a>        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<a id="__codelineno-0-258" name="__codelineno-0-258"></a>    <span class="p">)</span>
-<a id="__codelineno-0-259" name="__codelineno-0-259"></a>    <span class="n">tris</span><span class="o">.</span><span class="n">boundary_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">boundary</span>  <span class="c1"># overwrite cached property defn</span>
-<a id="__codelineno-0-260" name="__codelineno-0-260"></a>    <span class="k">return</span> <span class="n">tris</span>
+<a id="__codelineno-0-250" name="__codelineno-0-250"></a><span class="sd">    **kwargs</span>
+<a id="__codelineno-0-251" name="__codelineno-0-251"></a><span class="sd">        Remaining kwargs passed to `Edges.triangulate`.</span>
+<a id="__codelineno-0-252" name="__codelineno-0-252"></a>
+<a id="__codelineno-0-253" name="__codelineno-0-253"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-254" name="__codelineno-0-254"></a>    <span class="n">tris</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">boundary</span><span class="o">.</span><span class="n">triangulate</span><span class="p">(</span>
+<a id="__codelineno-0-255" name="__codelineno-0-255"></a>        <span class="n">polygon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-0-256" name="__codelineno-0-256"></a>        <span class="n">max_tri_area</span><span class="o">=</span><span class="n">max_tri_area</span><span class="p">,</span>
+<a id="__codelineno-0-257" name="__codelineno-0-257"></a>        <span class="n">min_angle</span><span class="o">=</span><span class="n">min_angle</span><span class="p">,</span>
+<a id="__codelineno-0-258" name="__codelineno-0-258"></a>        <span class="n">holes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hole_points</span><span class="p">,</span>
+<a id="__codelineno-0-259" name="__codelineno-0-259"></a>        <span class="n">extra_params</span><span class="o">=</span><span class="n">extra_params</span><span class="p">,</span>
+<a id="__codelineno-0-260" name="__codelineno-0-260"></a>        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<a id="__codelineno-0-261" name="__codelineno-0-261"></a>    <span class="p">)</span>
+<a id="__codelineno-0-262" name="__codelineno-0-262"></a>    <span class="n">tris</span><span class="o">.</span><span class="n">boundary_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">boundary</span>  <span class="c1"># overwrite cached property defn</span>
+<a id="__codelineno-0-263" name="__codelineno-0-263"></a>    <span class="k">return</span> <span class="n">tris</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
