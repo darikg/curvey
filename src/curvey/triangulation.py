@@ -2,6 +2,9 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from functools import cached_property
+from types import MappingProxyType
+from typing import Any, Dict
+from typing_extensions import Self
 
 import networkx as nx
 import numpy as np
@@ -26,14 +29,54 @@ class Triangulation:
     faces
         `(n_faces, 3)` integer array of vertex indices.
 
+    point_data
+        A `dict` of keys to arrays of length `n_points`
+
+    face_data
+        A `dict` of keys to arrays of length `n_faces`
+
     """
 
-    def __init__(self, points: PointsLike, faces: TrisLike):
+    def __init__(
+            self,
+            points: PointsLike,
+            faces: TrisLike,
+            point_data: Dict[str, ndarray] | None = None,
+            face_data: Dict[str, ndarray] | None = None,
+    ):
         self.points: ndarray = asanyarray(points)
         """`(n_points, 2)` array of vertex coordinates."""
 
         self.faces: ndarray = asanyarray(faces)
         """`(n_faces, 3)` integer array of vertex indices."""
+
+        self._point_data = {} if point_data is None else point_data
+        self._face_data = {} if face_data is None else face_data
+
+    @property
+    def point_data(self) -> MappingProxyType[str, Any]:
+        """A read-only view of the point metadata"""
+        return MappingProxyType(self._point_data)
+
+    def with_(
+            self,
+            points: ndarray | None = None,
+            faces: ndarray | None = None,
+            point_data: dict[str, ndarray] | None = None,
+            face_data: Dict[str, ndarray] | None = None,
+    ) -> Self:
+        """Copy of self replacing some subset of properties"""
+        return self.__class__(
+            points=self.points if points is None else points,
+            faces=self.faces if faces is None else faces,
+            point_data=self._point_data if point_data is None else point_data,
+        )
+
+    def with_point_data(self, **kwargs) -> Triangulation:
+        return self.with_(point_data={**self._point_data, **kwargs})
+
+    def with_face_data(self, **kwargs) -> Triangulation:
+        return self.with_(face_data={**self._face_data, **kwargs})
 
     @property
     def n_points(self) -> int:
@@ -151,7 +194,11 @@ class Triangulation:
             undirected_edges, axis=0, return_index=True, return_counts=True
         )
         directed_border_edges = directed_edges[unq_idx[n == 1]]
-        return curvey.edges.Edges(self.points, directed_border_edges)
+        return curvey.edges.Edges(
+            points=self.points,
+            edges=directed_border_edges,
+            point_data=self._point_data,
+        )
 
     def boundary_loops(self, idx_name: str | None = None) -> Iterator[curvey.curve.Curve]:
         """Iterate over directed boundary loops
