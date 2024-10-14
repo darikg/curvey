@@ -490,21 +490,18 @@ class Edges:
 
     def drop_unreferenced_verts(self) -> Self:
         """Drop points that aren't referenced by the edge array"""
-        orig_verts = arange(self.n_points)
         unq_verts = np.unique(self.edges)
-        i = searchsorted(unq_verts, orig_verts)
-        is_referenced = orig_verts == unq_verts[i]
+        new_vert_idx = zeros(self.n_points, dtype=int)
+        new_vert_idx[unq_verts] = arange(len(unq_verts))
 
         # Keep referenced points
-        points = self.points[is_referenced]
+        points = self.points[unq_verts]
 
         # Remap edges to updated points
-        edges = i[self.edges]
+        edges = new_vert_idx[self.edges]
 
         return self.with_(
             points=points,
             edges=edges,
-            point_data={k: v[is_referenced] for k, v in self._point_data.items()},
-            # Don't need to do anything about edge data
-            # edge_data=self._edge_data,
+            point_data={k: v[unq_verts] for k, v in self._point_data.items()},
         )
