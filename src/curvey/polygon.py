@@ -204,7 +204,7 @@ class Polygon:
     def _iter_hole_points(self) -> Iterator[ndarray]:
         """Yield points inside interior holes"""
         for c in self.interiors:
-            tris = c.to_ccw().to_edges().triangulate()
+            tris = c.to_ccw().to_edges().triangulate(polygon=True)
             i = argmax(tris.signed_area)
             centroid = tris.points[tris.faces[i]].mean(axis=0)
             yield centroid
