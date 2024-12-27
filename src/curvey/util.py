@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Callable, Literal, overload
 
 import scipy
-from matplotlib import pyplot as plt
 from numpy import arctan2, array, concatenate, cos, cross, eye, ndarray, sin, stack
 
 
@@ -208,13 +207,3 @@ def periodic_interpolator(
 
     msg = f"Unrecognized interpolator type {typ}"
     raise ValueError(msg)
-
-
-def _rescale(v, vout: tuple[float, float] | None = None) -> ndarray | None:
-    if v is None:
-        return None
-
-    if vout is None:
-        return v
-    v1 = plt.Normalize()(v)  # Scale to 0, 1
-    return vout[0] + v1 * (vout[1] - vout[0])

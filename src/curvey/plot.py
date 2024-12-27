@@ -8,8 +8,6 @@ from numpy import asarray, ndarray, newaxis
 from numpy.linalg import norm
 from numpy.typing import ArrayLike
 
-from curvey.util import _rescale
-
 
 if TYPE_CHECKING:
     from matplotlib.axes import Axes
@@ -291,3 +289,15 @@ def text(
             txt.set_clip_on(True)
 
     return txts
+
+
+def _rescale(v, vout: tuple[float, float] | None = None) -> ndarray | None:
+    if v is None:
+        return None
+
+    if vout is None:
+        return v
+    from matplotlib import pyplot as plt
+
+    v1 = plt.Normalize()(v)  # Scale to 0, 1
+    return vout[0] + v1 * (vout[1] - vout[0])

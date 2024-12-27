@@ -48,10 +48,9 @@ from typing_extensions import Self
 
 from ._typing import PointsLike
 from .edges import Edges
-from .plot import _get_ax, _VariableColorSpec, quiver, segments
+from .plot import _get_ax, _VariableColorSpec, quiver, segments, _rescale
 from .util import (
     InterpType,
-    _rescale,
     align_edges,
     angle_to_points,
     periodic_interpolator,

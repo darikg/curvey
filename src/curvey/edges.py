@@ -24,10 +24,8 @@ from numpy.linalg import norm
 from typing_extensions import Self
 
 from curvey._typing import EdgesLike, PointsLike
-from curvey.plot import _get_ax, segments, text
+from curvey.plot import _get_ax, segments, text, _rescale
 from curvey.triangulation import Triangulation
-from curvey.util import _rescale
-
 
 if TYPE_CHECKING:
     from matplotlib.axes import Axes
