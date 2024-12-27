@@ -6,7 +6,6 @@ from types import MappingProxyType
 from typing import Any, Dict, TYPE_CHECKING
 from typing_extensions import Self
 
-import networkx as nx
 import numpy as np
 import shapely
 from numpy import arange, array, asanyarray, concatenate, cross, diff, isin, ndarray, newaxis
@@ -218,9 +217,10 @@ class Triangulation:
             Boundary loop as a `curvey.curve.Curve`. Orientation is maintained.
 
         """
-        g = nx.DiGraph()
+        from networkx import DiGraph, simple_cycles
+        g = DiGraph()
         g.add_edges_from(self.boundary_edges.edges)
-        for loop in nx.simple_cycles(g):
+        for loop in simple_cycles(g):
             c = curvey.curve.Curve(self.points[loop])
             if idx_name is not None:
                 c = c.with_data(**{idx_name: array(loop)})
