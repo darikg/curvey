@@ -13,18 +13,22 @@ from typing import (
     Union,
     cast,
     overload,
+    TYPE_CHECKING
 )
 
 import numpy as np
-from matplotlib import pyplot as plt
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
-from matplotlib.lines import Line2D
 from numpy import arange, array, asanyarray, asarray, ceil, nan, ndarray, sqrt
 from numpy.typing import ArrayLike
 
 from .curve import Curve
 from .plot import _get_ax
+
+
+if TYPE_CHECKING:
+    from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
+    from matplotlib.lines import Line2D
+
 
 NamedMetadata = Union[tuple[str, Sequence], tuple[str, Callable[[Curve], Any]]]
 BareMetadata = Union["str", Sequence, Callable[[Curve], Any]]
@@ -323,6 +327,8 @@ class Curves:
             Remaining kwargs are passed to `matplotlib.pyplot.plot`
 
         """
+        from matplotlib import pyplot as plt
+
         if ax is None:
             ax = plt.gca()
             if label_axes is None:
@@ -500,7 +506,7 @@ class Curves:
         :
             List of objects returned by `plot_fn`.
         """
-
+        from matplotlib import pyplot as plt
         ax = _get_ax(ax)
 
         if not plot_fn:
@@ -540,7 +546,7 @@ class Curves:
         frames: Iterable[int] | Callable[[], int] | None = None,
         **kwargs,
     ):
-        from matplotlib import animation
+        from matplotlib import animation, pyplot as plt
 
         kwargs.setdefault("save_count", 2 * self.n + 1)
         frames = frames or self._animation_frames()
@@ -631,6 +637,8 @@ class _SubplotsBuilder:
         sharey: bool = True,
         figsize: tuple[float, float] = (5, 3),
     ) -> _SubplotsBuilder:
+        from matplotlib import pyplot as plt
+
         nr_, nc_ = _SubplotsBuilder.get_dims(curves.n, nr, nc)
         fig, axs = plt.subplots(
             nrows=nr_, ncols=nc_, squeeze=False, sharex=sharex, sharey=sharey, figsize=figsize
@@ -653,6 +661,8 @@ class _SubplotsBuilder:
         axis: str | None,
         show_axes: bool,
     ):
+        from matplotlib import pyplot as plt
+
         ax = self.get_ax(i)
         plt.sca(ax)  # Set current axes
         curve = self.curves.curves[self.plot_idxs[i]]

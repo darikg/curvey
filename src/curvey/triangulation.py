@@ -3,19 +3,22 @@ from __future__ import annotations
 from collections.abc import Iterator
 from functools import cached_property
 from types import MappingProxyType
-from typing import Any, Dict
+from typing import Any, Dict, TYPE_CHECKING
 from typing_extensions import Self
 
 import networkx as nx
 import numpy as np
 import shapely
-from matplotlib.axes import Axes
-from matplotlib.lines import Line2D
 from numpy import arange, array, asanyarray, concatenate, cross, diff, isin, ndarray, newaxis
 
 import curvey
 from curvey._typing import PointsLike, TrisLike
 from curvey.plot import _get_ax
+
+
+if TYPE_CHECKING:
+    from matplotlib.axes import Axes
+    from matplotlib.lines import Line2D
 
 
 class Triangulation:

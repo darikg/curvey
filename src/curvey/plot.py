@@ -2,18 +2,20 @@ from __future__ import annotations
 
 import collections
 from collections.abc import Iterable
-from typing import Any, NamedTuple, cast
+from typing import Any, NamedTuple, cast, TYPE_CHECKING
 
-from matplotlib import pyplot as plt
-from matplotlib.axes import Axes
-from matplotlib.collections import LineCollection
-from matplotlib.quiver import Quiver
-from matplotlib.text import Text
 from numpy import asarray, ndarray, newaxis
 from numpy.linalg import norm
 from numpy.typing import ArrayLike
 
 from curvey.util import _rescale
+
+
+if TYPE_CHECKING:
+    from matplotlib.axes import Axes
+    from matplotlib.collections import LineCollection
+    from matplotlib.quiver import Quiver
+    from matplotlib.text import Text
 
 
 class _VariableColorSpec(NamedTuple):
@@ -68,6 +70,8 @@ class _VariableColorSpec(NamedTuple):
 
 
 def _get_ax(ax: Axes | None) -> Axes:
+    from matplotlib import pyplot as plt
+
     if ax:
         return ax
 

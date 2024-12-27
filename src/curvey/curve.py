@@ -7,17 +7,12 @@ import warnings
 from collections.abc import Sequence
 from functools import cached_property
 from types import MappingProxyType
-from typing import Any, Callable, Literal, NamedTuple, cast, overload
+from typing import Any, Callable, Literal, NamedTuple, cast, overload, TYPE_CHECKING
 
-import matplotlib.path
 import numpy as np
 import scipy
 import shapely
 import sortedcontainers
-from matplotlib.axes import Axes
-from matplotlib.collections import LineCollection, PathCollection
-from matplotlib.lines import Line2D
-from matplotlib.quiver import Quiver
 from numpy import (
     append,
     arange,
@@ -63,6 +58,13 @@ from .util import (
     reflection_matrix,
     rotation_matrix,
 )
+
+if TYPE_CHECKING:
+    import matplotlib.path
+    from matplotlib.axes import Axes
+    from matplotlib.collections import LineCollection, PathCollection
+    from matplotlib.lines import Line2D
+    from matplotlib.quiver import Quiver
 
 
 class Curve:

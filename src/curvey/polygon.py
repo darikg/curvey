@@ -4,13 +4,10 @@ from __future__ import annotations
 
 from collections.abc import Iterable, Iterator
 from functools import cached_property, partial
-from typing import Protocol, cast
+from typing import Protocol, cast, TYPE_CHECKING
 
 import numpy as np
 import shapely
-from matplotlib.axes import Axes
-from matplotlib.patches import PathPatch
-from matplotlib.path import Path
 from numpy import argmax, array, ndarray, pi, stack, zeros
 from typing_extensions import Self
 
@@ -19,6 +16,12 @@ from .curve import Curve
 from .edges import Edges
 from .plot import _get_ax
 from .triangulation import Triangulation
+
+
+if TYPE_CHECKING:
+    from matplotlib.axes import Axes
+    from matplotlib.patches import PathPatch
+    from matplotlib.path import Path
 
 
 class CurveFn(Protocol):

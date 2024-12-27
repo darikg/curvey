@@ -3,15 +3,11 @@ from __future__ import annotations
 from collections.abc import Iterable
 from functools import cached_property
 from types import MappingProxyType
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 import numpy as np
 import scipy.sparse
 import shapely
-from matplotlib.axes import Axes
-from matplotlib.collections import LineCollection, PathCollection
-from matplotlib.quiver import Quiver
-from matplotlib.text import Text
 from numpy import (
     arange,
     asanyarray,
@@ -31,6 +27,13 @@ from curvey._typing import EdgesLike, PointsLike
 from curvey.plot import _get_ax, segments, text
 from curvey.triangulation import Triangulation
 from curvey.util import _rescale
+
+
+if TYPE_CHECKING:
+    from matplotlib.axes import Axes
+    from matplotlib.collections import LineCollection, PathCollection
+    from matplotlib.quiver import Quiver
+    from matplotlib.text import Text
 
 
 class Edges:
