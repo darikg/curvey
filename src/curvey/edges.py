@@ -6,7 +6,6 @@ from types import MappingProxyType
 from typing import Any, TYPE_CHECKING
 
 import numpy as np
-import scipy.sparse
 import shapely
 from numpy import (
     arange,
@@ -17,7 +16,6 @@ from numpy import (
     ndarray,
     newaxis,
     ones,
-    searchsorted,
     zeros,
 )
 from numpy.linalg import norm
@@ -28,6 +26,7 @@ from curvey.plot import _get_ax, segments, text, _rescale
 from curvey.triangulation import Triangulation
 
 if TYPE_CHECKING:
+    import scipy.sparse
     from matplotlib.axes import Axes
     from matplotlib.collections import LineCollection, PathCollection
     from matplotlib.quiver import Quiver
@@ -473,10 +472,11 @@ class Edges:
             A `(n_points, n_points)` adjacency matrix.
 
         """
+        from scipy.sparse import coo_array
         edge_weights = 1 / self.edge_length if weighted else ones(self.n_edges)
         n = self.n_points
         u, v = self.edges.T
-        out = scipy.sparse.coo_array((edge_weights, (u, v)), shape=(n, n))
+        out = coo_array((edge_weights, (u, v)), shape=(n, n))
         if directed:
             return out
         return out + out.T
