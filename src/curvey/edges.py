@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Iterable
 from functools import cached_property
 from types import MappingProxyType
-from typing import Any, TYPE_CHECKING
+from typing import Any, TYPE_CHECKING, Sequence
 
 import numpy as np
 import shapely
@@ -140,6 +140,13 @@ class Edges:
                     raise ValueError(msg)
             data[k] = val
         return data
+
+    def extract_edges(self, idx: np.ndarray | Sequence[int | bool]) -> Self:
+        """Return a subset of edges. Does not drop unreferenced vertices."""
+        return self.with_(
+            edges=self.edges[idx],
+            edge_data={k: v[idx] for k, v in self._edge_data.items()}
+        )
 
     def with_point_data(self, **kwargs) -> Self:
         """Attach point data in key=value format
