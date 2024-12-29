@@ -69,6 +69,7 @@ class _VariableColorSpec(NamedTuple):
 
 def _get_ax(ax: Axes | None) -> Axes:
     from matplotlib import pyplot as plt
+    from matplotlib.axes import Axes
 
     if ax:
         return ax
