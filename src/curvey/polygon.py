@@ -357,6 +357,7 @@ class Polygon:
 
     def plot_polygon(self, ax: Axes | None = None) -> PathPatch:
         """Plot a filled polygon"""
+        from matplotlib.patches import PathPatch
         ax = _get_ax(ax)
         patch = PathPatch(self.to_matplotlib())
         ax.add_patch(patch)
