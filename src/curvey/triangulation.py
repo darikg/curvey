@@ -108,6 +108,10 @@ class Triangulation:
         """A length `n_tris` vector of signed triangle areas"""
         return cross(self.edge[:, 0], self.edge[:, 1]) / 2
 
+    @cached_property
+    def centroids(self) -> ndarray:
+        return self.points[self.faces].mean(axis=1)
+
     def plot_tris(self, ax: Axes | None = None, **kwargs) -> tuple[Line2D, Line2D]:
         """Plot the triangulation
 
